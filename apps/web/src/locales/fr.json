@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "EcoleApp 2026",
+    "tagline": "Gestion scolaire bilingue"
+  },
+  "auth": {
+    "login": "Connexion",
+    "username": "Identifiant",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "logout": "Déconnexion",
+    "changePassword": "Changer le mot de passe"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "notifications": "Notifications",
+    "messages": "Messages"
+  },
+  "common": {
+    "loading": "Chargement…",
+    "noData": "Aucune donnée",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "back": "Retour"
+  }
+}

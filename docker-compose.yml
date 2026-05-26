@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: ecole2026
+      MYSQL_USER: ecole
+      MYSQL_PASSWORD: ecole_secret
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../ecole2026.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:

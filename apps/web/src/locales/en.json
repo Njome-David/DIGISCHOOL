@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "EcoleApp 2026",
+    "tagline": "Bilingual school management"
+  },
+  "auth": {
+    "login": "Login",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign in",
+    "logout": "Logout",
+    "changePassword": "Change password"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "notifications": "Notifications",
+    "messages": "Messages"
+  },
+  "common": {
+    "loading": "Loading…",
+    "noData": "No data",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back"
+  }
+}

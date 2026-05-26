@@ -1,0 +1,20 @@
+{
+  "name": "ecole-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/shared",
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @ecole/api\" \"npm run dev -w @ecole/web\"",
+    "build": "npm run build -w @ecole/shared && npm run build -w @ecole/api && npm run build -w @ecole/web",
+    "db:seed": "npm run seed -w @ecole/api",
+    "docker:up": "docker compose up -d mysql",
+    "docker:down": "docker compose down"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

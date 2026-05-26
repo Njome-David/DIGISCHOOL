@@ -1,0 +1,74 @@
+src/routes/api.ts(173,40): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(176,44): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string | number | undefined'.
+  Type 'string[]' is not assignable to type 'string | number | undefined'.
+src/routes/api.ts(186,40): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(189,44): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string | number | undefined'.
+  Type 'string[]' is not assignable to type 'string | number | undefined'.
+src/routes/api.ts(232,37): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(235,46): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string | number | undefined'.
+  Type 'string[]' is not assignable to type 'string | number | undefined'.
+src/routes/api.ts(277,26): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string'.
+  Type 'string[]' is not assignable to type 'string'.
+src/routes/api.ts(292,40): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(307,27): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string'.
+  Type 'string[]' is not assignable to type 'string'.
+src/routes/api.ts(339,72): error TS2345: Argument of type 'typeof Classe' is not assignable to parameter of type 'typeof Cycle'.
+  Types of construct signatures are incompatible.
+    Type 'new (values?: Optional<any, string> | undefined, options?: BuildOptions | undefined) => Classe' is not assignable to type 'new (values?: Optional<any, string> | undefined, options?: BuildOptions | undefined) => Cycle'.
+      Type 'Classe' is missing the following properties from type 'Cycle': description, created
+src/routes/api.ts(357,79): error TS2345: Argument of type 'typeof AnneeAcademique' is not assignable to parameter of type 'typeof Cycle'.
+  Types of construct signatures are incompatible.
+    Type 'new (values?: Optional<any, string> | undefined, options?: BuildOptions | undefined) => AnneeAcademique' is not assignable to type 'new (values?: Optional<any, string> | undefined, options?: BuildOptions | undefined) => Cycle'.
+      Type 'AnneeAcademique' is missing the following properties from type 'Cycle': idCycle, description, created
+src/routes/api.ts(369,72): error TS2345: Argument of type 'typeof Cours' is not assignable to parameter of type 'typeof Cycle'.
+  Types of construct signatures are incompatible.
+    Type 'new (values?: Optional<any, string> | undefined, options?: BuildOptions | undefined) => Cours' is not assignable to type 'new (values?: Optional<any, string> | undefined, options?: BuildOptions | undefined) => Cycle'.
+      Type 'Cours' is missing the following properties from type 'Cycle': idCycle, created
+src/routes/api.ts(419,40): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(427,24): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string'.
+  Type 'string[]' is not assignable to type 'string'.
+src/routes/api.ts(469,37): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(564,37): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(571,37): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(591,36): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(597,36): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(641,42): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(643,58): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string | number | undefined'.
+  Type 'string[]' is not assignable to type 'string | number | undefined'.
+src/routes/api.ts(649,39): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/routes/api.ts(674,63): error TS2339: Property 'BIBLIOTHECAIRE' does not exist on type '{ readonly ROOT: "ROOT"; readonly ADMIN_INSCRIPTIONS: "ADMIN_INSCRIPTIONS"; readonly FONDATEUR: "FONDATEUR"; readonly DIRECTEUR: "DIRECTEUR"; readonly ADMIN_SCOLARITE: "ADMIN_SCOLARITE"; readonly ADMIN_AUDITEUR: "ADMIN_AUDITEUR"; readonly ENSEIGNANT: "ENSEIGNANT"; readonly ADMINISTRATIF: "ADMINISTRATIF"; readonly PA...'.
+src/routes/api.ts(680,63): error TS2339: Property 'BIBLIOTHECAIRE' does not exist on type '{ readonly ROOT: "ROOT"; readonly ADMIN_INSCRIPTIONS: "ADMIN_INSCRIPTIONS"; readonly FONDATEUR: "FONDATEUR"; readonly DIRECTEUR: "DIRECTEUR"; readonly ADMIN_SCOLARITE: "ADMIN_SCOLARITE"; readonly ADMIN_AUDITEUR: "ADMIN_AUDITEUR"; readonly ENSEIGNANT: "ENSEIGNANT"; readonly ADMINISTRATIF: "ADMINISTRATIF"; readonly PA...'.
+src/routes/api.ts(682,21): error TS2304: Cannot find name 'Pret'.
+src/routes/api.ts(686,73): error TS2339: Property 'BIBLIOTHECAIRE' does not exist on type '{ readonly ROOT: "ROOT"; readonly ADMIN_INSCRIPTIONS: "ADMIN_INSCRIPTIONS"; readonly FONDATEUR: "FONDATEUR"; readonly DIRECTEUR: "DIRECTEUR"; readonly ADMIN_SCOLARITE: "ADMIN_SCOLARITE"; readonly ADMIN_AUDITEUR: "ADMIN_AUDITEUR"; readonly ENSEIGNANT: "ENSEIGNANT"; readonly ADMINISTRATIF: "ADMINISTRATIF"; readonly PA...'.
+src/routes/api.ts(687,19): error TS2304: Cannot find name 'Pret'.
+src/routes/api.ts(699,37): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'Identifier | undefined'.
+  Type 'string[]' is not assignable to type 'Identifier | undefined'.
+    Type 'string[]' is missing the following properties from type 'Buffer<ArrayBufferLike>': subarray, write, toJSON, equals, and 73 more.
+src/scripts/seed.ts(17,45): error TS2554: Expected 0 arguments, but got 2.
+src/scripts/seed.ts(35,45): error TS2554: Expected 0 arguments, but got 2.
+src/scripts/seed.ts(52,52): error TS2554: Expected 0 arguments, but got 2.
+src/scripts/seed.ts(72,52): error TS2554: Expected 0 arguments, but got 2.
