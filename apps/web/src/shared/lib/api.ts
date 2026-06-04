@@ -45,7 +45,7 @@ api.interceptors.response.use(
 
 export function getApiErrorMessage(err: unknown): string {
   if (axios.isAxiosError(err)) {
-    if (!err.response) return 'Impossible de joindre le serveur. Vérifiez que l\'API est démarrée.';
+    if (!err.response) return 'Impossible de joindre le serveur. Verifiez que l\'API est demarree.';
     return err.response.data?.error?.message || `Erreur ${err.response.status}`;
   }
   if (err instanceof Error) return err.message;

@@ -1,6 +1,6 @@
 # EcoleApp 2026
 
-Application de gestion d'�cole primaire bilingue � conforme � la documentation technique v1.0.
+Application de gestion d'ecole primaire bilingue e conforme e la documentation technique v1.0.
 
 ## Stack
 
@@ -9,7 +9,7 @@ Application de gestion d'�cole primaire bilingue � conforme � la documenta
 - **Base** : MySQL 8.0 (`ecole2026`)
 
 
-## D�marrage
+## Demarrage
 
 ```bash
 cd ecole-app
@@ -18,7 +18,7 @@ npm run dev -w @ecole/api   # http://localhost:4000
 npm run dev -w @ecole/web   # http://localhost:5173
 ```
 
-Ou les deux : `npm run dev` (depuis la racine, si `concurrently` install�).
+Ou les deux : `npm run dev` (depuis la racine, si `concurrently` installe).
 
 ## Connexion
 
@@ -26,15 +26,15 @@ Ou les deux : `npm run dev` (depuis la racine, si `concurrently` install�).
 |-------------|--------------|
 | `root` | `admin123` |
 
-Comptes existants en BD : `admin`, `directeur`, `scolarite`, `user1`� (mots de passe d'origine).
+Comptes existants en BD : `admin`, `directeur`, `scolarite`, `user1`e (mots de passe d'origine).
 
 ## Structure
 
 ```
 ecole-app/
 ??? apps/api/          # API REST /api/v1
-??? apps/web/          # SPA React (97 vues rout�es)
-??? packages/shared/   # R�les, sch�mas Zod partag�s
+??? apps/web/          # SPA React (97 vues routees)
+??? packages/shared/   # Reles, schemas Zod partages
 ```
 
 ## Routes principales

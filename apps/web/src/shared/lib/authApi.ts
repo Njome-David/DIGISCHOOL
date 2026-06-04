@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-/** Client HTTP dédié à l'auth — évite la dépendance circulaire avec le store */
+/** Client HTTP dedie a l'auth  evite la dependance circulaire avec le store */
 export const authApi = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api/v1',
   timeout: 15000,
