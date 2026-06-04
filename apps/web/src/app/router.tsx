@@ -1,22 +1,137 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/store';
 import { AppLayout } from '@/app/layouts/AppLayout';
-import { ROLE_DASHBOARD, type Role } from '@ecole/shared';
+import { Spinner } from '@/shared/components/ui';
+import { ROLE_DASHBOARD } from '@ecole/shared';
 
+/* Public / auth (Module 1) */
+const LandingPage = lazy(() => import('@/pages/LandingPage').then((m) => ({ default: m.LandingPage })));
 const LoginPage = lazy(() => import('@/pages/LoginPage').then((m) => ({ default: m.LoginPage })));
 const ForgotPasswordPage = lazy(() => import('@/pages/ForgotPasswordPage').then((m) => ({ default: m.ForgotPasswordPage })));
 const ChangePasswordPage = lazy(() => import('@/pages/ChangePasswordPage').then((m) => ({ default: m.ChangePasswordPage })));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
+
+/* Common (Module 1) */
 const ProfilePage = lazy(() => import('@/pages/ProfilePage').then((m) => ({ default: m.ProfilePage })));
-const DashboardPage = lazy(() => import('@/pages/DashboardPage').then((m) => ({ default: m.DashboardPage })));
-const StudentsPage = lazy(() => import('@/pages/StudentsPage').then((m) => ({ default: m.StudentsPage })));
-const PaymentsPage = lazy(() => import('@/pages/PaymentsPage').then((m) => ({ default: m.PaymentsPage })));
-const MessagesPage = lazy(() => import('@/pages/MessagesPage').then((m) => ({ default: m.MessagesPage })));
-const ResourcePage = lazy(() => import('@/pages/ResourcePage').then((m) => ({ default: m.ResourcePage })));
+const DashboardPage = lazy(() => import('@/features/dashboards/DashboardPage').then((m) => ({ default: m.DashboardPage })));
+const NotificationsPage = lazy(() => import('@/features/notifications/NotificationsPage').then((m) => ({ default: m.NotificationsPage })));
+const MessagesPage = lazy(() => import('@/features/messages/MessagesPage').then((m) => ({ default: m.MessagesPage })));
+const MessageDetailPage = lazy(() => import('@/features/messages/MessageDetailPage').then((m) => ({ default: m.MessageDetailPage })));
+
+/* Module 2  academique (Root) */
+const RootOverviewPage = lazy(() => import('@/features/academic/RootOverviewPage').then((m) => ({ default: m.RootOverviewPage })));
+const CyclesPage = lazy(() => import('@/features/academic/CyclesPage').then((m) => ({ default: m.CyclesPage })));
+const ClassesPage = lazy(() => import('@/features/academic/ClassesPage').then((m) => ({ default: m.ClassesPage })));
+const AcademicYearsPage = lazy(() => import('@/features/academic/AcademicYearsPage').then((m) => ({ default: m.AcademicYearsPage })));
+const TermsPage = lazy(() => import('@/features/academic/TermsPage').then((m) => ({ default: m.TermsPage })));
+const AuditPage = lazy(() => import('@/features/academic/AuditPage').then((m) => ({ default: m.AuditPage })));
+const AdminsPage = lazy(() => import('@/features/accounts/AdminsPage').then((m) => ({ default: m.AdminsPage })));
+const AdminFormPage = lazy(() => import('@/features/accounts/AdminFormPage').then((m) => ({ default: m.AdminFormPage })));
+const PersonnelPage = lazy(() => import('@/features/accounts/PersonnelPage').then((m) => ({ default: m.PersonnelPage })));
+const PersonnelFormPage = lazy(() => import('@/features/accounts/PersonnelFormPage').then((m) => ({ default: m.PersonnelFormPage })));
+const ParentsPage = lazy(() => import('@/features/accounts/ParentsPage').then((m) => ({ default: m.ParentsPage })));
+const CredentialsPage = lazy(() => import('@/features/accounts/CredentialsPage').then((m) => ({ default: m.CredentialsPage })));
+const SallesPage = lazy(() => import('@/features/academic/SallesPage').then((m) => ({ default: m.SallesPage })));
+const RefsPage = lazy(() => import('@/features/academic/RefsPage').then((m) => ({ default: m.RefsPage })));
+
+/* Module 2  inscriptions (Admin) */
+const StudentsPage = lazy(() => import('@/features/students/StudentsPage').then((m) => ({ default: m.StudentsPage })));
+const StudentFormPage = lazy(() => import('@/features/students/StudentFormPage').then((m) => ({ default: m.StudentFormPage })));
+const StudentDetailPage = lazy(() => import('@/features/students/StudentDetailPage').then((m) => ({ default: m.StudentDetailPage })));
+const StudentAssignPage = lazy(() => import('@/features/students/StudentAssignPage').then((m) => ({ default: m.StudentAssignPage })));
+const StudentParentsPage = lazy(() => import('@/features/students/StudentParentsPage').then((m) => ({ default: m.StudentParentsPage })));
+
+/* Module 3 - pedagogie */
+const CoursesPage = lazy(() => import('@/features/pedagogy/CoursesPage').then((m) => ({ default: m.CoursesPage })));
+const CourseFormPage = lazy(() => import('@/features/pedagogy/CourseFormPage').then((m) => ({ default: m.CourseFormPage })));
+const SchedulePage = lazy(() => import('@/features/pedagogy/SchedulePage').then((m) => ({ default: m.SchedulePage })));
+const TeacherClassesPage = lazy(() => import('@/features/pedagogy/TeacherClassesPage').then((m) => ({ default: m.TeacherClassesPage })));
+const TeacherSchedulePage = lazy(() => import('@/features/pedagogy/TeacherSchedulePage').then((m) => ({ default: m.TeacherSchedulePage })));
+const TeacherStudentsPage = lazy(() => import('@/features/pedagogy/TeacherStudentsPage').then((m) => ({ default: m.TeacherStudentsPage })));
+const TeacherStudentDetailPage = lazy(() => import('@/features/pedagogy/TeacherStudentDetailPage').then((m) => ({ default: m.TeacherStudentDetailPage })));
+
+/* Module 4 - evaluations & bulletins */
+const ExamsPage = lazy(() => import('@/features/evaluations/ExamsPage').then((m) => ({ default: m.ExamsPage })));
+const ExamFormPage = lazy(() => import('@/features/evaluations/ExamFormPage').then((m) => ({ default: m.ExamFormPage })));
+const GradesPage = lazy(() => import('@/features/evaluations/GradesPage').then((m) => ({ default: m.GradesPage })));
+const HomeworkFormPage = lazy(() => import('@/features/evaluations/HomeworkFormPage').then((m) => ({ default: m.HomeworkFormPage })));
+const BulletinsValidationPage = lazy(() => import('@/features/evaluations/BulletinsValidationPage').then((m) => ({ default: m.BulletinsValidationPage })));
+const ParentChildrenPage = lazy(() => import('@/features/parent/ParentChildrenPage').then((m) => ({ default: m.ParentChildrenPage })));
+const ChildGradesPage = lazy(() => import('@/features/parent/ChildGradesPage').then((m) => ({ default: m.ChildGradesPage })));
+const ChildBulletinsPage = lazy(() => import('@/features/parent/ChildBulletinsPage').then((m) => ({ default: m.ChildBulletinsPage })));
+const ChildExamsPage = lazy(() => import('@/features/parent/ChildExamsPage').then((m) => ({ default: m.ChildExamsPage })));
+
+/* Module 5 - scolarite & paiements */
+const TuitionsPage = lazy(() => import('@/features/payments/TuitionsPage').then((m) => ({ default: m.TuitionsPage })));
+const TuitionFormPage = lazy(() => import('@/features/payments/TuitionFormPage').then((m) => ({ default: m.TuitionFormPage })));
+const TranchesPage = lazy(() => import('@/features/payments/TranchesPage').then((m) => ({ default: m.TranchesPage })));
+const PaymentModesPage = lazy(() => import('@/features/payments/PaymentModesPage').then((m) => ({ default: m.PaymentModesPage })));
+const PaymentsPage = lazy(() => import('@/features/payments/PaymentsPage').then((m) => ({ default: m.PaymentsPage })));
+const PaymentFormPage = lazy(() => import('@/features/payments/PaymentFormPage').then((m) => ({ default: m.PaymentFormPage })));
+const PaymentDetailPage = lazy(() => import('@/features/payments/PaymentDetailPage').then((m) => ({ default: m.PaymentDetailPage })));
+const StudentPaymentPage = lazy(() => import('@/features/payments/StudentPaymentPage').then((m) => ({ default: m.StudentPaymentPage })));
+const OverduePage = lazy(() => import('@/features/payments/OverduePage').then((m) => ({ default: m.OverduePage })));
+const RemindersPage = lazy(() => import('@/features/payments/RemindersPage').then((m) => ({ default: m.RemindersPage })));
+const ChildPaymentsPage = lazy(() => import('@/features/parent/ChildPaymentsPage').then((m) => ({ default: m.ChildPaymentsPage })));
+const ChildReceiptsPage = lazy(() => import('@/features/parent/ChildReceiptsPage').then((m) => ({ default: m.ChildReceiptsPage })));
+
+/* Module 6 - communication */
+const ComposeMessagePage = lazy(() => import('@/features/messages/ComposeMessagePage').then((m) => ({ default: m.ComposeMessagePage })));
+const DirectorMessagesPage = lazy(() => import('@/features/messages/DirectorMessagesPage').then((m) => ({ default: m.DirectorMessagesPage })));
+const AnnouncementsPage = lazy(() => import('@/features/messages/AnnouncementsPage').then((m) => ({ default: m.AnnouncementsPage })));
+
+/* Module 7 - discipline */
+const DisciplineReportsPage = lazy(() => import('@/features/discipline/DisciplineReportsPage').then((m) => ({ default: m.DisciplineReportsPage })));
+const DisciplineReportForm = lazy(() => import('@/features/discipline/DisciplineReportForm').then((m) => ({ default: m.DisciplineReportForm })));
+const DisciplineApprovalPage = lazy(() => import('@/features/discipline/DisciplineApprovalPage').then((m) => ({ default: m.DisciplineApprovalPage })));
+const ChildDisciplinePage = lazy(() => import('@/features/parent/ChildDisciplinePage').then((m) => ({ default: m.ChildDisciplinePage })));
+
+/* Module 8 - documents & medias */
+const LibraryPage = lazy(() => import('@/features/documents/LibraryPage').then((m) => ({ default: m.LibraryPage })));
+const LibraryAdminPage = lazy(() => import('@/features/documents/LibraryAdminPage').then((m) => ({ default: m.LibraryAdminPage })));
+
+/* Module 9 - reporting & tableaux de bord */
+const FounderBalancePage = lazy(() => import('@/features/reporting/FounderBalancePage').then((m) => ({ default: m.FounderBalancePage })));
+const FounderComparePage = lazy(() => import('@/features/reporting/FounderComparePage').then((m) => ({ default: m.FounderComparePage })));
+const FounderExplorePage = lazy(() => import('@/features/reporting/FounderExplorePage').then((m) => ({ default: m.FounderExplorePage })));
+const PerformancePage = lazy(() => import('@/features/reporting/PerformancePage').then((m) => ({ default: m.PerformancePage })));
+const TeachersOverviewPage = lazy(() => import('@/features/reporting/TeachersOverviewPage').then((m) => ({ default: m.TeachersOverviewPage })));
+const StudentsOverviewPage = lazy(() => import('@/features/reporting/StudentsOverviewPage').then((m) => ({ default: m.StudentsOverviewPage })));
+const DemographicsPage = lazy(() => import('@/features/reporting/DemographicsPage').then((m) => ({ default: m.DemographicsPage })));
+const DirectorReportsPage = lazy(() => import('@/features/reporting/DirectorReportsPage').then((m) => ({ default: m.DirectorReportsPage })));
+const ScolariteReportsPage = lazy(() => import('@/features/reporting/ScolariteReportsPage').then((m) => ({ default: m.ScolariteReportsPage })));
+const ScolariteByModePage = lazy(() => import('@/features/reporting/ScolariteByModePage').then((m) => ({ default: m.ScolariteByModePage })));
+const ExportsPage = lazy(() => import('@/features/reporting/ExportsPage').then((m) => ({ default: m.ExportsPage })));
+const AuditorFinancePage = lazy(() => import('@/features/reporting/AuditorFinancePage').then((m) => ({ default: m.AuditorFinancePage })));
+const AuditorPedagogyPage = lazy(() => import('@/features/reporting/AuditorPedagogyPage').then((m) => ({ default: m.AuditorPedagogyPage })));
+const ChildProfilePage = lazy(() => import('@/features/parent/ChildProfilePage').then((m) => ({ default: m.ChildProfilePage })));
+const ChildSchedulePage = lazy(() => import('@/features/parent/ChildSchedulePage').then((m) => ({ default: m.ChildSchedulePage })));
+
+/* Module 10 - audit & pages techniques */
+const AuditorDashboardPage = lazy(() => import('@/features/audit/AuditorDashboardPage').then((m) => ({ default: m.AuditorDashboardPage })));
+const AuditLogsPage = lazy(() => import('@/features/audit/AuditLogsPage').then((m) => ({ default: m.AuditLogsPage })));
+const AuditorListingsPage = lazy(() => import('@/features/audit/AuditorListingsPage').then((m) => ({ default: m.AuditorListingsPage })));
+const AdministratifDashboardPage = lazy(() => import('@/features/administratif/AdministratifDashboardPage').then((m) => ({ default: m.AdministratifDashboardPage })));
+const DossiersPage = lazy(() => import('@/features/administratif/DossiersPage').then((m) => ({ default: m.DossiersPage })));
+const DossierFormPage = lazy(() => import('@/features/administratif/DossierFormPage').then((m) => ({ default: m.DossierFormPage })));
+const DossierNewPage = lazy(() => import('@/features/administratif/DossierNewPage').then((m) => ({ default: m.DossierNewPage })));
+const ForbiddenPage = lazy(() => import('@/pages/ForbiddenPage').then((m) => ({ default: m.ForbiddenPage })));
+const MaintenancePage = lazy(() => import('@/pages/MaintenancePage').then((m) => ({ default: m.MaintenancePage })));
+const AboutPage = lazy(() => import('@/pages/AboutPage').then((m) => ({ default: m.AboutPage })));
+
+function PageFallback() {
+  return (
+    <div className="flex h-full items-center justify-center py-20">
+      <Spinner className="h-6 w-6 border-brand-200 border-t-brand-500" />
+    </div>
+  );
+}
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
-  const token = useAuthStore((s) => s.accessToken);
-  if (!token) return <Navigate to="/login" replace />;
+  const user = useAuthStore((s) => s.user);
+  if (!user) return <Navigate to="/login" replace />;
+  if (user.mustChangePassword) return <Navigate to="/change-password" replace />;
   return <>{children}</>;
 }
 
@@ -24,130 +139,160 @@ function RoleHome() {
   const user = useAuthStore((s) => s.user);
   if (!user) return <Navigate to="/login" replace />;
   if (user.mustChangePassword) return <Navigate to="/change-password" replace />;
-  return <Navigate to={ROLE_DASHBOARD[user.role as Role]} replace />;
+  return <Navigate to={ROLE_DASHBOARD[user.role]} replace />;
 }
-
-const col = (cols: { key: string; label: string }[]) => cols;
 
 export function AppRouter() {
   return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route path="/change-password" element={<ChangePasswordPage />} />
+    <Suspense fallback={<PageFallback />}>
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
+        <Route path="/403" element={<ForbiddenPage />} />
+        <Route path="/maintenance" element={<MaintenancePage />} />
+        <Route path="/about" element={<AboutPage />} />
 
-      <Route
-        element={
-          <PrivateRoute>
-            <AppLayout />
-          </PrivateRoute>
-        }
-      >
-        <Route path="/" element={<RoleHome />} />
-        <Route path="/dashboard" element={<RoleHome />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/notifications" element={<DashboardPage title="Notifications" />} />
-        <Route path="/messages" element={<MessagesPage />} />
-        <Route path="/messages/:id" element={<MessagesPage />} />
+        {/* Authentifie */}
+        <Route
+          element={
+            <PrivateRoute>
+              <AppLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route path="/dashboard" element={<RoleHome />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/messages" element={<MessagesPage />} />
+          <Route path="/messages/:id" element={<MessageDetailPage />} />
 
-        {/* Root — 14 pages */}
-        <Route path="/root/dashboard" element={<DashboardPage title="Root" />} />
-        <Route path="/root/admins" element={<ResourcePage title="Administrateurs" endpoint="/admins" columns={col([{ key: 'ID', label: 'ID' }, { key: 'nom', label: 'Nom' }, { key: 'username', label: 'Login' }, { key: 'typeAdmin', label: 'Type' }])} />} />
-        <Route path="/root/personnel" element={<ResourcePage title="Personnel" endpoint="/personnel" columns={col([{ key: 'idPers', label: 'ID' }, { key: 'nom', label: 'Nom' }, { key: 'prenom', label: 'Prénom' }])} />} />
-        <Route path="/root/parents" element={<ResourcePage title="Liens parents" endpoint="/parents" columns={col([{ key: 'idParent', label: 'ID' }, { key: 'idPers', label: 'Pers.' }, { key: 'matricule', label: 'Matricule' }])} />} />
-        <Route path="/root/credentials" element={<DashboardPage title="Gestion identifiants" subtitle="Envoi des codes de connexion" />} />
-        <Route path="/root/cycles" element={<ResourcePage title="Cycles" endpoint="/cycles" columns={col([{ key: 'idCycle', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/root/classes" element={<ResourcePage title="Classes" endpoint="/classes" columns={col([{ key: 'idClasse', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/root/salles" element={<ResourcePage title="Salles" endpoint="/salles" columns={col([{ key: 'idSalle', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/root/years" element={<ResourcePage title="Années académiques" endpoint="/academic-years" columns={col([{ key: 'idAnnee', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/root/terms" element={<ResourcePage title="Trimestres" endpoint="/trimestres" columns={col([{ key: 'idTrimes', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/root/refs" element={<ResourcePage title="Référentiels" endpoint="/villes" columns={col([{ key: 'idVille', label: 'ID' }, { key: 'libelle', label: 'Ville' }])} />} />
-        <Route path="/root/audit" element={<ResourcePage title="Audit" endpoint="/audit-logs" columns={col([{ key: 'id', label: 'ID' }, { key: 'action', label: 'Action' }, { key: 'resource', label: 'Ressource' }])} />} />
+          {/* Module 2  Root : gestion academique & comptes */}
+          <Route path="/root/dashboard" element={<RootOverviewPage />} />
+          <Route path="/root/admins" element={<AdminsPage />} />
+          <Route path="/root/admins/new" element={<AdminFormPage />} />
+          <Route path="/root/admins/:id" element={<AdminFormPage />} />
+          <Route path="/root/personnel" element={<PersonnelPage />} />
+          <Route path="/root/personnel/new" element={<PersonnelFormPage />} />
+          <Route path="/root/personnel/:id" element={<PersonnelFormPage />} />
+          <Route path="/root/parents" element={<ParentsPage />} />
+          <Route path="/root/credentials" element={<CredentialsPage />} />
+          <Route path="/root/cycles" element={<CyclesPage />} />
+          <Route path="/root/classes" element={<ClassesPage />} />
+          <Route path="/root/salles" element={<SallesPage />} />
+          <Route path="/root/years" element={<AcademicYearsPage />} />
+          <Route path="/root/terms" element={<TermsPage />} />
+          <Route path="/root/audit" element={<AuditPage />} />
 
-        {/* Admin inscriptions — 7 pages */}
-        <Route path="/admin/dashboard" element={<DashboardPage title="Admin Inscriptions" />} />
-        <Route path="/admin/students" element={<StudentsPage />} />
-        <Route path="/admin/students/:matricule" element={<StudentsPage />} />
-        <Route path="/admin/students/:matricule/assign" element={<DashboardPage title="Affectation salle" />} />
-        <Route path="/admin/students/:matricule/parents" element={<DashboardPage title="Parents de l'élève" />} />
+          {/* Module 2  Admin inscriptions : dossiers eleves */}
+          <Route path="/admin/dashboard" element={<DashboardPage />} />
+          <Route path="/admin/students" element={<StudentsPage />} />
+          <Route path="/admin/students/new" element={<StudentFormPage />} />
+          <Route path="/admin/students/:matricule" element={<StudentDetailPage />} />
+          <Route path="/admin/students/:matricule/edit" element={<StudentFormPage />} />
+          <Route path="/admin/students/:matricule/assign" element={<StudentAssignPage />} />
+          <Route path="/admin/students/:matricule/parents" element={<StudentParentsPage />} />
 
-        {/* Staff — 4 pages */}
-        <Route path="/staff/dashboard" element={<DashboardPage title="Administratif" />} />
-        <Route path="/staff/files" element={<DashboardPage title="Dossiers d'inscription" />} />
-        <Route path="/staff/students" element={<StudentsPage />} />
-        <Route path="/staff/students/:matricule" element={<StudentsPage />} />
+          {/* Module 3 - Pedagogie : cours & emploi du temps */}
+          <Route path="/root/courses" element={<CoursesPage />} />
+          <Route path="/root/courses/new" element={<CourseFormPage />} />
+          <Route path="/root/courses/:id" element={<CourseFormPage />} />
+          <Route path="/root/schedule" element={<SchedulePage />} />
+          <Route path="/teacher/classes" element={<TeacherClassesPage />} />
+          <Route path="/teacher/schedule" element={<TeacherSchedulePage />} />
+          <Route path="/teacher/students" element={<TeacherStudentsPage />} />
+          <Route path="/teacher/students/:matricule" element={<TeacherStudentDetailPage />} />
 
-        {/* Scolarité — 11 pages */}
-        <Route path="/scolarite/dashboard" element={<DashboardPage title="Admin Scolarité" />} />
-        <Route path="/scolarite/payments" element={<PaymentsPage />} />
-        <Route path="/scolarite/payments/:id" element={<PaymentsPage />} />
-        <Route path="/scolarite/overdue" element={<ResourcePage title="Impayés" endpoint="/payments/overdue" columns={col([{ key: 'matricule', label: 'Matricule' }])} />} />
-        <Route path="/scolarite/reminders" element={<DashboardPage title="Relances" subtitle="Messages aux retardataires" />} />
-        <Route path="/scolarite/reports" element={<DashboardPage title="Rapports financiers" />} />
-        <Route path="/scolarite/by-mode" element={<ResourcePage title="Paiements par mode" endpoint="/modes" columns={col([{ key: 'idMode', label: 'ID' }, { key: 'libelle', label: 'Mode' }])} />} />
-        <Route path="/scolarite/modes" element={<ResourcePage title="Modes" endpoint="/modes" columns={col([{ key: 'idMode', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/scolarite/export" element={<DashboardPage title="Export" />} />
-        <Route path="/scolarite/students/:matricule" element={<StudentsPage />} />
+          {/* Module 4 - Evaluations & bulletins */}
+          <Route path="/teacher/exams" element={<ExamsPage />} />
+          <Route path="/teacher/exams/new" element={<ExamFormPage />} />
+          <Route path="/teacher/exams/:id/grades" element={<GradesPage />} />
+          <Route path="/teacher/homework/new" element={<HomeworkFormPage />} />
+          <Route path="/directeur/bulletins" element={<BulletinsValidationPage />} />
+          <Route path="/parent/children" element={<ParentChildrenPage />} />
+          <Route path="/parent/children/:matricule/grades" element={<ChildGradesPage />} />
+          <Route path="/parent/children/:matricule/bulletins" element={<ChildBulletinsPage />} />
+          <Route path="/parent/children/:matricule/schedule" element={<ChildSchedulePage />} />
+          <Route path="/parent/children/:matricule/exams" element={<ChildExamsPage />} />
 
-        {/* Fondateur — 8 pages */}
-        <Route path="/fondateur/dashboard" element={<DashboardPage title="Fondateur" />} />
-        <Route path="/fondateur/tuitions" element={<ResourcePage title="Tarifs" endpoint="/tuitions" columns={col([{ key: 'idScolarite', label: 'ID' }, { key: 'inscription', label: 'Inscription' }, { key: 'pension', label: 'Pension' }])} />} />
-        <Route path="/fondateur/tranches" element={<ResourcePage title="Tranches" endpoint="/tranches" columns={col([{ key: 'idTranche', label: 'ID' }, { key: 'libelle', label: 'Libellé' }, { key: 'montant', label: 'Montant' }])} />} />
-        <Route path="/fondateur/modes" element={<ResourcePage title="Modes" endpoint="/modes" columns={col([{ key: 'idMode', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/fondateur/balance" element={<DashboardPage title="Balance financière" />} />
-        <Route path="/fondateur/compare" element={<DashboardPage title="Comparaison cycles" />} />
-        <Route path="/fondateur/explore" element={<DashboardPage title="Exploration données" />} />
+          {/* Module 5 - Scolarite & paiements */}
+          <Route path="/fondateur/tuitions" element={<TuitionsPage />} />
+          <Route path="/fondateur/tuitions/new" element={<TuitionFormPage />} />
+          <Route path="/fondateur/tuitions/:id" element={<TuitionFormPage />} />
+          <Route path="/fondateur/tranches" element={<TranchesPage />} />
+          <Route path="/fondateur/modes" element={<PaymentModesPage />} />
+          <Route path="/scolarite/payments" element={<PaymentsPage />} />
+          <Route path="/scolarite/payments/new" element={<PaymentFormPage />} />
+          <Route path="/scolarite/payments/:id" element={<PaymentDetailPage />} />
+          <Route path="/scolarite/students/:matricule" element={<StudentPaymentPage />} />
+          <Route path="/scolarite/overdue" element={<OverduePage />} />
+          <Route path="/scolarite/reminders" element={<RemindersPage />} />
+          <Route path="/scolarite/modes" element={<PaymentModesPage readOnly />} />
+          <Route path="/parent/children/:matricule/payments" element={<ChildPaymentsPage />} />
+          <Route path="/parent/children/:matricule/receipts" element={<ChildReceiptsPage />} />
 
-        {/* Directeur — 11 pages */}
-        <Route path="/directeur/dashboard" element={<DashboardPage title="Directeur" />} />
-        <Route path="/directeur/perf/classes" element={<ResourcePage title="Performance classes" endpoint="/classes" columns={col([{ key: 'idClasse', label: 'ID' }, { key: 'libelle', label: 'Classe' }])} />} />
-        <Route path="/directeur/perf/courses" element={<ResourcePage title="Performance cours" endpoint="/courses" columns={col([{ key: 'idCours', label: 'ID' }, { key: 'libelle', label: 'Cours' }])} />} />
-        <Route path="/directeur/perf/students" element={<StudentsPage />} />
-        <Route path="/directeur/bulletins" element={<DashboardPage title="Bulletins" subtitle="Génération et validation" />} />
-        <Route path="/directeur/messages" element={<MessagesPage />} />
-        <Route path="/directeur/discipline" element={<ResourcePage title="Discipline" endpoint="/discipline-reports" columns={col([{ key: 'idRap', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/directeur/teachers" element={<ResourcePage title="Enseignants" endpoint="/personnel" columns={col([{ key: 'idPers', label: 'ID' }, { key: 'nom', label: 'Nom' }])} />} />
-        <Route path="/directeur/students" element={<StudentsPage />} />
-        <Route path="/directeur/demographics" element={<DashboardPage title="Démographie" />} />
-        <Route path="/directeur/reports" element={<DashboardPage title="Rapports" />} />
+          {/* Module 6 - Communication */}
+          <Route path="/messages/new" element={<ComposeMessagePage />} />
+          <Route path="/parent/messages/new" element={<ComposeMessagePage />} />
+          <Route path="/directeur/messages" element={<DirectorMessagesPage />} />
+          <Route path="/parent/announcements" element={<AnnouncementsPage />} />
 
-        {/* Auditeur — 6 pages */}
-        <Route path="/auditeur/dashboard" element={<DashboardPage title="Auditeur" />} />
-        <Route path="/auditeur/listings" element={<StudentsPage />} />
-        <Route path="/auditeur/audit-logs" element={<ResourcePage title="Journal audit" endpoint="/audit-logs" columns={col([{ key: 'id', label: 'ID' }, { key: 'action', label: 'Action' }])} />} />
-        <Route path="/auditeur/finance" element={<DashboardPage title="Finance" />} />
-        <Route path="/auditeur/pedagogy" element={<DashboardPage title="Pédagogie" />} />
-        <Route path="/auditeur/exports" element={<DashboardPage title="Exports" />} />
+          {/* Module 7 - Discipline */}
+          <Route path="/teacher/discipline" element={<DisciplineReportsPage />} />
+          <Route path="/teacher/discipline/new" element={<DisciplineReportForm />} />
+          <Route path="/directeur/discipline" element={<DisciplineApprovalPage />} />
+          <Route path="/root/refs" element={<RefsPage />} />
+          <Route path="/parent/children/:matricule/discipline" element={<ChildDisciplinePage />} />
 
-        {/* Enseignant — 11 pages */}
-        <Route path="/teacher/dashboard" element={<DashboardPage title="Enseignant" />} />
-        <Route path="/teacher/classes" element={<ResourcePage title="Mes cours" endpoint="/courses" columns={col([{ key: 'idCours', label: 'ID' }, { key: 'libelle', label: 'Matière' }])} />} />
-        <Route path="/teacher/students/:matricule" element={<StudentsPage />} />
-        <Route path="/teacher/exams" element={<ResourcePage title="Épreuves" endpoint="/exams" columns={col([{ key: 'idEpreuve', label: 'ID' }, { key: 'libelle', label: 'Libellé' }])} />} />
-        <Route path="/teacher/exams/:id" element={<ResourcePage title="Détail épreuve" endpoint="/exams" columns={col([{ key: 'idEpreuve', label: 'ID' }])} />} />
-        <Route path="/teacher/exams/:id/grades" element={<ResourcePage title="Notes" endpoint="/evaluations" columns={col([{ key: 'idEval', label: 'ID' }, { key: 'note', label: 'Note' }])} />} />
-        <Route path="/teacher/homework" element={<ResourcePage title="Devoirs" endpoint="/exams" columns={col([{ key: 'idEpreuve', label: 'ID' }, { key: 'libelle', label: 'Devoir' }])} />} />
-        <Route path="/teacher/discipline" element={<ResourcePage title="Discipline" endpoint="/discipline-reports" columns={col([{ key: 'idRap', label: 'ID' }])} />} />
-        <Route path="/teacher/schedule" element={<DashboardPage title="Emploi du temps" />} />
+          {/* Module 8 - Documents & medias */}
+          <Route path="/library" element={<LibraryPage />} />
+          <Route path="/parent/library" element={<LibraryPage />} />
+          <Route path="/root/library" element={<LibraryAdminPage />} />
 
-        {/* Parent — 13 pages */}
-        <Route path="/parent/dashboard" element={<DashboardPage title="Espace Parent" />} />
-        <Route path="/parent/children" element={<StudentsPage parentMode />} />
-        <Route path="/parent/children/:matricule" element={<StudentsPage parentMode />} />
-        <Route path="/parent/children/:matricule/grades" element={<ResourcePage title="Notes" endpoint="/evaluations" columns={col([{ key: 'idEval', label: 'ID' }, { key: 'note', label: 'Note' }])} />} />
-        <Route path="/parent/children/:matricule/bulletins" element={<DashboardPage title="Bulletins" />} />
-        <Route path="/parent/children/:matricule/schedule" element={<DashboardPage title="Emploi du temps" />} />
-        <Route path="/parent/children/:matricule/exams" element={<ResourcePage title="Épreuves" endpoint="/exams" columns={col([{ key: 'idEpreuve', label: 'ID' }])} />} />
-        <Route path="/parent/children/:matricule/discipline" element={<ResourcePage title="Discipline" endpoint="/discipline-reports" columns={col([{ key: 'idRap', label: 'ID' }])} />} />
-        <Route path="/parent/messages" element={<MessagesPage />} />
-        <Route path="/parent/messages/new" element={<MessagesPage />} />
-        <Route path="/parent/payments" element={<PaymentsPage />} />
-        <Route path="/parent/receipts" element={<PaymentsPage />} />
-        <Route path="/parent/library" element={<ResourcePage title="Bibliothèque" endpoint="/library/books" columns={col([{ key: 'idLivre', label: 'ID' }, { key: 'titre', label: 'Titre' }])} />} />
-        <Route path="/parent/announcements" element={<MessagesPage />} />
-      </Route>
+          {/* Module 9 - Reporting & tableaux de bord */}
+          <Route path="/fondateur/balance" element={<FounderBalancePage />} />
+          <Route path="/fondateur/compare" element={<FounderComparePage />} />
+          <Route path="/fondateur/explore" element={<FounderExplorePage />} />
+          <Route path="/directeur/perf/classes" element={<PerformancePage scope="classes" />} />
+          <Route path="/directeur/perf/courses" element={<PerformancePage scope="courses" />} />
+          <Route path="/directeur/perf/students" element={<PerformancePage scope="students" />} />
+          <Route path="/directeur/teachers" element={<TeachersOverviewPage />} />
+          <Route path="/directeur/students" element={<StudentsOverviewPage />} />
+          <Route path="/directeur/demographics" element={<DemographicsPage />} />
+          <Route path="/directeur/reports" element={<DirectorReportsPage />} />
+          <Route path="/scolarite/reports" element={<ScolariteReportsPage />} />
+          <Route path="/scolarite/by-mode" element={<ScolariteByModePage />} />
+          <Route path="/scolarite/export" element={<ExportsPage scope="finance" />} />
+          <Route path="/auditeur/finance" element={<AuditorFinancePage />} />
+          <Route path="/auditeur/pedagogy" element={<AuditorPedagogyPage />} />
+          <Route
+            path="/auditeur/exports"
+            element={<ExportsPage title="Exports" subtitle="Telecharger tous les jeux de donnees" scope="all" />}
+          />
+          <Route path="/parent/children/:matricule" element={<ChildProfilePage />} />
 
-      <Route path="*" element={<Navigate to="/login" replace />} />
-    </Routes>
+          {/* Module 10 - Audit & pages techniques */}
+          <Route path="/auditeur/dashboard" element={<AuditorDashboardPage />} />
+          <Route path="/auditeur/listings" element={<AuditorListingsPage />} />
+          <Route path="/auditeur/audit-logs" element={<AuditLogsPage />} />
+          <Route path="/staff/dashboard" element={<AdministratifDashboardPage />} />
+          <Route path="/staff/files" element={<DossiersPage />} />
+          <Route path="/staff/files/new" element={<DossierNewPage />} />
+          <Route path="/staff/students/:matricule" element={<DossierFormPage />} />
+
+          {/* Tableaux de bord des autres roles */}
+          <Route path="/scolarite/dashboard" element={<DashboardPage />} />
+          <Route path="/fondateur/dashboard" element={<DashboardPage />} />
+          <Route path="/directeur/dashboard" element={<DashboardPage />} />
+          <Route path="/teacher/dashboard" element={<DashboardPage />} />
+          <Route path="/parent/dashboard" element={<DashboardPage />} />
+        </Route>
+
+        <Route path="/404" element={<NotFoundPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
 }
