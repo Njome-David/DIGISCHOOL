@@ -13,10 +13,12 @@ import {
   GRAVE_THRESHOLD,
   type DisciplineReport,
 } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const ENROLLED = MOCK_STUDENTS.filter((s) => s.status === 'enrolled');
 
 export function DisciplineReportForm() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const refs = activeRefs();
@@ -61,13 +63,12 @@ export function DisciplineReportForm() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/teacher/discipline')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour a mes rapports
-      </button>
+        <ArrowLeft size={15} /> {t('retour_a_mes_rapports')}</button>
 
       <Card>
         <div className="mb-5 flex items-center gap-3">
@@ -75,8 +76,8 @@ export function DisciplineReportForm() {
             <ShieldAlert size={20} />
           </div>
           <div>
-            <h2 className="text-base font-black text-ink">Saisir un rapport disciplinaire</h2>
-            <p className="text-xs font-semibold text-ink-soft">Les rapports graves sont valides par le Directeur</p>
+            <h2 className="text-base font-black text-ink">{t('saisir_un_rapport_disciplinair')}</h2>
+            <p className="text-xs font-semibold text-ink-soft">{t('les_rapports_graves_sont_valid')}</p>
           </div>
         </div>
 
@@ -87,7 +88,7 @@ export function DisciplineReportForm() {
         )}
 
         <form onSubmit={submit} className="space-y-4">
-          <Field label="Eleve">
+          <Field label={t('eleve')}>
             <select value={matricule} onChange={(e) => setMatricule(e.target.value)} className="field-input">
               {ENROLLED.map((s) => (
                 <option key={s.matricule} value={s.matricule}>
@@ -97,11 +98,11 @@ export function DisciplineReportForm() {
             </select>
           </Field>
 
-          <Field label="Faute (referentiel)">
+          <Field label={t('faute_referentiel')}>
             <select value={refId} onChange={(e) => setRefId(e.target.value)} className="field-input">
               {refs.map((r) => (
                 <option key={r.id} value={r.id}>
-                  {r.label} ({r.points} pt{r.points > 1 ? 's' : ''})
+                  {r.label} ({r.points} {t('pt')}{r.points > 1 ? 's' : ''})
                 </option>
               ))}
             </select>
@@ -109,41 +110,38 @@ export function DisciplineReportForm() {
 
           {selectedRef && (
             <div className="flex items-center justify-between rounded-xl bg-canvas px-4 py-3">
-              <span className="text-xs font-bold text-ink-soft">Gravite</span>
+              <span className="text-xs font-bold text-ink-soft">{t('gravite')}</span>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-black text-ink">{selectedRef.points} pts</span>
+                <span className="text-sm font-black text-ink">{selectedRef.points} {t('pts')}</span>
                 <SeverityTag points={selectedRef.points} />
               </div>
             </div>
           )}
 
-          <Field label="Date">
+          <Field label={t('date')}>
             <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="field-input" />
           </Field>
 
-          <Field label="Commentaire">
+          <Field label={t('commentaire')}>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               rows={4}
               className="field-input resize-none"
-              placeholder="Circonstances de l'incident..."
+              placeholder={t('circonstances_de_l_incident')}
             />
           </Field>
 
           {isGrave && (
             <Alert tone="info" icon={Info}>
-              Ce rapport est grave (seuil de {GRAVE_THRESHOLD} points) et sera soumis a la validation du Directeur.
-            </Alert>
+              {t('ce_rapport_est_grave_seuil_de')}{GRAVE_THRESHOLD} {t('points_et_sera_soumis_a_la_val')}</Alert>
           )}
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => navigate('/teacher/discipline')}>
-              Annuler
-            </Button>
+              {t('annuler')}</Button>
             <Button type="submit" loading={saving}>
-              <Save size={15} /> Enregistrer le rapport
-            </Button>
+              <Save size={15} /> {t('enregistrer_le_rapport')}</Button>
           </div>
         </form>
       </Card>

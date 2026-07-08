@@ -3,6 +3,7 @@ import { CreditCard, Banknote, Smartphone, Building2, FileText } from 'lucide-re
 import type { LucideIcon } from 'lucide-react';
 import { Card, Badge } from '@/shared/components/ui';
 import { MOCK_MODES, toggleMode } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const MODE_ICONS: Record<string, LucideIcon> = {
   Especes: Banknote,
@@ -12,6 +13,7 @@ const MODE_ICONS: Record<string, LucideIcon> = {
 };
 
 export function PaymentModesPage({ readOnly = false }: { readOnly?: boolean }) {
+    const { t } = useTranslation();
   const [, force] = useState(0);
 
   const handleToggle = (id: string) => {
@@ -22,7 +24,7 @@ export function PaymentModesPage({ readOnly = false }: { readOnly?: boolean }) {
   const modes = readOnly ? MOCK_MODES.filter((m) => m.active) : MOCK_MODES;
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
         <h2 className="text-base font-black text-ink">
           {readOnly ? 'Modes de paiement acceptes' : 'Gestion des modes de paiement'}
@@ -45,7 +47,7 @@ export function PaymentModesPage({ readOnly = false }: { readOnly?: boolean }) {
                 <p className="text-xs font-semibold text-ink-soft">{m.active ? 'Actif' : 'Desactive'}</p>
               </div>
               {readOnly ? (
-                <Badge tone="success">Disponible</Badge>
+                <Badge tone="success">{t('disponible')}</Badge>
               ) : (
                 <button
                   type="button"

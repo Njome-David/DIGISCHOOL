@@ -8,6 +8,7 @@ import { ROLE_LABELS } from '@ecole/shared';
 import { MOCK_ADMINS } from './mockData';
 import { MOCK_PERSONNEL } from './mockData';
 import { allParents } from '@/features/students/mockData';
+import { useTranslation } from "react-i18next";
 
 interface Recipient {
   id: string;
@@ -17,6 +18,7 @@ interface Recipient {
 }
 
 export function CredentialsPage() {
+    const { t } = useTranslation();
   const recipients = useMemo<Recipient[]>(() => {
     const admins = MOCK_ADMINS.map((a) => ({ id: `a-${a.id}`, name: a.nom, detail: ROLE_LABELS[a.role], channel: a.phone || a.email }));
     const staff = MOCK_PERSONNEL.map((p) => ({ id: `p-${p.id}`, name: p.nom, detail: p.type === 'teacher' ? 'Enseignant' : 'Administratif', channel: p.phone || p.email }));
@@ -49,28 +51,27 @@ export function CredentialsPage() {
   }
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Envoi des codes de connexion</h2>
+          <h2 className="text-base font-black text-ink">{t('envoi_des_codes_de_connexion')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            Selectionnez les comptes a notifier (envoi via messagerie / SMS)
-          </p>
+            {t('selectionnez_les_comptes_a_not')}</p>
         </div>
         <Button onClick={sendCodes} disabled={selected.size === 0}>
-          <Send size={15} /> Envoyer ({selected.size})
+          <Send size={15} /> {t('envoyer')}{selected.size})
         </Button>
       </div>
 
       {confirm > 0 && (
         <Alert tone="success">
-          Codes de connexion envoyes a {confirm} compte{confirm > 1 ? 's' : ''}.
+          {t('codes_de_connexion_envoyes_a')}{confirm} {t('compte')}{confirm > 1 ? 's' : ''}.
         </Alert>
       )}
 
-      <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un compte" />
+      <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_un_compte')} />
 
       <Card>
         <div className="divide-y divide-line-soft">
@@ -101,10 +102,9 @@ export function CredentialsPage() {
                 </div>
                 {isSent ? (
                   <Badge tone="success">
-                    <KeyRound size={11} /> Code envoye
-                  </Badge>
+                    <KeyRound size={11} /> {t('code_envoye')}</Badge>
                 ) : (
-                  <Badge tone="neutral">En attente</Badge>
+                  <Badge tone="neutral">{t('en_attente')}</Badge>
                 )}
               </button>
             );

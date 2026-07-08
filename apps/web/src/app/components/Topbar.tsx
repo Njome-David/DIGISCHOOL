@@ -5,8 +5,11 @@ import { ROLE_LABELS } from '@ecole/shared';
 import { useAuthStore } from '@/features/auth/store';
 import { Avatar } from '@/shared/components/ui';
 import { ROLE_META } from '@/shared/lib/roleMeta';
+import { LanguageToggle } from '@/shared/components/LanguageSwitcher';
+import { useTranslation } from "react-i18next";
 
 export function Topbar({ title, onOpenMenu }: { title: string; onOpenMenu: () => void }) {
+    const { t } = useTranslation();
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -32,10 +35,12 @@ export function Topbar({ title, onOpenMenu }: { title: string; onOpenMenu: () =>
       </div>
 
       <div className="flex items-center gap-1.5">
+        <LanguageToggle />
+
         <Link
           to="/notifications"
           className="relative rounded-xl p-2 transition-colors hover:bg-brand-50"
-          aria-label="Notifications"
+          aria-label={t('notifications')}
         >
           <Bell size={19} className="text-brand-500" />
           <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-danger" />
@@ -64,22 +69,20 @@ export function Topbar({ title, onOpenMenu }: { title: string; onOpenMenu: () =>
               <div className="absolute right-0 top-full z-20 mt-1 w-56 overflow-hidden rounded-2xl border border-line bg-white py-1.5 shadow-pop">
                 <div className="border-b border-line-soft px-4 py-3">
                   <p className="text-sm font-bold text-ink">{user.nom}</p>
-                  <p className="mt-0.5 text-xs text-ink-soft">{user.email || 'Aucun email'}</p>
+                  <p className="mt-0.5 text-xs text-ink-soft">{user.email || t('optionnel')}</p>
                 </div>
                 <Link
                   to="/profile"
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-brand-50"
                 >
-                  <User size={15} className="text-brand-500" /> Mon profil
-                </Link>
+                  <User size={15} className="text-brand-500" /> {t('mon_profil')}</Link>
                 <button
                   type="button"
                   onClick={handleLogout}
                   className="flex w-full items-center gap-3 px-4 py-2.5 text-sm font-semibold text-danger transition-colors hover:bg-danger-bg"
                 >
-                  <LogOut size={15} /> Se deconnecter
-                </button>
+                  <LogOut size={15} /> {t('se_deconnecter')}</button>
               </div>
             </>
           )}

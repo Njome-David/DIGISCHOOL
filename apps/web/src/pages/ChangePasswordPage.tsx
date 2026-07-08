@@ -5,6 +5,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { AuthLayout } from '@/app/layouts/AuthLayout';
 import { Field, PasswordInput, Alert } from '@/shared/components/form';
 import { Button, Spinner } from '@/shared/components/ui';
+import { useTranslation } from "react-i18next";
 
 const RULES: { label: string; test: (pw: string) => boolean }[] = [
   { label: 'Au moins 8 caracteres', test: (pw) => pw.length >= 8 },
@@ -17,6 +18,7 @@ const STRENGTH_COLORS = ['', '#DC2626', '#D97706', '#22A05E', '#16A34A'];
 const STRENGTH_LABELS = ['', 'Faible', 'Moyen', 'Bon', 'Fort'];
 
 function StrengthBar({ pw }: { pw: string }) {
+    const { t } = useTranslation();
   const score = RULES.filter((r) => r.test(pw)).length;
   return (
     <div className="mt-2">
@@ -39,6 +41,7 @@ function StrengthBar({ pw }: { pw: string }) {
 }
 
 export function ChangePasswordPage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const changePassword = useAuthStore((s) => s.changePassword);
@@ -79,12 +82,12 @@ export function ChangePasswordPage() {
 
   if (success) {
     return (
-      <AuthLayout title="Mot de passe modifie">
+      <AuthLayout title={t('mot_de_passe_modifie')}>
         <div className="flex flex-col items-center gap-4 py-4 text-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-success-bg">
             <CheckCircle size={28} className="text-success" />
           </div>
-          <p className="text-sm font-semibold text-ink">Mot de passe modifie. Redirection...</p>
+          <p className="text-sm font-semibold text-ink">{t('mot_de_passe_modifie_redirecti')}</p>
           <Spinner className="border-brand-200 border-t-brand-500" />
         </div>
       </AuthLayout>
@@ -103,8 +106,7 @@ export function ChangePasswordPage() {
       {isFirst && (
         <div className="mb-5">
           <Alert tone="brand" icon={ShieldCheck}>
-            Compte cree par l'administrateur. Definissez votre propre mot de passe.
-          </Alert>
+            {t('compte_cree_par_l_administrate')}</Alert>
         </div>
       )}
 
@@ -112,22 +114,22 @@ export function ChangePasswordPage() {
         {error && <Alert icon={AlertCircle}>{error}</Alert>}
 
         {!isFirst && (
-          <Field label="Mot de passe actuel">
+          <Field label={t('mot_de_passe_actuel')}>
             <PasswordInput value={current} onChange={setCurrent} autoComplete="current-password" />
           </Field>
         )}
 
-        <Field label="Nouveau mot de passe">
+        <Field label={t('nouveau_mot_de_passe')}>
           <PasswordInput
             value={next}
             onChange={setNext}
-            placeholder="Min. 8 caracteres"
+            placeholder={t('min_8_caracteres')}
             autoComplete="new-password"
           />
           {next && <StrengthBar pw={next} />}
         </Field>
 
-        <Field label="Confirmer">
+        <Field label={t('confirmer')}>
           <PasswordInput
             value={confirm}
             onChange={setConfirm}
@@ -135,7 +137,7 @@ export function ChangePasswordPage() {
             invalid={!!confirm && confirm !== next}
           />
           {confirm && confirm !== next && (
-            <p className="mt-1 text-xs font-semibold text-danger">Les mots de passe ne correspondent pas.</p>
+            <p className="mt-1 text-xs font-semibold text-danger">{t('les_mots_de_passe_ne_correspon')}</p>
           )}
         </Field>
 
@@ -160,8 +162,7 @@ export function ChangePasswordPage() {
             onClick={() => navigate(-1)}
             className="w-full text-center text-sm font-bold text-ink-soft hover:underline"
           >
-            Annuler
-          </button>
+            {t('annuler')}</button>
         )}
       </form>
     </AuthLayout>

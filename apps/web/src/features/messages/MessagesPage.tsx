@@ -5,8 +5,10 @@ import { SearchInput, Avatar, EmptyState } from '@/shared/components/ui';
 import { useAuthStore } from '@/features/auth/store';
 import { ROLES } from '@ecole/shared';
 import { MOCK_MESSAGES, messageDateShort, type Message } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function MessagesPage() {
+    const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>(MOCK_MESSAGES);
   const [search, setSearch] = useState('');
   const unread = messages.filter((m) => !m.read).length;
@@ -28,28 +30,27 @@ export function MessagesPage() {
   );
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-base font-black text-ink">Boite de reception</h2>
+            <h2 className="text-base font-black text-ink">{t('boite_de_reception')}</h2>
             {unread > 0 && (
               <span className="rounded-full bg-brand-500 px-2 py-0.5 text-xs font-black text-white">{unread}</span>
             )}
           </div>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {messages.length} message{messages.length > 1 ? 's' : ''}
+            {messages.length} {t('message')}{messages.length > 1 ? 's' : ''}
           </p>
         </div>
         <Link to={composePath} className="btn-brand">
-          <Pencil size={13} /> Nouveau message
-        </Link>
+          <Pencil size={13} /> {t('nouveau_message')}</Link>
       </div>
 
       <SearchInput
         value={search}
         onChange={setSearch}
-        placeholder="Rechercher par objet, expediteur"
+        placeholder={t('rechercher_par_objet_expediteu')}
         className="flex-none"
       />
 

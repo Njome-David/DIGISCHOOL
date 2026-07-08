@@ -4,25 +4,25 @@ import { Card, Button, Avatar, Badge, EmptyState } from '@/shared/components/ui'
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { formatMoney } from '@/shared/lib/format';
 import { overdueStudents } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function OverduePage() {
+    const { t } = useTranslation();
   const list = overdueStudents();
   const totalDue = list.reduce((s, st) => s + st.balance, 0);
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Eleves en retard</h2>
+          <h2 className="text-base font-black text-ink">{t('eleves_en_retard')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {list.length} eleves - {formatMoney(totalDue)} a recouvrer
-          </p>
+            {list.length} {t('eleves')}{formatMoney(totalDue)} {t('a_recouvrer')}</p>
         </div>
         {list.length > 0 && (
           <Link to="/scolarite/reminders">
             <Button>
-              <Send size={15} /> Envoyer des relances
-            </Button>
+              <Send size={15} /> {t('envoyer_des_relances')}</Button>
           </Link>
         )}
       </div>
@@ -45,16 +45,15 @@ export function OverduePage() {
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-bold text-ink">{st.studentName}</p>
                   <p className="flex items-center gap-1 text-xs font-semibold text-danger">
-                    <AlertTriangle size={11} /> {lateTranches} tranche{lateTranches > 1 ? 's' : ''} en retard - {st.classCode}
+                    <AlertTriangle size={11} /> {lateTranches} {t('tranche')}{lateTranches > 1 ? 's' : ''} {t('en_retard')}{st.classCode}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-black text-danger">{formatMoney(st.balance)}</p>
-                  <p className="text-xs font-semibold text-ink-faint">solde</p>
+                  <p className="text-xs font-semibold text-ink-faint">{t('solde')}</p>
                 </div>
                 <Badge tone="neutral" className="hidden sm:inline-flex">
-                  {Math.round((st.paid / st.total) * 100)}% regle
-                </Badge>
+                  {Math.round((st.paid / st.total) * 100)}{t('regle')}</Badge>
                 <ChevronRight size={16} className="shrink-0 text-ink-faint" />
               </Link>
             );

@@ -4,6 +4,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { MOCK_PERSONNEL } from '@/features/accounts/mockData';
 import { ScheduleGrid, type ScheduleCell } from './components/ScheduleGrid';
 import { scheduleForTeacher } from './mockData';
+import { useTranslation } from "react-i18next";
 
 function resolveTeacherId(nom: string | undefined): string {
   const found = MOCK_PERSONNEL.find((p) => p.type === 'teacher' && p.nom === nom);
@@ -11,6 +12,7 @@ function resolveTeacherId(nom: string | undefined): string {
 }
 
 export function TeacherSchedulePage() {
+    const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const teacherId = resolveTeacherId(user?.nom);
   const entries = scheduleForTeacher(teacherId);
@@ -24,17 +26,17 @@ export function TeacherSchedulePage() {
   }));
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Mon emploi du temps</h2>
-        <p className="mt-0.5 text-xs font-semibold text-ink-soft">{cells.length} creneaux cette semaine</p>
+        <h2 className="text-base font-black text-ink">{t('mon_emploi_du_temps')}</h2>
+        <p className="mt-0.5 text-xs font-semibold text-ink-soft">{cells.length} {t('creneaux_cette_semaine')}</p>
       </div>
 
       <Card>
         {cells.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 text-center">
             <CalendarClock size={28} className="mb-3 text-brand-200" />
-            <p className="text-sm font-semibold text-ink-soft">Aucun creneau programme.</p>
+            <p className="text-sm font-semibold text-ink-soft">{t('aucun_creneau_programme')}</p>
           </div>
         ) : (
           <ScheduleGrid cells={cells} />

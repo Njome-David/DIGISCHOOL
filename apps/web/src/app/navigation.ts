@@ -17,7 +17,7 @@ import {
 import { ROLES, ROLE_DASHBOARD, type Role } from '@ecole/shared';
 
 export interface NavLinkItem {
-  label: string;
+  labelKey: string;
   to: string;
   icon: LucideIcon;
 }
@@ -25,26 +25,24 @@ export interface NavLinkItem {
 /** Items communs a tous les roles (Module 1). */
 export function commonNav(role: Role): NavLinkItem[] {
   return [
-    { label: 'Tableau de bord', to: ROLE_DASHBOARD[role], icon: LayoutDashboard },
-    { label: 'Mon profil', to: '/profile', icon: User },
-    { label: 'Notifications', to: '/notifications', icon: Bell },
-    { label: 'Messages', to: '/messages', icon: MessageSquare },
+    { labelKey: 'nav.dashboard', to: ROLE_DASHBOARD[role], icon: LayoutDashboard },
+    { labelKey: 'nav.profile', to: '/profile', icon: User },
+    { labelKey: 'nav.notifications', to: '/notifications', icon: Bell },
+    { labelKey: 'nav.messages', to: '/messages', icon: MessageSquare },
   ];
 }
 
 interface ModuleDef {
   key: string;
-  label: string;
+  labelKey: string;
   icon: LucideIcon;
-  /** Chemin d'entree par role. Absent = module verrouille (a venir) pour ce role. */
   paths?: Partial<Record<Role, string>>;
 }
 
-/** Les 9 modules metier (M2 ? M10)  ordre du roadmap produit. */
 const MODULES: ModuleDef[] = [
   {
     key: 'm2',
-    label: 'Gestion academique',
+    labelKey: 'gestion_academique',
     icon: GraduationCap,
     paths: {
       [ROLES.ROOT]: '/root/dashboard',
@@ -54,7 +52,7 @@ const MODULES: ModuleDef[] = [
   },
   {
     key: 'm3',
-    label: 'Gestion pedagogique',
+    labelKey: 'gestion_pedagogique',
     icon: BookOpen,
     paths: {
       [ROLES.ROOT]: '/root/courses',
@@ -64,7 +62,7 @@ const MODULES: ModuleDef[] = [
   },
   {
     key: 'm4',
-    label: 'Evaluations & Bulletins',
+    labelKey: 'evaluations_bulletins',
     icon: ClipboardList,
     paths: {
       [ROLES.ROOT]: '/directeur/bulletins',
@@ -75,7 +73,7 @@ const MODULES: ModuleDef[] = [
   },
   {
     key: 'm5',
-    label: 'Scolarite & Paiements',
+    labelKey: 'scolarite_paiements',
     icon: DollarSign,
     paths: {
       [ROLES.ROOT]: '/scolarite/payments',
@@ -86,7 +84,7 @@ const MODULES: ModuleDef[] = [
   },
   {
     key: 'm6',
-    label: 'Communication',
+    labelKey: 'communication',
     icon: MessageCircle,
     paths: {
       [ROLES.ROOT]: '/messages/new',
@@ -99,7 +97,7 @@ const MODULES: ModuleDef[] = [
   },
   {
     key: 'm7',
-    label: 'Discipline',
+    labelKey: 'discipline',
     icon: ShieldCheck,
     paths: {
       [ROLES.ROOT]: '/root/refs',
@@ -109,7 +107,7 @@ const MODULES: ModuleDef[] = [
   },
   {
     key: 'm8',
-    label: 'Documents',
+    labelKey: 'documents',
     icon: FileText,
     paths: {
       [ROLES.ROOT]: '/root/library',
@@ -121,7 +119,7 @@ const MODULES: ModuleDef[] = [
   },
   {
     key: 'm9',
-    label: 'Reporting',
+    labelKey: 'reporting',
     icon: BarChart2,
     paths: {
       [ROLES.ROOT]: '/fondateur/balance',
@@ -133,7 +131,7 @@ const MODULES: ModuleDef[] = [
   },
   {
     key: 'm10',
-    label: 'Audit & Securite',
+    labelKey: 'audit_securite',
     icon: ScrollText,
     paths: {
       [ROLES.ROOT]: '/root/audit',
@@ -142,7 +140,6 @@ const MODULES: ModuleDef[] = [
   },
 ];
 
-/** Modules visibles par role (indices dans MODULES)  reflete le perimetre fonctionnel. */
 const VISIBLE_BY_ROLE: Record<Role, number[]> = {
   [ROLES.ROOT]: [0, 1, 2, 3, 4, 5, 6, 7, 8],
   [ROLES.ADMIN_INSCRIPTIONS]: [0, 2, 4, 6],
@@ -157,15 +154,14 @@ const VISIBLE_BY_ROLE: Record<Role, number[]> = {
 
 export interface ModuleNavItem {
   key: string;
-  label: string;
+  labelKey: string;
   icon: LucideIcon;
-  /** Chemin si debloque pour le role, sinon null (verrouille). */
   to: string | null;
 }
 
 export function moduleNav(role: Role): ModuleNavItem[] {
   return VISIBLE_BY_ROLE[role].map((i) => {
     const m = MODULES[i];
-    return { key: m.key, label: m.label, icon: m.icon, to: m.paths?.[role] ?? null };
+    return { key: m.key, labelKey: m.labelKey, icon: m.icon, to: m.paths?.[role] ?? null };
   });
 }

@@ -4,20 +4,21 @@ import { Avatar, Badge, EmptyState, Button } from '@/shared/components/ui';
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { getStudentState } from '@/features/payments/mockData';
 import { PaymentStateView } from '@/features/payments/components/PaymentStateView';
+import { useTranslation } from "react-i18next";
 
 export function ChildPaymentsPage() {
+    const { t } = useTranslation();
   const { matricule } = useParams();
   const navigate = useNavigate();
   const state = matricule ? getStudentState(matricule) : undefined;
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/parent/children')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Mes enfants
-      </button>
+        <ArrowLeft size={15} /> {t('mes_enfants')}</button>
 
       {!state ? (
         <div className="surface">
@@ -33,13 +34,12 @@ export function ChildPaymentsPage() {
                   <h2 className="text-base font-black text-ink">{state.studentName}</h2>
                   <Badge tone={state.overdue ? 'danger' : 'success'}>{state.overdue ? 'En retard' : 'A jour'}</Badge>
                 </div>
-                <p className="text-xs font-semibold text-ink-soft">Scolarite - {state.classCode}</p>
+                <p className="text-xs font-semibold text-ink-soft">{t('scolarite')}{state.classCode}</p>
               </div>
             </div>
             <Link to={`/parent/children/${state.matricule}/receipts`}>
               <Button variant="outline">
-                <FileText size={14} /> Mes recus
-              </Button>
+                <FileText size={14} /> {t('mes_recus')}</Button>
             </Link>
           </div>
 

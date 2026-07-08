@@ -5,6 +5,7 @@ import { Card, Button, Badge, FilterTabs, type FilterOption } from '@/shared/com
 import { Field } from '@/shared/components/form';
 import { DisciplineRefsPage } from '@/features/discipline/DisciplineRefsPage';
 import { MOCK_VILLES, MOCK_QUARTIERS, toggleLookup, addLookup, type Lookup } from './mockData';
+import { useTranslation } from "react-i18next";
 
 type Tab = 'villes' | 'quartiers' | 'disciplines';
 
@@ -15,21 +16,22 @@ const TABS: FilterOption<Tab>[] = [
 ];
 
 export function RefsPage() {
+    const { t } = useTranslation();
   const [tab, setTab] = useState<Tab>('disciplines');
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div>
-        <h2 className="text-base font-black text-ink">Referentiels</h2>
-        <p className="mt-0.5 text-xs font-semibold text-ink-soft">Villes de naissance, quartiers et disciplines</p>
+        <h2 className="text-base font-black text-ink">{t('referentiels')}</h2>
+        <p className="mt-0.5 text-xs font-semibold text-ink-soft">{t('villes_de_naissance_quartiers')}</p>
       </div>
 
       <FilterTabs value={tab} onChange={setTab} options={TABS} />
 
-      {tab === 'villes' && <LookupManager list={MOCK_VILLES} icon={MapPin} singular="ville" placeholder="Ex. Kribi" />}
-      {tab === 'quartiers' && <LookupManager list={MOCK_QUARTIERS} icon={Building2} singular="quartier" placeholder="Ex. Ngousso" />}
+      {tab === 'villes' && <LookupManager list={MOCK_VILLES} icon={MapPin} singular="ville" placeholder={t('ex_kribi')} />}
+      {tab === 'quartiers' && <LookupManager list={MOCK_QUARTIERS} icon={Building2} singular="quartier" placeholder={t('ex_ngousso')} />}
       {tab === 'disciplines' && <DisciplineRefsPage embedded />}
     </div>
   );
@@ -46,6 +48,7 @@ function LookupManager({
   singular: string;
   placeholder: string;
 }) {
+    const { t } = useTranslation();
   const [, force] = useState(0);
   const [label, setLabel] = useState('');
 
@@ -67,8 +70,7 @@ function LookupManager({
             </Field>
           </div>
           <Button type="submit">
-            <Plus size={15} /> Ajouter
-          </Button>
+            <Plus size={15} /> {t('ajouter')}</Button>
         </form>
       </Card>
 
@@ -79,7 +81,7 @@ function LookupManager({
               <Icon size={16} />
             </div>
             <p className="flex-1 text-sm font-bold text-ink">{item.label}</p>
-            {!item.active && <Badge tone="neutral">Inactif</Badge>}
+            {!item.active && <Badge tone="neutral">{t('inactif')}</Badge>}
             <button
               type="button"
               onClick={() => {

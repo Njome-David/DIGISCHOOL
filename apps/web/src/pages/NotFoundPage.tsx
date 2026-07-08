@@ -1,7 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Home, ArrowLeft } from 'lucide-react';
+import { useTranslation } from "react-i18next";
 
 export function NotFoundPage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-canvas px-4">
@@ -15,21 +17,18 @@ export function NotFoundPage() {
           </div>
         </div>
 
-        <h1 className="mb-3 text-2xl font-bold text-ink">Page introuvable</h1>
+        <h1 className="mb-3 text-2xl font-bold text-ink">{t('page_introuvable')}</h1>
         <p className="mb-8 text-sm leading-relaxed text-ink-soft">
-          La page que vous cherchez n'existe pas ou a ete deplacee. Verifiez l'adresse ou revenez a l'accueil.
-        </p>
+          {t('la_page_que_vous_cherchez_n_ex')}</p>
 
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <button onClick={() => navigate(-1)} className="btn-outline">
-            <ArrowLeft size={16} /> Page precedente
-          </button>
+            <ArrowLeft size={16} /> {t('page_precedente')}</button>
           <Link to="/" className="btn-brand">
-            <Home size={16} /> Accueil
-          </Link>
+            <Home size={16} /> {t('accueil')}</Link>
         </div>
 
-        <p className="mt-12 text-sm font-extrabold tracking-tight text-brand-500/40">DIGISCHOOL</p>
+        <p className="mt-12 text-sm font-extrabold tracking-tight text-brand-500/40">{t('digischool')}</p>
       </div>
     </div>
   );

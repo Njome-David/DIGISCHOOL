@@ -5,6 +5,7 @@ import { Card, Button, Avatar, EmptyState } from '@/shared/components/ui';
 import { Field } from '@/shared/components/form';
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { findStudent } from './mockData';
+import { useTranslation } from "react-i18next";
 
 interface ParentLink {
   id: string;
@@ -15,6 +16,7 @@ interface ParentLink {
 }
 
 export function StudentParentsPage() {
+    const { t } = useTranslation();
   const { matricule } = useParams<{ matricule: string }>();
   const navigate = useNavigate();
   const student = matricule ? findStudent(matricule) : undefined;
@@ -26,7 +28,7 @@ export function StudentParentsPage() {
 
   if (!student) {
     return (
-      <div className="surface max-w-2xl">
+      <div className="surface w-full">
         <EmptyState icon={Users} message="Eleve introuvable." />
       </div>
     );
@@ -44,20 +46,19 @@ export function StudentParentsPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate(`/admin/students/${student.matricule}`)}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour a la fiche
-      </button>
+        <ArrowLeft size={15} /> {t('retour_a_la_fiche')}</button>
 
       <div className="flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-brand-700">
           <Users size={20} />
         </div>
         <div>
-          <h2 className="text-base font-black text-ink">Liaison parent - eleve</h2>
+          <h2 className="text-base font-black text-ink">{t('liaison_parent_eleve')}</h2>
           <p className="text-xs font-semibold text-ink-soft">
             {student.firstName} {student.lastName} - {student.classCode}
           </p>
@@ -65,7 +66,7 @@ export function StudentParentsPage() {
       </div>
 
       <Card>
-        <h3 className="mb-3 text-sm font-black text-ink">Parents rattaches ({links.length})</h3>
+        <h3 className="mb-3 text-sm font-black text-ink">{t('parents_rattaches')}{links.length})</h3>
         {links.length === 0 ? (
           <EmptyState icon={Users} message="Aucun parent rattache." />
         ) : (
@@ -96,31 +97,30 @@ export function StudentParentsPage() {
       </Card>
 
       <Card>
-        <h3 className="mb-3 text-sm font-black text-ink">Ajouter un parent</h3>
+        <h3 className="mb-3 text-sm font-black text-ink">{t('ajouter_un_parent')}</h3>
         <form onSubmit={add} className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Nom">
+            <Field label={t('nom')}>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="field-input" />
             </Field>
-            <Field label="Relation">
+            <Field label={t('relation')}>
               <select value={form.relation} onChange={(e) => setForm({ ...form, relation: e.target.value })} className="field-input">
-                <option>Parent</option>
-                <option>Pere</option>
-                <option>Mere</option>
-                <option>Tuteur</option>
+                <option>{t('parent')}</option>
+                <option>{t('pere')}</option>
+                <option>{t('mere')}</option>
+                <option>{t('tuteur')}</option>
               </select>
             </Field>
-            <Field label="Telephone">
-              <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="field-input" placeholder="+237 6XX XXX XXX" />
+            <Field label={t('telephone')}>
+              <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="field-input" placeholder={t('237_6xx_xxx_xxx')} />
             </Field>
-            <Field label="Email" hint="Optionnel">
+            <Field label={t('email')} hint={t('optionnel')}>
               <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="field-input" />
             </Field>
           </div>
           <div className="flex justify-end">
             <Button type="submit">
-              <UserPlus size={15} /> Rattacher
-            </Button>
+              <UserPlus size={15} /> {t('rattacher')}</Button>
           </div>
         </form>
       </Card>

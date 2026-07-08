@@ -6,8 +6,10 @@ import { Field, Alert } from '@/shared/components/form';
 import { mockLatency } from '@/shared/lib/format';
 import { SUBJECT_OPTIONS } from '@/features/pedagogy/mockData';
 import { findPersonnel, upsertPersonnel, type Personnel } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function PersonnelFormPage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const existing = id ? findPersonnel(id) : undefined;
@@ -53,13 +55,12 @@ export function PersonnelFormPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/root/personnel')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour au personnel
-      </button>
+        <ArrowLeft size={15} /> {t('retour_au_personnel')}</button>
 
       <div className="flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-brand-700">
@@ -67,7 +68,7 @@ export function PersonnelFormPage() {
         </div>
         <div>
           <h2 className="text-base font-black text-ink">{existing ? 'Modifier le personnel' : 'Nouveau personnel'}</h2>
-          <p className="text-xs font-semibold text-ink-soft">Enseignant ou agent administratif</p>
+          <p className="text-xs font-semibold text-ink-soft">{t('enseignant_ou_agent_administra')}</p>
         </div>
       </div>
 
@@ -75,19 +76,19 @@ export function PersonnelFormPage() {
 
       <form onSubmit={submit} className="space-y-4">
         <Card>
-          <SectionTitle className="mb-4">Identite</SectionTitle>
+          <SectionTitle className="mb-4">{t('identite')}</SectionTitle>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Nom complet">
+            <Field label={t('nom_complet')}>
               <input value={form.nom} onChange={(e) => set('nom', e.target.value)} className="field-input" />
             </Field>
-            <Field label="Type">
+            <Field label={t('type')}>
               <select value={form.type} onChange={(e) => set('type', e.target.value as 'teacher' | 'staff')} className="field-input">
-                <option value="teacher">Enseignant</option>
-                <option value="staff">Agent administratif</option>
+                <option value="teacher">{t('enseignant')}</option>
+                <option value="staff">{t('agent_administratif')}</option>
               </select>
             </Field>
             {form.type === 'teacher' && (
-              <Field label="Matiere">
+              <Field label={t('matiere')}>
                 <select value={form.subject} onChange={(e) => set('subject', e.target.value)} className="field-input">
                   {SUBJECT_OPTIONS.map((s) => (
                     <option key={s.code} value={s.label}>
@@ -97,26 +98,26 @@ export function PersonnelFormPage() {
                 </select>
               </Field>
             )}
-            <Field label="Statut">
+            <Field label={t('statut')}>
               <select value={form.status} onChange={(e) => set('status', e.target.value as 'active' | 'inactive')} className="field-input">
-                <option value="active">Actif</option>
-                <option value="inactive">Inactif</option>
+                <option value="active">{t('actif')}</option>
+                <option value="inactive">{t('inactif')}</option>
               </select>
             </Field>
           </div>
         </Card>
 
         <Card>
-          <SectionTitle className="mb-4">Coordonnees & affectation</SectionTitle>
+          <SectionTitle className="mb-4">{t('coordonnees_affectation')}</SectionTitle>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Email">
+            <Field label={t('email')}>
               <input type="email" value={form.email} onChange={(e) => set('email', e.target.value)} className="field-input" />
             </Field>
-            <Field label="Telephone">
-              <input value={form.phone} onChange={(e) => set('phone', e.target.value)} className="field-input" placeholder="+237 6XX XXX XXX" />
+            <Field label={t('telephone')}>
+              <input value={form.phone} onChange={(e) => set('phone', e.target.value)} className="field-input" placeholder={t('237_6xx_xxx_xxx')} />
             </Field>
             {form.type === 'teacher' && (
-              <Field label="Classes" hint="Separees par des virgules (ex. CE1-A, CE1-B)">
+              <Field label={t('classes')} hint={t('separees_par_des_virgules_ex_c')}>
                 <input value={form.classes} onChange={(e) => set('classes', e.target.value)} className="field-input" />
               </Field>
             )}
@@ -125,8 +126,7 @@ export function PersonnelFormPage() {
 
         <div className="flex justify-end gap-2">
           <Button type="button" variant="outline" onClick={() => navigate('/root/personnel')}>
-            Annuler
-          </Button>
+            {t('annuler')}</Button>
           <Button type="submit" loading={saving}>
             <Save size={15} /> {existing ? 'Enregistrer' : 'Creer le compte'}
           </Button>

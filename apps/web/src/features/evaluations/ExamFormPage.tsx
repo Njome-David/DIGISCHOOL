@@ -9,12 +9,14 @@ import { MOCK_TERMS } from '@/features/academic/mockData';
 import { coursesForTeacher } from '@/features/pedagogy/mockData';
 import { mockLatency } from '@/shared/lib/format';
 import { addExam, EXAM_NATURES, type Exam } from './mockData';
+import { useTranslation } from "react-i18next";
 
 function resolveTeacher(nom: string | undefined) {
   return MOCK_PERSONNEL.find((p) => p.type === 'teacher' && p.nom === nom) ?? MOCK_PERSONNEL[0];
 }
 
 export function ExamFormPage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const teacher = resolveTeacher(user?.nom);
@@ -71,13 +73,12 @@ export function ExamFormPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/teacher/exams')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour a mes epreuves
-      </button>
+        <ArrowLeft size={15} /> {t('retour_a_mes_epreuves')}</button>
 
       <Card>
         <div className="mb-5 flex items-center gap-3">
@@ -85,8 +86,8 @@ export function ExamFormPage() {
             <ClipboardList size={20} />
           </div>
           <div>
-            <h2 className="text-base font-black text-ink">Televerser une epreuve</h2>
-            <p className="text-xs font-semibold text-ink-soft">Metadonnees + fichier (PDF / DOCX)</p>
+            <h2 className="text-base font-black text-ink">{t('televerser_une_epreuve')}</h2>
+            <p className="text-xs font-semibold text-ink-soft">{t('metadonnees_fichier_pdf_docx')}</p>
           </div>
         </div>
 
@@ -97,17 +98,17 @@ export function ExamFormPage() {
         )}
 
         <form onSubmit={submit} className="space-y-4">
-          <Field label="Titre de l'epreuve">
+          <Field label={t('titre_de_l_epreuve')}>
             <input
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               className="field-input"
-              placeholder="Ex. Controle continu n.1"
+              placeholder={t('ex_controle_continu_n_1')}
             />
           </Field>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Nature">
+            <Field label={t('nature')}>
               <select
                 value={form.natureCode}
                 onChange={(e) => setForm((f) => ({ ...f, natureCode: e.target.value }))}
@@ -120,7 +121,7 @@ export function ExamFormPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Cours">
+            <Field label={t('cours')}>
               <select
                 value={form.courseId}
                 onChange={(e) => setForm((f) => ({ ...f, courseId: e.target.value }))}
@@ -133,7 +134,7 @@ export function ExamFormPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Trimestre">
+            <Field label={t('trimestre')}>
               <select
                 value={form.term}
                 onChange={(e) => setForm((f) => ({ ...f, term: e.target.value }))}
@@ -146,7 +147,7 @@ export function ExamFormPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Date">
+            <Field label={t('date')}>
               <input
                 type="date"
                 value={form.date}
@@ -156,7 +157,7 @@ export function ExamFormPage() {
             </Field>
           </div>
 
-          <Field label="Note maximale">
+          <Field label={t('note_maximale')}>
             <input
               type="number"
               min={1}
@@ -167,17 +168,15 @@ export function ExamFormPage() {
             />
           </Field>
 
-          <Field label="Fichier de l'epreuve">
+          <Field label={t('fichier_de_l_epreuve')}>
             <UploadField value={form.fileName} onChange={(name) => setForm((f) => ({ ...f, fileName: name }))} />
           </Field>
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => navigate('/teacher/exams')}>
-              Annuler
-            </Button>
+              {t('annuler')}</Button>
             <Button type="submit" loading={saving}>
-              <Save size={15} /> Creer et saisir les notes
-            </Button>
+              <Save size={15} /> {t('creer_et_saisir_les_notes')}</Button>
           </div>
         </form>
       </Card>

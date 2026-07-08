@@ -11,6 +11,7 @@ import {
   REPORT_STATUS_META,
   type ReportStatus,
 } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const FILTERS: FilterOption<ReportStatus>[] = [
   { value: 'pending', label: 'A valider', activeColor: '#D97706' },
@@ -19,6 +20,7 @@ const FILTERS: FilterOption<ReportStatus>[] = [
 ];
 
 export function DisciplineApprovalPage() {
+    const { t } = useTranslation();
   const [filter, setFilter] = useState<ReportStatus>('pending');
   const [, force] = useState(0);
 
@@ -30,12 +32,11 @@ export function DisciplineApprovalPage() {
   };
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Approbation des rapports disciplinaires</h2>
+        <h2 className="text-base font-black text-ink">{t('approbation_des_rapports_disci')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {MOCK_REPORTS.filter((r) => r.status === 'pending').length} rapports graves en attente
-        </p>
+          {MOCK_REPORTS.filter((r) => r.status === 'pending').length} {t('rapports_graves_en_attente')}</p>
       </div>
 
       <FilterTabs value={filter} onChange={setFilter} options={FILTERS} />
@@ -70,18 +71,15 @@ export function DisciplineApprovalPage() {
                     <div className="mt-2 flex items-center gap-2">
                       <PointsBadge points={r.points} />
                       <span className="text-xs font-semibold text-ink-faint">
-                        Cumul approuve de l'eleve : {cumul} pts
-                      </span>
+                        {t('cumul_approuve_de_l_eleve')}{cumul} {t('pts')}</span>
                     </div>
 
                     {r.status === 'pending' && (
                       <div className="mt-3 flex gap-2">
                         <Button variant="success" onClick={() => act(r.id, 'approved')}>
-                          <CheckCircle size={14} /> Approuver
-                        </Button>
+                          <CheckCircle size={14} /> {t('approuver')}</Button>
                         <Button variant="outline" onClick={() => act(r.id, 'rejected')}>
-                          <XCircle size={14} /> Rejeter
-                        </Button>
+                          <XCircle size={14} /> {t('rejeter')}</Button>
                       </div>
                     )}
                   </div>

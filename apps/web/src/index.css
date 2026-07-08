@@ -5,6 +5,32 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-canvas: 248 244 253;
+    --color-surface: 255 255 255;
+    --color-ink: 28 18 48;
+    --color-ink-soft: 70 55 90;
+    --color-ink-faint: 90 75 110;
+    --color-line: 221 208 240;
+    --color-line-soft: 237 229 248;
+    --color-field: 243 236 249;
+    --color-muted: 237 229 248;
+    --color-accent: 240 220 250;
+  }
+
+  .dark {
+    --color-canvas: 24 24 27;
+    --color-surface: 9 9 11;
+    --color-ink: 244 244 245;
+    --color-ink-soft: 161 161 170;
+    --color-ink-faint: 113 113 122;
+    --color-line: 63 63 70;
+    --color-line-soft: 39 39 42;
+    --color-field: 39 39 42;
+    --color-muted: 39 39 42;
+    --color-accent: 59 7 100;
+  }
+
   html {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -19,12 +45,27 @@
   ::placeholder {
     @apply text-ink-faint;
   }
+
+  /* Custom thin scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-brand-300 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-brand-400;
+  }
 }
 
 @layer components {
   /* Surface card - the signature soft-shadow white panel */
   .surface {
-    @apply rounded-2xl bg-white shadow-card;
+    @apply rounded-2xl bg-surface shadow-card;
   }
 
   /* Primary brand button */
@@ -36,14 +77,14 @@
 
   /* Secondary / outline button */
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-white px-5 py-2.5
-      text-sm font-bold text-ink-soft transition-colors hover:bg-brand-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-surface px-5 py-2.5
+      text-sm font-bold text-ink-soft transition-colors hover:bg-brand-50 hover:text-brand-700;
   }
 
   /* Ghost button */
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-bold
-      text-ink-soft transition-colors hover:bg-brand-50;
+      text-ink-soft transition-colors hover:bg-brand-50 hover:text-brand-700;
   }
 
   /* Standard field input */
@@ -54,7 +95,7 @@
 
   /* Search input with leading icon (icon positioned by wrapper) */
   .field-search {
-    @apply w-full rounded-xl border border-line bg-white py-2.5 pl-9 pr-4 text-sm font-semibold text-ink
+    @apply w-full rounded-xl border border-line bg-surface py-2.5 pl-9 pr-4 text-sm font-semibold text-ink
       outline-none transition-all focus:ring-2 focus:ring-brand-300;
   }
 }

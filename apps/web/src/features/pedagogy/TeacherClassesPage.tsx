@@ -5,6 +5,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { MOCK_PERSONNEL } from '@/features/accounts/mockData';
 import { MOCK_CLASSES } from '@/features/academic/mockData';
 import { coursesForTeacher, type Course } from './mockData';
+import { useTranslation } from "react-i18next";
 
 function resolveTeacherId(nom: string | undefined): string {
   const found = MOCK_PERSONNEL.find((p) => p.type === 'teacher' && p.nom === nom);
@@ -12,6 +13,7 @@ function resolveTeacherId(nom: string | undefined): string {
 }
 
 export function TeacherClassesPage() {
+    const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const teacherId = resolveTeacherId(user?.nom);
   const courses = coursesForTeacher(teacherId);
@@ -23,18 +25,16 @@ export function TeacherClassesPage() {
   const classIds = Object.keys(byClass);
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Mes classes</h2>
+          <h2 className="text-base font-black text-ink">{t('mes_classes')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {classIds.length} classe{classIds.length > 1 ? 's' : ''} - {courses.length} cours assures
-          </p>
+            {classIds.length} {t('classe')}{classIds.length > 1 ? 's' : ''} - {courses.length} {t('cours_assures')}</p>
         </div>
         <Link to="/teacher/students">
           <Button variant="outline">
-            <Users size={15} /> Mes eleves
-          </Button>
+            <Users size={15} /> {t('mes_eleves')}</Button>
         </Link>
       </div>
 
@@ -74,7 +74,7 @@ export function TeacherClassesPage() {
                         <p className="text-xs font-bold text-ink">{course.label}</p>
                       </div>
                       <Badge tone="neutral">
-                        <Scale size={10} /> Coeff. {course.coefficient}
+                        <Scale size={10} /> {t('coeff')}{course.coefficient}
                       </Badge>
                     </div>
                   ))}

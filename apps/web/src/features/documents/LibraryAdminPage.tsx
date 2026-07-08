@@ -4,10 +4,12 @@ import { Card, Button, EmptyState } from '@/shared/components/ui';
 import { Field, Alert, UploadField } from '@/shared/components/form';
 import { BookCard } from './components/BookCard';
 import { MOCK_BOOKS, SPECIALTIES, addBook, removeBook, type Book, type Specialty } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const LEVELS = ['SIL', 'CP', 'CE1', 'CE2', 'CM1', 'CM2'];
 
 export function LibraryAdminPage() {
+    const { t } = useTranslation();
   const [, force] = useState(0);
   const [form, setForm] = useState({
     title: '',
@@ -46,16 +48,15 @@ export function LibraryAdminPage() {
   };
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Bibliotheque - gestion</h2>
+        <h2 className="text-base font-black text-ink">{t('bibliotheque_gestion')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {MOCK_BOOKS.length} manuels - taille max 10 Mo par fichier
-        </p>
+          {MOCK_BOOKS.length} {t('manuels_taille_max_10_mo_par_f')}</p>
       </div>
 
       <Card>
-        <h3 className="mb-4 text-sm font-black text-ink">Televerser un manuel</h3>
+        <h3 className="mb-4 text-sm font-black text-ink">{t('televerser_un_manuel')}</h3>
         {error && (
           <div className="mb-4">
             <Alert tone="danger">{error}</Alert>
@@ -63,23 +64,23 @@ export function LibraryAdminPage() {
         )}
         <form onSubmit={submit} className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Titre">
+            <Field label={t('titre')}>
               <input
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
                 className="field-input"
-                placeholder="Titre de l'ouvrage"
+                placeholder={t('titre_de_l_ouvrage')}
               />
             </Field>
-            <Field label="Auteur">
+            <Field label={t('auteur')}>
               <input
                 value={form.author}
                 onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
                 className="field-input"
-                placeholder="Auteur ou editeur"
+                placeholder={t('auteur_ou_editeur')}
               />
             </Field>
-            <Field label="Specialite">
+            <Field label={t('specialite')}>
               <select
                 value={form.specialty}
                 onChange={(e) => setForm((f) => ({ ...f, specialty: e.target.value as Specialty }))}
@@ -92,7 +93,7 @@ export function LibraryAdminPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Niveau">
+            <Field label={t('niveau')}>
               <select
                 value={form.level}
                 onChange={(e) => setForm((f) => ({ ...f, level: e.target.value }))}
@@ -106,13 +107,12 @@ export function LibraryAdminPage() {
               </select>
             </Field>
           </div>
-          <Field label="Fichier (PDF)">
+          <Field label={t('fichier_pdf')}>
             <UploadField value={form.fileName} onChange={(name) => setForm((f) => ({ ...f, fileName: name }))} accept=".pdf" />
           </Field>
           <div className="flex justify-end">
             <Button type="submit">
-              <Plus size={15} /> Ajouter a la bibliotheque
-            </Button>
+              <Plus size={15} /> {t('ajouter_a_la_bibliotheque')}</Button>
           </div>
         </form>
       </Card>

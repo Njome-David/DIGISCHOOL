@@ -3,8 +3,10 @@ import { BookOpen, AlertTriangle } from 'lucide-react';
 import { RootSubNav } from '@/app/components/RootSubNav';
 import { SearchInput, Badge, EmptyState } from '@/shared/components/ui';
 import { MOCK_CLASSES, MOCK_CYCLES, type Classe } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function ClassesPage() {
+    const { t } = useTranslation();
   const [classes, setClasses] = useState<Classe[]>(MOCK_CLASSES);
   const [search, setSearch] = useState('');
   const [cycleFilter, setCycleFilter] = useState('all');
@@ -25,24 +27,23 @@ export function ClassesPage() {
   const totalCapacity = classes.reduce((s, c) => s + c.capacity, 0);
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div>
-        <h2 className="text-base font-black text-ink">Classes</h2>
+        <h2 className="text-base font-black text-ink">{t('classes')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {classes.length} classes - {totalEnrolled}/{totalCapacity} eleves
-        </p>
+          {classes.length} {t('classes')}{totalEnrolled}/{totalCapacity} {t('eleves')}</p>
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher une classe ou enseignant" />
+        <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_une_classe_ou_ensei')} />
         <select
           value={cycleFilter}
           onChange={(e) => setCycleFilter(e.target.value)}
           className="rounded-xl border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none"
         >
-          <option value="all">Tous les cycles</option>
+          <option value="all">{t('tous_les_cycles')}</option>
           {MOCK_CYCLES.map((cy) => (
             <option key={cy.id} value={cy.id}>
               {cy.label}
@@ -93,8 +94,7 @@ export function ClassesPage() {
                           <p className="text-xs font-semibold text-ink">{cl.teacher}</p>
                         ) : (
                           <span className="flex items-center gap-1 text-xs font-semibold text-warning">
-                            <AlertTriangle size={11} /> Non assigne
-                          </span>
+                            <AlertTriangle size={11} /> {t('non_assigne')}</span>
                         )}
                       </td>
                       <td className="px-4 py-3 text-xs font-bold text-ink">

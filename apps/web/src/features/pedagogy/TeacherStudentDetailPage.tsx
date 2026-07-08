@@ -6,15 +6,17 @@ import { ageFrom } from '@/shared/lib/format';
 import { findStudent } from '@/features/students/mockData';
 import { bulletinsForStudent } from '@/features/evaluations/mockData';
 import { studentPoints } from '@/features/discipline/mockData';
+import { useTranslation } from "react-i18next";
 
 export function TeacherStudentDetailPage() {
+    const { t } = useTranslation();
   const { matricule } = useParams<{ matricule: string }>();
   const navigate = useNavigate();
   const student = matricule ? findStudent(matricule) : undefined;
 
   if (!student) {
     return (
-      <div className="surface max-w-2xl">
+      <div className="surface w-full">
         <EmptyState icon={GraduationCap} message="Eleve introuvable." />
       </div>
     );
@@ -25,13 +27,12 @@ export function TeacherStudentDetailPage() {
   const points = studentPoints(student.matricule);
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/teacher/students')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour a mes eleves
-      </button>
+        <ArrowLeft size={15} /> {t('retour_a_mes_eleves')}</button>
 
       <Card>
         <div className="flex items-center gap-4">
@@ -40,14 +41,14 @@ export function TeacherStudentDetailPage() {
             <h2 className="text-base font-black text-ink">
               {student.firstName} {student.lastName}
             </h2>
-            <p className="text-xs font-semibold text-ink-soft">Matricule {student.matricule}</p>
+            <p className="text-xs font-semibold text-ink-soft">{t('matricule')}{student.matricule}</p>
           </div>
           <Badge tone="brand">{student.classCode}</Badge>
         </div>
         <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <Info icon={Cake} label="Age" value={`${ageFrom(student.dateOfBirth)} ans`} />
-          <Info icon={Flag} label="Nationalite" value={student.nationality} />
-          <Info icon={BookOpen} label="Classe" value={student.classCode} />
+          <Info icon={Cake} label={t('age')} value={`${ageFrom(student.dateOfBirth)} ans`} />
+          <Info icon={Flag} label={t('nationalite')} value={student.nationality} />
+          <Info icon={BookOpen} label={t('classe')} value={student.classCode} />
         </div>
       </Card>
 
@@ -57,14 +58,14 @@ export function TeacherStudentDetailPage() {
           color="#7B2D9E"
           bg="#F0DCFA"
           value={last ? `${last.generalAverage.toFixed(2)}/20` : '-'}
-          label="Derniere moyenne"
+          label={t('derniere_moyenne')}
           sub={last ? `Rang ${last.generalRank}/${last.classSize}` : undefined}
         />
-        <KpiCard icon={ShieldAlert} color="#D97706" bg="#FEF3C7" value={points} label="Points discipline" />
+        <KpiCard icon={ShieldAlert} color="#D97706" bg="#FEF3C7" value={points} label={t('points_discipline')} />
       </div>
 
       <Card>
-        <h3 className="mb-3 text-sm font-black text-ink">Notes par matiere {last ? `- ${last.term}` : ''}</h3>
+        <h3 className="mb-3 text-sm font-black text-ink">{t('notes_par_matiere')}{last ? `- ${last.term}` : ''}</h3>
         {!last ? (
           <EmptyState icon={BookOpen} message="Aucune note disponible." />
         ) : (
@@ -72,7 +73,7 @@ export function TeacherStudentDetailPage() {
             {last.lines.map((l) => (
               <div key={l.courseLabel} className="flex items-center gap-3 py-2.5">
                 <span className="flex-1 text-sm font-bold text-ink">{l.courseLabel}</span>
-                <span className="text-xs font-semibold text-ink-soft">Coeff. {l.coeff}</span>
+                <span className="text-xs font-semibold text-ink-soft">{t('coeff')}{l.coeff}</span>
                 <span
                   className="text-sm font-black"
                   style={{ color: l.moyenne >= 14 ? '#22A05E' : l.moyenne >= 10 ? '#D97706' : '#DC2626' }}

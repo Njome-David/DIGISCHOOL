@@ -6,6 +6,7 @@ import { Field, Alert } from '@/shared/components/form';
 import { formatMoney } from '@/shared/lib/format';
 import { MOCK_CLASSES } from '@/features/academic/mockData';
 import { MOCK_TUITIONS } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const TRANCHE_LABELS = ['Inscription', '2e tranche', '3e tranche'];
 const SPLIT = [0.4, 0.3, 0.3];
@@ -17,6 +18,7 @@ function previewTranches(total: number) {
 }
 
 export function TuitionFormPage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
   const existing = id ? MOCK_TUITIONS.find((t) => t.id === id) : undefined;
@@ -46,13 +48,12 @@ export function TuitionFormPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/fondateur/tuitions')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour aux scolarites
-      </button>
+        <ArrowLeft size={15} /> {t('retour_aux_scolarites')}</button>
 
       <Card>
         <div className="mb-5 flex items-center gap-3">
@@ -61,7 +62,7 @@ export function TuitionFormPage() {
           </div>
           <div>
             <h2 className="text-base font-black text-ink">{isEdit ? 'Editer la scolarite' : 'Nouvelle scolarite'}</h2>
-            <p className="text-xs font-semibold text-ink-soft">Montant annuel reparti en 3 tranches</p>
+            <p className="text-xs font-semibold text-ink-soft">{t('montant_annuel_reparti_en_3_tr')}</p>
           </div>
         </div>
 
@@ -73,7 +74,7 @@ export function TuitionFormPage() {
 
         <form onSubmit={submit} className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Classe">
+            <Field label={t('classe')}>
               <select
                 value={form.classId}
                 onChange={(e) => setForm((f) => ({ ...f, classId: e.target.value }))}
@@ -86,12 +87,12 @@ export function TuitionFormPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Annee scolaire">
+            <Field label={t('annee_scolaire')}>
               <input value={form.yearLabel} readOnly className="field-input bg-canvas" />
             </Field>
           </div>
 
-          <Field label="Montant total annuel (FCFA)">
+          <Field label={t('montant_total_annuel_fcfa')}>
             <input
               type="number"
               min={0}
@@ -103,7 +104,7 @@ export function TuitionFormPage() {
           </Field>
 
           <div className="rounded-xl border border-line-soft bg-canvas p-4">
-            <p className="mb-3 text-xs font-black text-ink-soft">Repartition des tranches</p>
+            <p className="mb-3 text-xs font-black text-ink-soft">{t('repartition_des_tranches')}</p>
             <div className="space-y-2">
               {TRANCHE_LABELS.map((label, i) => (
                 <div key={label} className="flex items-center justify-between">
@@ -116,8 +117,7 @@ export function TuitionFormPage() {
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => navigate('/fondateur/tuitions')}>
-              Annuler
-            </Button>
+              {t('annuler')}</Button>
             <Button type="submit" loading={saving}>
               <Save size={15} /> {isEdit ? 'Enregistrer' : 'Creer la scolarite'}
             </Button>

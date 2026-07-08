@@ -20,6 +20,7 @@ import { findStudent } from '@/features/students/mockData';
 import { bulletinsForStudent } from '@/features/evaluations/mockData';
 import { getStudentState } from '@/features/payments/mockData';
 import { studentPoints } from '@/features/discipline/mockData';
+import { useTranslation } from "react-i18next";
 
 const LINKS = [
   { label: 'Notes', to: 'grades', icon: FileText },
@@ -32,12 +33,13 @@ const LINKS = [
 ];
 
 export function ChildProfilePage() {
+    const { t } = useTranslation();
   const { matricule } = useParams<{ matricule: string }>();
   const child = matricule ? findStudent(matricule) : undefined;
 
   if (!child) {
     return (
-      <div className="surface max-w-2xl">
+      <div className="surface w-full">
         <EmptyState icon={GraduationCap} message="Eleve introuvable." />
       </div>
     );
@@ -49,7 +51,7 @@ export function ChildProfilePage() {
   const points = studentPoints(child.matricule);
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <Card>
         <div className="flex items-center gap-4">
           <Avatar
@@ -62,15 +64,15 @@ export function ChildProfilePage() {
             <h2 className="text-base font-black text-ink">
               {child.firstName} {child.lastName}
             </h2>
-            <p className="text-xs font-semibold text-ink-soft">Matricule {child.matricule}</p>
+            <p className="text-xs font-semibold text-ink-soft">{t('matricule')}{child.matricule}</p>
           </div>
           <Badge tone="brand">{child.classCode}</Badge>
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <Info icon={Cake} label="Age" value={`${ageFrom(child.dateOfBirth)} ans`} />
-          <Info icon={Flag} label="Nationalite" value={child.nationality} />
-          <Info icon={Phone} label="Contact parent" value={child.parentPhone} />
+          <Info icon={Cake} label={t('age')} value={`${ageFrom(child.dateOfBirth)} ans`} />
+          <Info icon={Flag} label={t('nationalite')} value={child.nationality} />
+          <Info icon={Phone} label={t('contact_parent')} value={child.parentPhone} />
         </div>
       </Card>
 
@@ -80,7 +82,7 @@ export function ChildProfilePage() {
           color="#7B2D9E"
           bg="#F0DCFA"
           value={lastBulletin ? `${lastBulletin.generalAverage.toFixed(2)}/20` : '-'}
-          label="Derniere moyenne"
+          label={t('derniere_moyenne')}
         />
         <KpiCard
           icon={Wallet}
@@ -89,11 +91,11 @@ export function ChildProfilePage() {
           value={state ? formatMoney(state.balance) : '-'}
           label={state?.overdue ? 'Solde du (en retard)' : 'Solde restant'}
         />
-        <KpiCard icon={ShieldAlert} color="#D97706" bg="#FEF3C7" value={points} label="Points discipline" />
+        <KpiCard icon={ShieldAlert} color="#D97706" bg="#FEF3C7" value={points} label={t('points_discipline')} />
       </div>
 
       <Card>
-        <h3 className="mb-3 text-sm font-black text-ink">Acces rapide</h3>
+        <h3 className="mb-3 text-sm font-black text-ink">{t('acces_rapide')}</h3>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
           {LINKS.map((l) => (
             <Link

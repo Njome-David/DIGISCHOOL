@@ -7,8 +7,10 @@ import { dateShort } from '@/shared/lib/format';
 import { useAuthStore } from '@/features/auth/store';
 import { PointsBadge } from './components/tags';
 import { reportsByTeacher, REPORT_STATUS_META } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function DisciplineReportsPage() {
+    const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const [search, setSearch] = useState('');
 
@@ -18,20 +20,19 @@ export function DisciplineReportsPage() {
   );
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Mes rapports disciplinaires</h2>
-          <p className="mt-0.5 text-xs font-semibold text-ink-soft">{reports.length} rapports saisis</p>
+          <h2 className="text-base font-black text-ink">{t('mes_rapports_disciplinaires')}</h2>
+          <p className="mt-0.5 text-xs font-semibold text-ink-soft">{reports.length} {t('rapports_saisis')}</p>
         </div>
         <Link to="/teacher/discipline/new">
           <Button>
-            <Plus size={15} /> Nouveau rapport
-          </Button>
+            <Plus size={15} /> {t('nouveau_rapport')}</Button>
         </Link>
       </div>
 
-      <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un eleve ou une faute..." />
+      <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_un_eleve_ou_une_fau')} />
 
       {reports.length === 0 ? (
         <div className="surface">

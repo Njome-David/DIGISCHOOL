@@ -4,8 +4,10 @@ import { ArrowLeft, Star, Trash2, Reply, Send, Mail } from 'lucide-react';
 import { Avatar, Button } from '@/shared/components/ui';
 import { dateTimeLong, mockLatency } from '@/shared/lib/format';
 import { MOCK_MESSAGES, type Message } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function MessageDetailPage() {
+    const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>(MOCK_MESSAGES);
@@ -36,13 +38,12 @@ export function MessageDetailPage() {
 
   if (!message) {
     return (
-      <div className="max-w-2xl">
+      <div className="w-full">
         <div className="surface p-8 text-center">
           <Mail size={32} className="mx-auto mb-3 text-brand-200" />
-          <p className="text-sm font-bold text-ink">Message introuvable.</p>
+          <p className="text-sm font-bold text-ink">{t('message_introuvable')}</p>
           <Link to="/messages" className="mt-3 inline-block text-sm font-bold text-brand-500 hover:underline">
-            Retour a la boite de reception
-          </Link>
+            {t('retour_a_la_boite_de_reception')}</Link>
         </div>
       </div>
     );
@@ -53,16 +54,15 @@ export function MessageDetailPage() {
   const nextMsg = MOCK_MESSAGES[idx + 1];
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex items-center justify-between gap-3">
         <button
           onClick={() => navigate('/messages')}
           className="flex items-center gap-1.5 text-sm font-bold text-ink-soft hover:underline"
         >
-          <ArrowLeft size={15} /> Boite de reception
-        </button>
+          <ArrowLeft size={15} /> {t('boite_de_reception')}</button>
         <div className="flex items-center gap-2">
-          {sent && <span className="text-xs font-bold text-success">Reponse envoyee !</span>}
+          {sent && <span className="text-xs font-bold text-success">{t('reponse_envoyee')}</span>}
           <button onClick={toggleStar} className="rounded-xl p-2 transition-colors hover:bg-brand-50" aria-label="Favori">
             <Star
               size={15}
@@ -86,7 +86,7 @@ export function MessageDetailPage() {
             <Avatar name={message.initials} color={message.color} size={40} />
             <div className="min-w-0 flex-1">
               <p className="text-sm font-black text-ink">{message.from}</p>
-              <p className="text-xs font-semibold text-ink-faint">A vous - {dateTimeLong(message.date)}</p>
+              <p className="text-xs font-semibold text-ink-faint">{t('a_vous')}{dateTimeLong(message.date)}</p>
             </div>
           </div>
         </div>
@@ -98,19 +98,18 @@ export function MessageDetailPage() {
         {!showReply ? (
           <div className="px-6 pb-5">
             <button onClick={() => setShowReply(true)} className="btn-outline text-brand-500">
-              <Reply size={14} /> Repondre
-            </button>
+              <Reply size={14} /> {t('repondre')}</button>
           </div>
         ) : (
           <div className="space-y-3 border-t border-line-soft px-6 pb-5 pt-4">
             <p className="text-xs font-bold text-ink-soft">
-              Repondre a <span className="text-ink">{message.from}</span>
+              {t('repondre_a')}<span className="text-ink">{message.from}</span>
             </p>
             <textarea
               value={reply}
               onChange={(e) => setReply(e.target.value)}
               rows={4}
-              placeholder="Ecrivez votre reponse"
+              placeholder={t('ecrivez_votre_reponse')}
               className="field-input resize-none"
             />
             <div className="flex items-center gap-2">
@@ -125,8 +124,7 @@ export function MessageDetailPage() {
                 }}
                 className="btn-ghost"
               >
-                Annuler
-              </button>
+                {t('annuler')}</button>
             </div>
           </div>
         )}
@@ -135,14 +133,13 @@ export function MessageDetailPage() {
       <div className="flex items-center justify-between text-xs font-bold text-ink-faint">
         {prev ? (
           <Link to={`/messages/${prev.id}`} className="flex items-center gap-1 text-brand-500 hover:underline">
-            <ArrowLeft size={12} /> Message precedent
-          </Link>
+            <ArrowLeft size={12} /> {t('message_precedent')}</Link>
         ) : (
           <span />
         )}
         {nextMsg ? (
           <Link to={`/messages/${nextMsg.id}`} className="flex items-center gap-1 text-brand-500 hover:underline">
-            Message suivant <ArrowLeft size={12} className="rotate-180" />
+            {t('message_suivant')}<ArrowLeft size={12} className="rotate-180" />
           </Link>
         ) : (
           <span />

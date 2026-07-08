@@ -8,6 +8,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { ROLES } from '@ecole/shared';
 import { MOCK_STUDENTS } from '@/features/students/mockData';
 import { addCollective, type CollectiveMessage, type MessageType } from './mockData';
+import { useTranslation } from "react-i18next";
 
 type Audience = 'individual' | 'all' | 'reminder';
 
@@ -18,6 +19,7 @@ const AUDIENCES: { value: Audience; label: string; icon: typeof User; type: Mess
 ];
 
 export function ComposeMessagePage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const isParent = user?.role === ROLES.PARENT;
@@ -73,22 +75,21 @@ export function ComposeMessagePage() {
 
   if (sent) {
     return (
-      <div className="max-w-2xl space-y-4">
+      <div className="w-full space-y-4">
         <Card>
           <div className="flex flex-col items-center py-8 text-center">
             <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-success-bg text-success">
               <Check size={28} />
             </div>
-            <h2 className="text-base font-black text-ink">Message envoye</h2>
-            <p className="mt-1 max-w-sm text-sm font-semibold text-ink-soft">
+            <h2 className="text-base font-black text-ink">{t('message_envoye')}</h2>
+            <p className="mt-1 w-full text-sm font-semibold text-ink-soft">
               {sent === 'collective'
                 ? 'Votre message collectif a ete transmis au Directeur pour validation avant diffusion.'
                 : 'Votre message a bien ete transmis au destinataire.'}
             </p>
             <div className="mt-5 flex gap-2">
               <Button variant="outline" onClick={() => navigate('/messages')}>
-                Retour aux messages
-              </Button>
+                {t('retour_aux_messages')}</Button>
               <Button
                 onClick={() => {
                   setSent(null);
@@ -96,8 +97,7 @@ export function ComposeMessagePage() {
                   setBody('');
                 }}
               >
-                Nouveau message
-              </Button>
+                {t('nouveau_message')}</Button>
             </div>
           </div>
         </Card>
@@ -106,13 +106,12 @@ export function ComposeMessagePage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/messages')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour aux messages
-      </button>
+        <ArrowLeft size={15} /> {t('retour_aux_messages')}</button>
 
       <Card>
         <div className="mb-5 flex items-center gap-3">
@@ -120,7 +119,7 @@ export function ComposeMessagePage() {
             <Send size={20} />
           </div>
           <div>
-            <h2 className="text-base font-black text-ink">Composer un message</h2>
+            <h2 className="text-base font-black text-ink">{t('composer_un_message')}</h2>
             <p className="text-xs font-semibold text-ink-soft">
               {isParent ? "A destination de l'administration" : 'Choisissez les destinataires'}
             </p>
@@ -135,11 +134,11 @@ export function ComposeMessagePage() {
 
         <form onSubmit={submit} className="space-y-4">
           {isParent ? (
-            <Field label="Destinataire">
+            <Field label={t('destinataire')}>
               <input value="Administration de l'ecole" readOnly className="field-input bg-canvas" />
             </Field>
           ) : (
-            <Field label="Destinataires">
+            <Field label={t('destinataires')}>
               <div className="grid grid-cols-3 gap-2">
                 {AUDIENCES.map((a) => {
                   const active = audience === a.value;
@@ -166,11 +165,11 @@ export function ComposeMessagePage() {
           )}
 
           {!isParent && audience === 'individual' && (
-            <Field label="Parent">
+            <Field label={t('parent')}>
               <select value={recipient} onChange={(e) => setRecipient(e.target.value)} className="field-input">
                 {parents.map((p) => (
                   <option key={p.name} value={p.name}>
-                    {p.name} (parent de {p.childName})
+                    {p.name} {t('parent_de')}{p.childName})
                   </option>
                 ))}
               </select>
@@ -179,32 +178,31 @@ export function ComposeMessagePage() {
 
           {isCollective && (
             <Alert tone="info" icon={Info}>
-              Les messages collectifs sont soumis a la validation du Directeur avant diffusion.
-            </Alert>
+              {t('les_messages_collectifs_sont_s')}</Alert>
           )}
 
-          <Field label="Objet">
+          <Field label={t('objet')}>
             <input
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               className="field-input"
-              placeholder="Objet du message"
+              placeholder={t('objet_du_message')}
             />
           </Field>
 
-          <Field label="Message">
+          <Field label={t('message')}>
             <textarea
               value={body}
               onChange={(e) => setBody(e.target.value)}
               rows={6}
               className="field-input resize-none"
-              placeholder="Votre message..."
+              placeholder={t('votre_message')}
             />
           </Field>
 
           <div className="flex items-center justify-between pt-2">
             {isCollective ? (
-              <Badge tone="warning">A valider par le Directeur</Badge>
+              <Badge tone="warning">{t('a_valider_par_le_directeur')}</Badge>
             ) : (
               <span />
             )}

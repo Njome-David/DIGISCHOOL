@@ -7,8 +7,10 @@ import { SearchInput, Badge, EmptyState, Avatar, Button } from '@/shared/compone
 import { ROLE_META } from '@/shared/lib/roleMeta';
 import { dateTime } from '@/shared/lib/format';
 import { MOCK_ADMINS, type AdminAccount } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function AdminsPage() {
+    const { t } = useTranslation();
   const [admins, setAdmins] = useState<AdminAccount[]>(MOCK_ADMINS);
   const [search, setSearch] = useState('');
 
@@ -23,24 +25,22 @@ export function AdminsPage() {
   );
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Comptes administrateurs</h2>
+          <h2 className="text-base font-black text-ink">{t('comptes_administrateurs')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {admins.filter((a) => a.status === 'active').length} actifs  {admins.length} comptes
-          </p>
+            {admins.filter((a) => a.status === 'active').length} {t('actifs')}{admins.length} {t('comptes')}</p>
         </div>
         <Link to="/root/admins/new">
           <Button>
-            <Plus size={15} /> Nouveau compte
-          </Button>
+            <Plus size={15} /> {t('nouveau_compte')}</Button>
         </Link>
       </div>
 
-      <SearchInput value={search} onChange={setSearch} placeholder="Rechercher par nom, identifiant, email" />
+      <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_par_nom_identifiant')} />
 
       {filtered.length === 0 ? (
         <div className="surface">

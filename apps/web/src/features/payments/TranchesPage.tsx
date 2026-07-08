@@ -1,15 +1,16 @@
 import { Card, Badge } from '@/shared/components/ui';
 import { formatMoney, dateShort } from '@/shared/lib/format';
 import { MOCK_TUITIONS } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function TranchesPage() {
+    const { t } = useTranslation();
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Gestion des tranches</h2>
+        <h2 className="text-base font-black text-ink">{t('gestion_des_tranches')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          Echeancier des paiements par scolarite
-        </p>
+          {t('echeancier_des_paiements_par_s')}</p>
       </div>
 
       <div className="space-y-3">
@@ -27,7 +28,7 @@ export function TranchesPage() {
                 <div key={tr.id} className="rounded-xl border border-line-soft bg-canvas p-3">
                   <p className="text-xs font-bold text-ink-soft">{tr.label}</p>
                   <p className="mt-1 text-sm font-black text-ink">{formatMoney(tr.amount)}</p>
-                  <p className="mt-0.5 text-xs font-semibold text-ink-faint">Echeance {dateShort(tr.dueDate)}</p>
+                  <p className="mt-0.5 text-xs font-semibold text-ink-faint">{t('echeance')}{dateShort(tr.dueDate)}</p>
                 </div>
               ))}
             </div>

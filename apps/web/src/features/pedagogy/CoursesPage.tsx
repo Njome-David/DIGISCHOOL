@@ -5,8 +5,10 @@ import { PedagogySubNav } from '@/app/components/PedagogySubNav';
 import { SearchInput, Badge, EmptyState, Button } from '@/shared/components/ui';
 import { MOCK_COURSES, type Course } from './mockData';
 import { MOCK_CLASSES } from '@/features/academic/mockData';
+import { useTranslation } from "react-i18next";
 
 export function CoursesPage() {
+    const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [classFilter, setClassFilter] = useState('all');
 
@@ -21,32 +23,30 @@ export function CoursesPage() {
   const unassigned = MOCK_COURSES.filter((c) => !c.teacherId).length;
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <PedagogySubNav />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Cours</h2>
+          <h2 className="text-base font-black text-ink">{t('cours')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {MOCK_COURSES.length} cours
-            {unassigned > 0 ? ` - ${unassigned} sans enseignant` : ''}
+            {MOCK_COURSES.length} {t('cours')}{unassigned > 0 ? ` - ${unassigned} sans enseignant` : ''}
           </p>
         </div>
         <Link to="/root/courses/new">
           <Button>
-            <Plus size={15} /> Nouveau cours
-          </Button>
+            <Plus size={15} /> {t('nouveau_cours')}</Button>
         </Link>
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un cours ou un enseignant..." />
+        <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_un_cours_ou_un_ense')} />
         <select
           value={classFilter}
           onChange={(e) => setClassFilter(e.target.value)}
           className="rounded-xl border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none"
         >
-          <option value="all">Toutes les classes</option>
+          <option value="all">{t('toutes_les_classes')}</option>
           {MOCK_CLASSES.map((c) => (
             <option key={c.id} value={c.id}>
               {c.code}
@@ -79,7 +79,7 @@ export function CoursesPage() {
               <h3 className="text-sm font-black text-ink group-hover:text-brand-600">{course.label}</h3>
               <div className="mt-2 flex items-center gap-3 text-xs font-bold text-ink-soft">
                 <span className="flex items-center gap-1">
-                  <Scale size={11} /> Coeff. {course.coefficient}
+                  <Scale size={11} /> {t('coeff')}{course.coefficient}
                 </span>
                 <span className="flex items-center gap-1">
                   <Hash size={11} /> /{course.noteMax}
@@ -90,8 +90,7 @@ export function CoursesPage() {
                   <p className="truncate text-xs font-semibold text-ink">{course.teacherName}</p>
                 ) : (
                   <span className="flex items-center gap-1 text-xs font-semibold text-warning">
-                    <AlertTriangle size={11} /> Enseignant non assigne
-                  </span>
+                    <AlertTriangle size={11} /> {t('enseignant_non_assigne')}</span>
                 )}
               </div>
             </Link>

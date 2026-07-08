@@ -6,12 +6,14 @@ import { useAuthStore } from '@/features/auth/store';
 import { MOCK_PERSONNEL } from '@/features/accounts/mockData';
 import { dateShort } from '@/shared/lib/format';
 import { examsForTeacher, gradesForExam, EXAM_STATUS_META, type Exam } from './mockData';
+import { useTranslation } from "react-i18next";
 
 function resolveTeacherId(nom: string | undefined): string {
   return MOCK_PERSONNEL.find((p) => p.type === 'teacher' && p.nom === nom)?.id ?? 'p1';
 }
 
 export function ExamsPage() {
+    const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const teacherId = resolveTeacherId(user?.nom);
   const [search, setSearch] = useState('');
@@ -22,27 +24,25 @@ export function ExamsPage() {
   );
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Mes epreuves</h2>
-          <p className="mt-0.5 text-xs font-semibold text-ink-soft">{exams.length} epreuves creees</p>
+          <h2 className="text-base font-black text-ink">{t('mes_epreuves')}</h2>
+          <p className="mt-0.5 text-xs font-semibold text-ink-soft">{exams.length} {t('epreuves_creees')}</p>
         </div>
         <div className="flex gap-2">
           <Link to="/teacher/homework/new">
             <Button variant="outline">
-              <Upload size={15} /> Devoir / corrige
-            </Button>
+              <Upload size={15} /> {t('devoir_corrige')}</Button>
           </Link>
           <Link to="/teacher/exams/new">
             <Button>
-              <Plus size={15} /> Nouvelle epreuve
-            </Button>
+              <Plus size={15} /> {t('nouvelle_epreuve')}</Button>
           </Link>
         </div>
       </div>
 
-      <SearchInput value={search} onChange={setSearch} placeholder="Rechercher une epreuve ou une classe..." />
+      <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_une_epreuve_ou_une')} />
 
       {exams.length === 0 ? (
         <div className="surface">
@@ -69,13 +69,11 @@ export function ExamsPage() {
                     {exam.courseLabel} - {exam.classCode} - {dateShort(exam.date)} - {exam.term}
                   </p>
                   <p className="mt-0.5 text-xs font-semibold text-ink-faint">
-                    {graded}/{rows.length} eleves notes
-                  </p>
+                    {graded}/{rows.length} {t('eleves_notes')}</p>
                 </div>
                 <Link to={`/teacher/exams/${exam.id}/grades`} className="shrink-0">
                   <Button variant="outline">
-                    <PenLine size={14} /> Saisir les notes
-                  </Button>
+                    <PenLine size={14} /> {t('saisir_les_notes')}</Button>
                 </Link>
               </div>
             );

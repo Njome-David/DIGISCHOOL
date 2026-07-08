@@ -8,10 +8,12 @@ import { mockLatency } from '@/shared/lib/format';
 import { MOCK_CLASSES } from '@/features/academic/mockData';
 import { MOCK_PERSONNEL } from '@/features/accounts/mockData';
 import { SUBJECT_OPTIONS, findCourse, upsertCourse, type Course } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const TEACHERS = MOCK_PERSONNEL.filter((p) => p.type === 'teacher');
 
 export function CourseFormPage() {
+    const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const editing = Boolean(id);
@@ -62,13 +64,12 @@ export function CourseFormPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/root/courses')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour aux cours
-      </button>
+        <ArrowLeft size={15} /> {t('retour_aux_cours')}</button>
 
       <Card>
         <div className="mb-5 flex items-center gap-3">
@@ -80,7 +81,7 @@ export function CourseFormPage() {
           </div>
           <div>
             <h2 className="text-base font-black text-ink">{editing ? 'Modifier le cours' : 'Nouveau cours'}</h2>
-            <p className="text-xs font-semibold text-ink-soft">Coefficient, note maximale et enseignant</p>
+            <p className="text-xs font-semibold text-ink-soft">{t('coefficient_note_maximale_et_e')}</p>
           </div>
         </div>
 
@@ -92,7 +93,7 @@ export function CourseFormPage() {
 
         <form onSubmit={submit} className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Matiere">
+            <Field label={t('matiere')}>
               <select value={form.code} onChange={(e) => setSubject(e.target.value)} className="field-input">
                 {SUBJECT_OPTIONS.map((s) => (
                   <option key={s.code} value={s.code}>
@@ -101,7 +102,7 @@ export function CourseFormPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Classe">
+            <Field label={t('classe')}>
               <select
                 value={form.classId}
                 onChange={(e) => setForm((f) => ({ ...f, classId: e.target.value }))}
@@ -114,7 +115,7 @@ export function CourseFormPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Coefficient">
+            <Field label={t('coefficient')}>
               <input
                 type="number"
                 min={1}
@@ -124,7 +125,7 @@ export function CourseFormPage() {
                 className="field-input"
               />
             </Field>
-            <Field label="Note maximale">
+            <Field label={t('note_maximale')}>
               <input
                 type="number"
                 min={1}
@@ -136,13 +137,13 @@ export function CourseFormPage() {
             </Field>
           </div>
 
-          <Field label="Enseignant" hint="Optionnel - assignable plus tard">
+          <Field label={t('enseignant')} hint={t('optionnel_assignable_plus_tard')}>
             <select
               value={form.teacherId ?? ''}
               onChange={(e) => setForm((f) => ({ ...f, teacherId: e.target.value || null }))}
               className="field-input"
             >
-              <option value="">Non assigne</option>
+              <option value="">{t('non_assigne')}</option>
               {TEACHERS.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.nom}
@@ -153,8 +154,7 @@ export function CourseFormPage() {
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => navigate('/root/courses')}>
-              Annuler
-            </Button>
+              {t('annuler')}</Button>
             <Button type="submit" loading={saving}>
               <Save size={15} /> {editing ? 'Enregistrer' : 'Creer le cours'}
             </Button>

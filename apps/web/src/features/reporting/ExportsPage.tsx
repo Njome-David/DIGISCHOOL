@@ -66,7 +66,7 @@ export function ExportsPage({
   const datasets = scope === 'finance' ? finance : [...finance, ...pedagogy];
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-brand-700">
           <Database size={20} />

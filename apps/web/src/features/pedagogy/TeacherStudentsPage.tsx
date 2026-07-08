@@ -7,6 +7,7 @@ import { MOCK_PERSONNEL } from '@/features/accounts/mockData';
 import { MOCK_CLASSES } from '@/features/academic/mockData';
 import { MOCK_STUDENTS } from '@/features/students/mockData';
 import { coursesForTeacher } from './mockData';
+import { useTranslation } from "react-i18next";
 
 function resolveTeacherId(nom: string | undefined): string {
   const found = MOCK_PERSONNEL.find((p) => p.type === 'teacher' && p.nom === nom);
@@ -14,6 +15,7 @@ function resolveTeacherId(nom: string | undefined): string {
 }
 
 export function TeacherStudentsPage() {
+    const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const teacherId = resolveTeacherId(user?.nom);
   const classIds = [...new Set(coursesForTeacher(teacherId).map((c) => c.classId))];
@@ -28,11 +30,11 @@ export function TeacherStudentsPage() {
   const total = groups.reduce((s, g) => s + g.students.length, 0);
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Mes eleves</h2>
+        <h2 className="text-base font-black text-ink">{t('mes_eleves')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {total} eleves dans {groups.length} classe{groups.length > 1 ? 's' : ''}
+          {total} {t('eleves_dans')}{groups.length} {t('classe')}{groups.length > 1 ? 's' : ''}
         </p>
       </div>
 

@@ -6,8 +6,10 @@ import { avatarColor } from '@/shared/lib/roleMeta';
 import { dateShort } from '@/shared/lib/format';
 import { findStudent } from '@/features/students/mockData';
 import { examsForClass, EXAM_NATURES } from '@/features/evaluations/mockData';
+import { useTranslation } from "react-i18next";
 
 export function ChildExamsPage() {
+    const { t } = useTranslation();
   const { matricule } = useParams();
   const navigate = useNavigate();
   const child = matricule ? findStudent(matricule) : undefined;
@@ -22,13 +24,12 @@ export function ChildExamsPage() {
   ];
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/parent/children')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Mes enfants
-      </button>
+        <ArrowLeft size={15} /> {t('mes_enfants')}</button>
 
       {child && (
         <div className="flex items-center gap-3">
@@ -37,7 +38,7 @@ export function ChildExamsPage() {
             <h2 className="text-base font-black text-ink">
               {child.firstName} {child.lastName}
             </h2>
-            <p className="text-xs font-semibold text-ink-soft">Epreuves & devoirs - {child.classCode}</p>
+            <p className="text-xs font-semibold text-ink-soft">{t('epreuves_devoirs')}{child.classCode}</p>
           </div>
         </div>
       )}
@@ -66,8 +67,7 @@ export function ChildExamsPage() {
               </div>
               {exam.fileName && (
                 <Button variant="outline" className="shrink-0">
-                  <Download size={14} /> Telecharger
-                </Button>
+                  <Download size={14} /> {t('telecharger')}</Button>
               )}
             </Card>
           ))}

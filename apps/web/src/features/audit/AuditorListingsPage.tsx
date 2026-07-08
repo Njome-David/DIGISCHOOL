@@ -8,6 +8,7 @@ import { MOCK_STUDENTS } from '@/features/students/mockData';
 import { MOCK_PERSONNEL } from '@/features/accounts/mockData';
 import { MOCK_PAYMENTS } from '@/features/payments/mockData';
 import { MOCK_COURSES } from '@/features/pedagogy/mockData';
+import { useTranslation } from "react-i18next";
 
 type DatasetKey = 'students' | 'personnel' | 'payments' | 'courses';
 
@@ -83,6 +84,7 @@ function buildDatasets(): Record<DatasetKey, DatasetCfg> {
 }
 
 export function AuditorListingsPage() {
+    const { t } = useTranslation();
   const datasets = buildDatasets();
   const [active, setActive] = useState<DatasetKey>('students');
   const [search, setSearch] = useState('');
@@ -99,15 +101,14 @@ export function AuditorListingsPage() {
     : cfg.rows;
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Toutes les listes</h2>
-        <p className="mt-0.5 text-xs font-semibold text-ink-soft">Consultation transversale des registres</p>
+        <h2 className="text-base font-black text-ink">{t('toutes_les_listes')}</h2>
+        <p className="mt-0.5 text-xs font-semibold text-ink-soft">{t('consultation_transversale_des')}</p>
       </div>
 
       <Alert tone="info" icon={Eye}>
-        Lecture seule : les donnees sont consultables et exportables mais non modifiables.
-      </Alert>
+        {t('lecture_seule_les_donnees_sont')}</Alert>
 
       <div className="flex flex-wrap items-center gap-3">
         <FilterTabs value={active} onChange={(v) => { setActive(v); setSearch(''); }} options={options} />

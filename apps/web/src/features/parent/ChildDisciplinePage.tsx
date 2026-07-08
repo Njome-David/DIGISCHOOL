@@ -6,8 +6,10 @@ import { dateShort } from '@/shared/lib/format';
 import { findStudent } from '@/features/students/mockData';
 import { reportsForStudent, studentPoints } from '@/features/discipline/mockData';
 import { SeverityTag, PointsBadge } from '@/features/discipline/components/tags';
+import { useTranslation } from "react-i18next";
 
 export function ChildDisciplinePage() {
+    const { t } = useTranslation();
   const { matricule } = useParams();
   const navigate = useNavigate();
   const child = matricule ? findStudent(matricule) : undefined;
@@ -15,13 +17,12 @@ export function ChildDisciplinePage() {
   const total = matricule ? studentPoints(matricule) : 0;
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/parent/children')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Mes enfants
-      </button>
+        <ArrowLeft size={15} /> {t('mes_enfants')}</button>
 
       {child && (
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -31,11 +32,11 @@ export function ChildDisciplinePage() {
               <h2 className="text-base font-black text-ink">
                 {child.firstName} {child.lastName}
               </h2>
-              <p className="text-xs font-semibold text-ink-soft">Dossier disciplinaire - {child.classCode}</p>
+              <p className="text-xs font-semibold text-ink-soft">{t('dossier_disciplinaire')}{child.classCode}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 rounded-xl bg-canvas px-4 py-2">
-            <span className="text-xs font-bold text-ink-soft">Total trimestre</span>
+            <span className="text-xs font-bold text-ink-soft">{t('total_trimestre')}</span>
             <PointsBadge points={total} />
           </div>
         </div>

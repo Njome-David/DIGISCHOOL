@@ -7,12 +7,14 @@ import { useAuthStore } from '@/features/auth/store';
 import { MOCK_PERSONNEL } from '@/features/accounts/mockData';
 import { coursesForTeacher } from '@/features/pedagogy/mockData';
 import { mockLatency } from '@/shared/lib/format';
+import { useTranslation } from "react-i18next";
 
 function resolveTeacher(nom: string | undefined) {
   return MOCK_PERSONNEL.find((p) => p.type === 'teacher' && p.nom === nom) ?? MOCK_PERSONNEL[0];
 }
 
 export function HomeworkFormPage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const teacher = resolveTeacher(user?.nom);
@@ -41,13 +43,12 @@ export function HomeworkFormPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/teacher/exams')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour a mes epreuves
-      </button>
+        <ArrowLeft size={15} /> {t('retour_a_mes_epreuves')}</button>
 
       <Card>
         <div className="mb-5 flex items-center gap-3">
@@ -55,8 +56,8 @@ export function HomeworkFormPage() {
             <Upload size={20} />
           </div>
           <div>
-            <h2 className="text-base font-black text-ink">Televerser un devoir / corrige</h2>
-            <p className="text-xs font-semibold text-ink-soft">Mis a disposition des eleves et parents</p>
+            <h2 className="text-base font-black text-ink">{t('televerser_un_devoir_corrige')}</h2>
+            <p className="text-xs font-semibold text-ink-soft">{t('mis_a_disposition_des_eleves_e')}</p>
           </div>
         </div>
 
@@ -67,27 +68,27 @@ export function HomeworkFormPage() {
         )}
 
         <form onSubmit={submit} className="space-y-4">
-          <Field label="Titre">
+          <Field label={t('titre')}>
             <input
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               className="field-input"
-              placeholder="Ex. Devoir de revision - chapitre 5"
+              placeholder={t('ex_devoir_de_revision_chapitre')}
             />
           </Field>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Type">
+            <Field label={t('type')}>
               <select
                 value={form.kind}
                 onChange={(e) => setForm((f) => ({ ...f, kind: e.target.value as 'devoir' | 'corrige' }))}
                 className="field-input"
               >
-                <option value="devoir">Devoir</option>
-                <option value="corrige">Corrige</option>
+                <option value="devoir">{t('devoir')}</option>
+                <option value="corrige">{t('corrige')}</option>
               </select>
             </Field>
-            <Field label="Cours">
+            <Field label={t('cours')}>
               <select
                 value={form.courseId}
                 onChange={(e) => setForm((f) => ({ ...f, courseId: e.target.value }))}
@@ -102,17 +103,15 @@ export function HomeworkFormPage() {
             </Field>
           </div>
 
-          <Field label="Fichier">
+          <Field label={t('fichier')}>
             <UploadField value={form.fileName} onChange={(name) => setForm((f) => ({ ...f, fileName: name }))} />
           </Field>
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => navigate('/teacher/exams')}>
-              Annuler
-            </Button>
+              {t('annuler')}</Button>
             <Button type="submit" loading={saving}>
-              <Save size={15} /> Televerser
-            </Button>
+              <Save size={15} /> {t('televerser')}</Button>
           </div>
         </form>
       </Card>

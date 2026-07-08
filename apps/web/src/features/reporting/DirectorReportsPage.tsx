@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 import { Card } from '@/shared/components/ui';
 import { ExportButton } from './components/charts';
 import { classPerformance, coursePerformance, studentPerformance, ageDistribution, revenueByMode } from './mockData';
+import { useTranslation } from "react-i18next";
 
 interface ReportDef {
   icon: LucideIcon;
@@ -13,6 +14,7 @@ interface ReportDef {
 }
 
 export function DirectorReportsPage() {
+    const { t } = useTranslation();
   const reports: ReportDef[] = [
     { icon: FileBarChart, title: 'Performance par classe', description: 'Moyennes et taux de reussite par classe', rows: classPerformance(), filename: 'rapport-classes.csv' },
     { icon: FileBarChart, title: 'Performance par matiere', description: 'Moyennes par cours', rows: coursePerformance(), filename: 'rapport-cours.csv' },
@@ -22,10 +24,10 @@ export function DirectorReportsPage() {
   ];
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Rapports synthetiques</h2>
-        <p className="mt-0.5 text-xs font-semibold text-ink-soft">Generer et exporter les rapports de l'etablissement</p>
+        <h2 className="text-base font-black text-ink">{t('rapports_synthetiques')}</h2>
+        <p className="mt-0.5 text-xs font-semibold text-ink-soft">{t('generer_et_exporter_les_rappor')}</p>
       </div>
 
       <div className="space-y-3">

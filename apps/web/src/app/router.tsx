@@ -4,6 +4,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { AppLayout } from '@/app/layouts/AppLayout';
 import { Spinner } from '@/shared/components/ui';
 import { ROLE_DASHBOARD } from '@ecole/shared';
+import { useTranslation } from "react-i18next";
 
 /* Public / auth (Module 1) */
 const LandingPage = lazy(() => import('@/pages/LandingPage').then((m) => ({ default: m.LandingPage })));
@@ -143,6 +144,7 @@ function RoleHome() {
 }
 
 export function AppRouter() {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
@@ -269,7 +271,7 @@ export function AppRouter() {
           <Route path="/auditeur/pedagogy" element={<AuditorPedagogyPage />} />
           <Route
             path="/auditeur/exports"
-            element={<ExportsPage title="Exports" subtitle="Telecharger tous les jeux de donnees" scope="all" />}
+            element={<ExportsPage title={t('exports')} subtitle="Telecharger tous les jeux de donnees" scope="all" />}
           />
           <Route path="/parent/children/:matricule" element={<ChildProfilePage />} />
 

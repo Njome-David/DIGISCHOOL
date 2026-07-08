@@ -5,8 +5,10 @@ import { AuthLayout } from '@/app/layouts/AuthLayout';
 import { Field, Alert } from '@/shared/components/form';
 import { Button } from '@/shared/components/ui';
 import { mockLatency } from '@/shared/lib/format';
+import { useTranslation } from "react-i18next";
 
 export function ForgotPasswordPage() {
+    const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,25 +30,23 @@ export function ForgotPasswordPage() {
 
   if (submitted) {
     return (
-      <AuthLayout title="Demande envoyee">
+      <AuthLayout title={t('demande_envoyee')}>
         <div className="flex flex-col items-center gap-4 py-4 text-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-success-bg">
             <CheckCircle size={28} className="text-success" />
           </div>
           <div>
             <p className="text-sm font-semibold text-ink">
-              Demande envoyee au <strong>Super Admin</strong>.
+              {t('demande_envoyee_au')}<strong>{t('super_admin')}</strong>.
             </p>
             <p className="mt-2 text-sm text-ink-soft">
-              Vous recevrez vos nouveaux identifiants par message interne des validation.
-            </p>
+              {t('vous_recevrez_vos_nouveaux_ide')}</p>
           </div>
           <Link
             to="/login"
             className="mt-2 flex items-center gap-1.5 text-sm font-bold text-brand-500 hover:underline"
           >
-            <ArrowLeft size={14} /> Retour a la connexion
-          </Link>
+            <ArrowLeft size={14} /> {t('retour_a_la_connexion')}</Link>
         </div>
       </AuthLayout>
     );
@@ -54,17 +54,17 @@ export function ForgotPasswordPage() {
 
   return (
     <AuthLayout
-      title="Mot de passe oublie"
+      title={t('mot_de_passe_oublie')}
       subtitle="Entrez votre identifiant. Le Super Admin sera notifie pour reinitialiser votre acces."
     >
       <form onSubmit={handleSubmit} className="space-y-5">
         {error && <Alert icon={AlertCircle}>{error}</Alert>}
-        <Field label="Nom d'utilisateur">
+        <Field label={t('nom_d_utilisateur')}>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="Votre identifiant de connexion"
+            placeholder={t('votre_identifiant_de_connexion')}
             autoFocus
             className="field-input"
           />
@@ -77,8 +77,7 @@ export function ForgotPasswordPage() {
           to="/login"
           className="flex items-center justify-center gap-1.5 text-sm font-bold text-ink-soft hover:underline"
         >
-          <ArrowLeft size={14} /> Retour a la connexion
-        </Link>
+          <ArrowLeft size={14} /> {t('retour_a_la_connexion')}</Link>
       </form>
     </AuthLayout>
   );

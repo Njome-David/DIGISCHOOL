@@ -3,8 +3,10 @@ import { Library } from 'lucide-react';
 import { SearchInput, EmptyState, FilterTabs, type FilterOption } from '@/shared/components/ui';
 import { BookCard } from './components/BookCard';
 import { MOCK_BOOKS, SPECIALTIES, specialtyColor } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function LibraryPage() {
+    const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [specialty, setSpecialty] = useState('all');
 
@@ -21,16 +23,16 @@ export function LibraryPage() {
   ];
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Manuels scolaires</h2>
+        <h2 className="text-base font-black text-ink">{t('manuels_scolaires')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {books.length} ouvrage{books.length > 1 ? 's' : ''} disponible{books.length > 1 ? 's' : ''}
+          {books.length} {t('ouvrage')}{books.length > 1 ? 's' : ''} {t('disponible')}{books.length > 1 ? 's' : ''}
         </p>
       </div>
 
       <div className="space-y-3">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un titre ou un auteur..." />
+        <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_un_titre_ou_un_aute')} />
         <FilterTabs value={specialty} onChange={setSpecialty} options={filters} />
       </div>
 

@@ -1,37 +1,35 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, GraduationCap, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
+import { useTranslation } from "react-i18next";
 
 const APP_VERSION = '1.0.0';
 
 export function AboutPage() {
+    const { t } = useTranslation();
   return (
     <div className="min-h-[100dvh] bg-canvas px-4 py-12">
-      <div className="mx-auto max-w-2xl space-y-6">
+      <div className="mx-auto w-full space-y-6">
         <Link to="/" className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-600 hover:text-brand-700">
-          <ArrowLeft size={15} /> Retour a l'accueil
-        </Link>
+          <ArrowLeft size={15} /> {t('retour_a_l_accueil')}</Link>
 
         <div className="surface p-6 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-500 text-white">
             <GraduationCap size={30} />
           </div>
-          <h1 className="text-xl font-black text-ink">EcoleApp 2026</h1>
+          <h1 className="text-xl font-black text-ink">{t('ecoleapp_2026')}</h1>
           <p className="mt-1 text-sm font-semibold text-ink-soft">
-            Plateforme de gestion scolaire bilingue - Version {APP_VERSION}
+            {t('plateforme_de_gestion_scolaire')}{APP_VERSION}
           </p>
         </div>
 
         <div className="surface p-6">
-          <h2 className="mb-3 text-sm font-black text-ink">A propos</h2>
+          <h2 className="mb-3 text-sm font-black text-ink">{t('a_propos')}</h2>
           <p className="text-sm leading-relaxed text-ink-soft">
-            EcoleApp 2026 est une solution complete de gestion d'etablissement primaire bilingue. Elle couvre la gestion
-            academique, les inscriptions, la pedagogie, les evaluations, la scolarite, la communication, la discipline et
-            la documentation, avec un controle d'acces adapte a chaque profil utilisateur.
-          </p>
+            {t('ecoleapp_2026_est_une_solution')}</p>
         </div>
 
         <div className="surface p-6">
-          <h2 className="mb-3 text-sm font-black text-ink">Contact</h2>
+          <h2 className="mb-3 text-sm font-black text-ink">{t('contact')}</h2>
           <div className="space-y-2.5">
             <ContactRow icon={MapPin} value="BP 1234, Yaounde, Cameroun" />
             <ContactRow icon={Phone} value="+237 600 00 00 00" />
@@ -41,16 +39,11 @@ export function AboutPage() {
 
         <div className="surface p-6">
           <h2 className="mb-3 flex items-center gap-2 text-sm font-black text-ink">
-            <ShieldCheck size={16} className="text-brand-500" /> Mentions legales
-          </h2>
+            <ShieldCheck size={16} className="text-brand-500" /> {t('mentions_legales')}</h2>
           <p className="text-sm leading-relaxed text-ink-soft">
-            Les donnees personnelles collectees sont traitees de maniere confidentielle et utilisees exclusivement dans
-            le cadre de la gestion scolaire. Toute reproduction, meme partielle, de cette plateforme est interdite sans
-            autorisation prealable.
-          </p>
+            {t('les_donnees_personnelles_colle')}</p>
           <p className="mt-4 text-xs font-semibold text-ink-faint">
-            (c) {new Date().getFullYear()} EcoleApp - Tous droits reserves.
-          </p>
+            {t('c')}{new Date().getFullYear()} {t('ecoleapp_tous_droits_reserves')}</p>
         </div>
       </div>
     </div>

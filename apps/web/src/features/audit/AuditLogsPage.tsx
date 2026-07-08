@@ -13,6 +13,7 @@ import { SearchInput, FilterTabs, EmptyState, type FilterOption } from '@/shared
 import { Alert } from '@/shared/components/form';
 import { dateTime } from '@/shared/lib/format';
 import { MOCK_AUDIT, type AuditType } from '@/features/academic/mockData';
+import { useTranslation } from "react-i18next";
 
 const TYPE_CFG: Record<AuditType, { label: string; icon: LucideIcon; color: string; bg: string }> = {
   create: { label: 'Creation', icon: PlusCircle, color: '#22A05E', bg: '#D1FAE5' },
@@ -32,6 +33,7 @@ const FILTER_OPTIONS: FilterOption<AuditType | 'all'>[] = [
 ];
 
 export function AuditLogsPage() {
+    const { t } = useTranslation();
   const [typeFilter, setTypeFilter] = useState<AuditType | 'all'>('all');
   const [search, setSearch] = useState('');
 
@@ -44,20 +46,18 @@ export function AuditLogsPage() {
   });
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Journal d'audit</h2>
+        <h2 className="text-base font-black text-ink">{t('journal_d_audit')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {MOCK_AUDIT.length} evenements enregistres - consultation en lecture seule
-        </p>
+          {MOCK_AUDIT.length} {t('evenements_enregistres_consult')}</p>
       </div>
 
       <Alert tone="info" icon={Eye}>
-        Tracabilite complete du systeme. L'auditeur consulte sans pouvoir modifier les enregistrements.
-      </Alert>
+        {t('tracabilite_complete_du_system')}</Alert>
 
       <div className="flex flex-wrap gap-3">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher utilisateur, action, cible" />
+        <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_utilisateur_action')} />
         <FilterTabs value={typeFilter} onChange={setTypeFilter} options={FILTER_OPTIONS} />
       </div>
 
@@ -93,14 +93,14 @@ export function AuditLogsPage() {
                           <p className="text-sm font-black text-ink">{entry.action}</p>
                         </div>
                         <p className="text-xs font-semibold text-ink-soft">
-                          Cible : <span className="text-ink">{entry.target}</span>
+                          {t('cible')}<span className="text-ink">{entry.target}</span>
                         </p>
                         <div className="mt-1.5 flex flex-wrap items-center gap-3">
                           <p className="text-xs font-semibold text-ink-faint">
-                            Par <span className="font-bold text-ink">{entry.user}</span>
+                            {t('par')}<span className="font-bold text-ink">{entry.user}</span>
                             <span className="text-brand-200"> - {entry.role}</span>
                           </p>
-                          {entry.ip && <p className="text-xs font-semibold text-ink-faint">IP : {entry.ip}</p>}
+                          {entry.ip && <p className="text-xs font-semibold text-ink-faint">{t('ip')}{entry.ip}</p>}
                         </div>
                       </div>
                       <p className="shrink-0 text-xs font-semibold text-ink-faint">{dateTime(entry.date)}</p>

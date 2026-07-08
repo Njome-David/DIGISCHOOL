@@ -4,21 +4,22 @@ import { RootSubNav } from '@/app/components/RootSubNav';
 import { Badge } from '@/shared/components/ui';
 import { dateLong } from '@/shared/lib/format';
 import { MOCK_YEARS, type AcademicYear } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function AcademicYearsPage() {
+    const { t } = useTranslation();
   const [years, setYears] = useState<AcademicYear[]>(MOCK_YEARS);
   const setActive = (id: string) => setYears((p) => p.map((y) => ({ ...y, active: y.id === id })));
   const current = years.find((y) => y.active);
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div>
-        <h2 className="text-base font-black text-ink">Annees scolaires</h2>
+        <h2 className="text-base font-black text-ink">{t('annees_scolaires')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {years.length} annees configurees - {current?.label ?? ''} en cours
-        </p>
+          {years.length} {t('annees_configurees')}{current?.label ?? ''} {t('en_cours')}</p>
       </div>
 
       <div className="space-y-3">
@@ -45,11 +46,10 @@ export function AcademicYearsPage() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h3 className="text-base font-black text-ink">Annee {year.label}</h3>
+                      <h3 className="text-base font-black text-ink">{t('annee')}{year.label}</h3>
                       {year.active && (
                         <Badge>
-                          <CheckCircle size={10} /> En cours
-                        </Badge>
+                          <CheckCircle size={10} /> {t('en_cours')}</Badge>
                       )}
                     </div>
                     <p className="mt-0.5 text-xs font-semibold text-ink-soft">
@@ -59,8 +59,7 @@ export function AcademicYearsPage() {
                 </div>
                 {!year.active && (
                   <button onClick={() => setActive(year.id)} className="btn-outline text-brand-500">
-                    <CheckCircle size={13} /> Definir comme active
-                  </button>
+                    <CheckCircle size={13} /> {t('definir_comme_active')}</button>
                 )}
               </div>
 
@@ -68,8 +67,7 @@ export function AcademicYearsPage() {
                 <div className="mt-4">
                   <div className="mb-1 flex items-center justify-between">
                     <p className="flex items-center gap-1 text-xs font-bold text-ink-soft">
-                      <Clock size={11} /> Progression de l'annee
-                    </p>
+                      <Clock size={11} /> {t('progression_de_l_annee')}</p>
                     <p className="text-xs font-black text-ink">{pct}%</p>
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-muted">

@@ -4,15 +4,17 @@ import { Card, Badge, EmptyState } from '@/shared/components/ui';
 import { findStudent } from '@/features/students/mockData';
 import { ScheduleGrid, type ScheduleCell } from '@/features/pedagogy/components/ScheduleGrid';
 import { scheduleForClass, findCourse } from '@/features/pedagogy/mockData';
+import { useTranslation } from "react-i18next";
 
 export function ChildSchedulePage() {
+    const { t } = useTranslation();
   const { matricule } = useParams<{ matricule: string }>();
   const navigate = useNavigate();
   const child = matricule ? findStudent(matricule) : undefined;
 
   if (!child) {
     return (
-      <div className="surface max-w-2xl">
+      <div className="surface w-full">
         <EmptyState icon={CalendarClock} message="Eleve introuvable." />
       </div>
     );
@@ -30,20 +32,18 @@ export function ChildSchedulePage() {
   });
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate(`/parent/children/${child.matricule}`)}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour a la fiche
-      </button>
+        <ArrowLeft size={15} /> {t('retour_a_la_fiche')}</button>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Emploi du temps</h2>
+          <h2 className="text-base font-black text-ink">{t('emploi_du_temps')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {child.firstName} {child.lastName} - {cells.length} creneaux
-          </p>
+            {child.firstName} {child.lastName} - {cells.length} {t('creneaux')}</p>
         </div>
         <Badge tone="brand">{child.classCode}</Badge>
       </div>
@@ -52,7 +52,7 @@ export function ChildSchedulePage() {
         {cells.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 text-center">
             <CalendarClock size={28} className="mb-3 text-brand-200" />
-            <p className="text-sm font-semibold text-ink-soft">Aucun creneau defini pour cette classe.</p>
+            <p className="text-sm font-semibold text-ink-soft">{t('aucun_creneau_defini_pour_cett')}</p>
           </div>
         ) : (
           <ScheduleGrid cells={cells} />

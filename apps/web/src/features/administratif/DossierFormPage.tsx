@@ -7,8 +7,10 @@ import { avatarColor } from '@/shared/lib/roleMeta';
 import { mockLatency } from '@/shared/lib/format';
 import { findStudent } from '@/features/students/mockData';
 import { dossierFor, toggleDoc, completeness, isComplete } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function DossierFormPage() {
+    const { t } = useTranslation();
   const { matricule } = useParams<{ matricule: string }>();
   const navigate = useNavigate();
   const student = matricule ? findStudent(matricule) : undefined;
@@ -21,7 +23,7 @@ export function DossierFormPage() {
 
   if (!student || !dossier) {
     return (
-      <div className="surface max-w-2xl">
+      <div className="surface w-full">
         <EmptyState icon={FolderOpen} message="Dossier introuvable." />
       </div>
     );
@@ -43,13 +45,12 @@ export function DossierFormPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/staff/files')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour aux dossiers
-      </button>
+        <ArrowLeft size={15} /> {t('retour_aux_dossiers')}</button>
 
       <Card>
         <div className="flex items-center gap-3">
@@ -64,15 +65,15 @@ export function DossierFormPage() {
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-          <InfoRow label="Parent / Tuteur" value={student.parentName} />
-          <InfoRow label="Telephone" value={student.parentPhone} />
-          <InfoRow label="Email" value={student.parentEmail} />
-          <InfoRow label="Inscrit le" value={student.enrollmentDate} />
+          <InfoRow label={t('parent_tuteur')} value={student.parentName} />
+          <InfoRow label={t('telephone')} value={student.parentPhone} />
+          <InfoRow label={t('email')} value={student.parentEmail} />
+          <InfoRow label={t('inscrit_le')} value={student.enrollmentDate} />
         </div>
       </Card>
 
       <Card>
-        <h3 className="mb-3 text-sm font-black text-ink">Pieces du dossier</h3>
+        <h3 className="mb-3 text-sm font-black text-ink">{t('pieces_du_dossier')}</h3>
         <div className="space-y-2">
           {dossier.docs.map((doc) => (
             <button
@@ -98,7 +99,7 @@ export function DossierFormPage() {
 
       <Card>
         <form onSubmit={submit} className="space-y-4">
-          <Field label="Note administrative">
+          <Field label={t('note_administrative')}>
             <textarea
               value={note}
               onChange={(e) => {
@@ -107,16 +108,15 @@ export function DossierFormPage() {
               }}
               rows={3}
               className="field-input resize-none"
-              placeholder="Observations sur le dossier..."
+              placeholder={t('observations_sur_le_dossier')}
             />
           </Field>
 
-          {saved && <Alert tone="success">Dossier enregistre avec succes.</Alert>}
+          {saved && <Alert tone="success">{t('dossier_enregistre_avec_succes')}</Alert>}
 
           <div className="flex justify-end gap-2">
             <Button type="submit" loading={saving}>
-              <Save size={15} /> Enregistrer le dossier
-            </Button>
+              <Save size={15} /> {t('enregistrer_le_dossier')}</Button>
           </div>
         </form>
       </Card>

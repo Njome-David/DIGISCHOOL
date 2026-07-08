@@ -1,6 +1,7 @@
 import { Avatar } from '@/shared/components/ui';
 import { avatarColor } from '@/shared/lib/roleMeta';
 import type { GradeRow } from '../mockData';
+import { useTranslation } from "react-i18next";
 
 export function GradeTable({
   rows,
@@ -13,14 +14,15 @@ export function GradeTable({
   onChange?: (matricule: string, patch: Partial<GradeRow>) => void;
   readOnly?: boolean;
 }) {
+    const { t } = useTranslation();
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead>
           <tr className="border-b border-line-soft">
-            <th className="px-3 py-2.5 text-left text-xs font-black text-ink-soft">Eleve</th>
-            <th className="w-28 px-3 py-2.5 text-left text-xs font-black text-ink-soft">Note /{maxNote}</th>
-            <th className="px-3 py-2.5 text-left text-xs font-black text-ink-soft">Appreciation</th>
+            <th className="px-3 py-2.5 text-left text-xs font-black text-ink-soft">{t('eleve')}</th>
+            <th className="w-28 px-3 py-2.5 text-left text-xs font-black text-ink-soft">{t('note')}{maxNote}</th>
+            <th className="px-3 py-2.5 text-left text-xs font-black text-ink-soft">{t('appreciation')}</th>
           </tr>
         </thead>
         <tbody>
@@ -65,7 +67,7 @@ export function GradeTable({
                     value={r.appreciation}
                     onChange={(e) => onChange?.(r.matricule, { appreciation: e.target.value })}
                     className="w-full rounded-lg border border-line bg-field px-2 py-1.5 text-sm font-semibold text-ink outline-none focus:ring-2 focus:ring-brand-300"
-                    placeholder="Appreciation..."
+                    placeholder={t('appreciation')}
                   />
                 )}
               </td>

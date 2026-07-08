@@ -5,6 +5,7 @@ import { RootSubNav } from '@/app/components/RootSubNav';
 import { SearchInput, FilterTabs, Badge, EmptyState, Avatar, Button, type FilterOption } from '@/shared/components/ui';
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { MOCK_PERSONNEL, type Personnel } from './mockData';
+import { useTranslation } from "react-i18next";
 
 type TypeFilter = 'all' | 'teacher' | 'staff';
 
@@ -15,6 +16,7 @@ const FILTERS: FilterOption<TypeFilter>[] = [
 ];
 
 export function PersonnelPage() {
+    const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<TypeFilter>('all');
 
@@ -29,25 +31,23 @@ export function PersonnelPage() {
   const staff = MOCK_PERSONNEL.filter((p) => p.type === 'staff').length;
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Personnel</h2>
+          <h2 className="text-base font-black text-ink">{t('personnel')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {teachers} enseignants - {staff} agents administratifs
-          </p>
+            {teachers} {t('enseignants')}{staff} {t('agents_administratifs')}</p>
         </div>
         <Link to="/root/personnel/new">
           <Button>
-            <UserPlus size={15} /> Nouveau personnel
-          </Button>
+            <UserPlus size={15} /> {t('nouveau_personnel')}</Button>
         </Link>
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un membre du personnel" />
+        <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_un_membre_du_person')} />
         <FilterTabs value={filter} onChange={setFilter} options={FILTERS} />
       </div>
 

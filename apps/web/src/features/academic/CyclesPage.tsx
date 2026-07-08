@@ -3,24 +3,26 @@ import { GitBranch, BookOpen, CheckCircle, ToggleLeft, ToggleRight } from 'lucid
 import { RootSubNav } from '@/app/components/RootSubNav';
 import { ProgressBar } from '@/shared/components/ui';
 import { MOCK_CYCLES, MOCK_CLASSES, type Cycle } from './mockData';
+import { useTranslation } from "react-i18next";
 
 function fillColor(pct: number) {
   return pct >= 90 ? '#DC2626' : pct >= 70 ? '#D97706' : '#22A05E';
 }
 
 export function CyclesPage() {
+    const { t } = useTranslation();
   const [cycles, setCycles] = useState<Cycle[]>(MOCK_CYCLES);
   const toggle = (id: string) => setCycles((p) => p.map((c) => (c.id === id ? { ...c, active: !c.active } : c)));
   const activeCount = cycles.filter((c) => c.active).length;
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div>
-        <h2 className="text-base font-black text-ink">Cycles scolaires</h2>
+        <h2 className="text-base font-black text-ink">{t('cycles_scolaires')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {cycles.length} cycle{cycles.length > 1 ? 's' : ''} - {activeCount} actif{activeCount > 1 ? 's' : ''}
+          {cycles.length} {t('cycle')}{cycles.length > 1 ? 's' : ''} - {activeCount} {t('actif')}{activeCount > 1 ? 's' : ''}
         </p>
       </div>
 
@@ -48,7 +50,7 @@ export function CyclesPage() {
                   </div>
                   <div>
                     <h3 className="text-base font-black text-ink">{cycle.label}</h3>
-                    <p className="text-xs font-semibold text-ink-faint">Code : {cycle.code}</p>
+                    <p className="text-xs font-semibold text-ink-faint">{t('code')}{cycle.code}</p>
                   </div>
                 </div>
                 <button
@@ -75,11 +77,11 @@ export function CyclesPage() {
               </div>
 
               <div className="mb-1 flex items-center justify-between">
-                <p className="text-xs font-bold text-ink-soft">Taux de remplissage</p>
+                <p className="text-xs font-bold text-ink-soft">{t('taux_de_remplissage')}</p>
                 <p className="text-xs font-black text-ink">{pct}%</p>
               </div>
               <ProgressBar value={pct} color={fillColor(pct)} />
-              <p className="mt-1 text-xs font-semibold text-ink-faint">{enrolled}/{capacity} places</p>
+              <p className="mt-1 text-xs font-semibold text-ink-faint">{enrolled}/{capacity} {t('places')}</p>
 
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {classes.map((cl) => (

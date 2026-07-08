@@ -8,6 +8,7 @@ import {
   MESSAGE_TYPE_META,
   type CollectiveStatus,
 } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const FILTERS: FilterOption<CollectiveStatus>[] = [
   { value: 'pending', label: 'A valider', activeColor: '#D97706' },
@@ -16,6 +17,7 @@ const FILTERS: FilterOption<CollectiveStatus>[] = [
 ];
 
 export function DirectorMessagesPage() {
+    const { t } = useTranslation();
   const [filter, setFilter] = useState<CollectiveStatus>('pending');
   const [, force] = useState(0);
 
@@ -27,12 +29,11 @@ export function DirectorMessagesPage() {
   };
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Validation des messages collectifs</h2>
+        <h2 className="text-base font-black text-ink">{t('validation_des_messages_collec')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {MOCK_COLLECTIVE.filter((m) => m.status === 'pending').length} messages en attente de validation
-        </p>
+          {MOCK_COLLECTIVE.filter((m) => m.status === 'pending').length} {t('messages_en_attente_de_validat')}</p>
       </div>
 
       <FilterTabs value={filter} onChange={setFilter} options={FILTERS} />
@@ -58,18 +59,15 @@ export function DirectorMessagesPage() {
                       <Badge tone={meta.tone}>{meta.label}</Badge>
                     </div>
                     <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-                      {m.author} - {dateTimeLong(m.date)} - {m.recipientCount} destinataires
-                    </p>
+                      {m.author} - {dateTimeLong(m.date)} - {m.recipientCount} {t('destinataires')}</p>
                     <p className="mt-2 whitespace-pre-line text-sm font-medium leading-relaxed text-ink-soft">{m.body}</p>
 
                     {m.status === 'pending' && (
                       <div className="mt-3 flex gap-2">
                         <Button variant="success" onClick={() => act(m.id, 'validated')}>
-                          <CheckCircle size={14} /> Valider et diffuser
-                        </Button>
+                          <CheckCircle size={14} /> {t('valider_et_diffuser')}</Button>
                         <Button variant="outline" onClick={() => act(m.id, 'rejected')}>
-                          <XCircle size={14} /> Rejeter
-                        </Button>
+                          <XCircle size={14} /> {t('rejeter')}</Button>
                       </div>
                     )}
                   </div>

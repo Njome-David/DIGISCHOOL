@@ -5,8 +5,10 @@ import { Card, Avatar, Badge, EmptyState, FilterTabs, type FilterOption } from '
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { findStudent } from '@/features/students/mockData';
 import { bulletinsForStudent } from '@/features/evaluations/mockData';
+import { useTranslation } from "react-i18next";
 
 export function ChildGradesPage() {
+    const { t } = useTranslation();
   const { matricule } = useParams();
   const navigate = useNavigate();
   const child = matricule ? findStudent(matricule) : undefined;
@@ -18,13 +20,12 @@ export function ChildGradesPage() {
   const termOptions: FilterOption<string>[] = terms.map((t) => ({ value: t, label: t }));
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/parent/children')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Mes enfants
-      </button>
+        <ArrowLeft size={15} /> {t('mes_enfants')}</button>
 
       {child && (
         <div className="flex items-center gap-3">
@@ -33,7 +34,7 @@ export function ChildGradesPage() {
             <h2 className="text-base font-black text-ink">
               {child.firstName} {child.lastName}
             </h2>
-            <p className="text-xs font-semibold text-ink-soft">Notes - {child.classCode}</p>
+            <p className="text-xs font-semibold text-ink-soft">{t('notes')}{child.classCode}</p>
           </div>
         </div>
       )}
@@ -50,11 +51,11 @@ export function ChildGradesPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-line-soft">
-                  <th className="px-2 py-2 text-left text-xs font-black text-ink-soft">Matiere</th>
-                  <th className="px-2 py-2 text-center text-xs font-black text-ink-soft">Coeff.</th>
-                  <th className="px-2 py-2 text-center text-xs font-black text-ink-soft">Moyenne</th>
-                  <th className="px-2 py-2 text-center text-xs font-black text-ink-soft">Rang</th>
-                  <th className="px-2 py-2 text-left text-xs font-black text-ink-soft">Appreciation</th>
+                  <th className="px-2 py-2 text-left text-xs font-black text-ink-soft">{t('matiere')}</th>
+                  <th className="px-2 py-2 text-center text-xs font-black text-ink-soft">{t('coeff')}</th>
+                  <th className="px-2 py-2 text-center text-xs font-black text-ink-soft">{t('moyenne')}</th>
+                  <th className="px-2 py-2 text-center text-xs font-black text-ink-soft">{t('rang')}</th>
+                  <th className="px-2 py-2 text-left text-xs font-black text-ink-soft">{t('appreciation')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -79,13 +80,13 @@ export function ChildGradesPage() {
             <div className="flex items-center gap-3">
               <div className="text-center">
                 <p className="text-lg font-black text-brand-600">{bulletin.generalAverage.toFixed(2)}</p>
-                <p className="text-xs font-semibold text-ink-soft">Moyenne generale</p>
+                <p className="text-xs font-semibold text-ink-soft">{t('moyenne_generale')}</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-black text-ink">
                   {bulletin.generalRank}/{bulletin.classSize}
                 </p>
-                <p className="text-xs font-semibold text-ink-soft">Rang</p>
+                <p className="text-xs font-semibold text-ink-soft">{t('rang')}</p>
               </div>
             </div>
             <Badge tone="brand">{bulletin.mention}</Badge>

@@ -1,7 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Home, ArrowLeft, ShieldX } from 'lucide-react';
+import { useTranslation } from "react-i18next";
 
 export function ForbiddenPage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-canvas px-4">
@@ -13,23 +15,19 @@ export function ForbiddenPage() {
           </div>
         </div>
 
-        <p className="mb-2 text-sm font-black uppercase tracking-widest text-danger">Erreur 403</p>
-        <h1 className="mb-3 text-2xl font-bold text-ink">Acces refuse</h1>
+        <p className="mb-2 text-sm font-black uppercase tracking-widest text-danger">{t('erreur_403')}</p>
+        <h1 className="mb-3 text-2xl font-bold text-ink">{t('acces_refuse')}</h1>
         <p className="mb-8 text-sm leading-relaxed text-ink-soft">
-          Vous n'avez pas les autorisations necessaires pour acceder a cette page. Contactez un administrateur si vous
-          pensez qu'il s'agit d'une erreur.
-        </p>
+          {t('vous_n_avez_pas_les_autorisati')}</p>
 
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <button onClick={() => navigate(-1)} className="btn-outline">
-            <ArrowLeft size={16} /> Page precedente
-          </button>
+            <ArrowLeft size={16} /> {t('page_precedente')}</button>
           <Link to="/" className="btn-brand">
-            <Home size={16} /> Accueil
-          </Link>
+            <Home size={16} /> {t('accueil')}</Link>
         </div>
 
-        <p className="mt-12 text-sm font-extrabold tracking-tight text-brand-500/40">DIGISCHOOL</p>
+        <p className="mt-12 text-sm font-extrabold tracking-tight text-brand-500/40">{t('digischool')}</p>
       </div>
     </div>
   );

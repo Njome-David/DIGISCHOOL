@@ -13,10 +13,12 @@ import {
   addPayment,
   type Payment,
 } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const ENROLLED = MOCK_STUDENTS.filter((s) => s.status === 'enrolled');
 
 export function PaymentFormPage() {
+    const { t } = useTranslation();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const activeModes = MOCK_MODES.filter((m) => m.active);
@@ -88,13 +90,12 @@ export function PaymentFormPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/scolarite/payments')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour aux paiements
-      </button>
+        <ArrowLeft size={15} /> {t('retour_aux_paiements')}</button>
 
       <Card>
         <div className="mb-5 flex items-center gap-3">
@@ -102,8 +103,8 @@ export function PaymentFormPage() {
             <Receipt size={20} />
           </div>
           <div>
-            <h2 className="text-base font-black text-ink">Enregistrer un paiement</h2>
-            <p className="text-xs font-semibold text-ink-soft">Generation automatique du recu</p>
+            <h2 className="text-base font-black text-ink">{t('enregistrer_un_paiement')}</h2>
+            <p className="text-xs font-semibold text-ink-soft">{t('generation_automatique_du_recu')}</p>
           </div>
         </div>
 
@@ -114,7 +115,7 @@ export function PaymentFormPage() {
         )}
 
         <form onSubmit={submit} className="space-y-4">
-          <Field label="Eleve">
+          <Field label={t('eleve')}>
             <select value={matricule} onChange={(e) => onStudentChange(e.target.value)} className="field-input">
               {ENROLLED.map((s) => (
                 <option key={s.matricule} value={s.matricule}>
@@ -126,7 +127,7 @@ export function PaymentFormPage() {
 
           {state && (
             <div className="flex items-center justify-between rounded-xl bg-canvas px-4 py-3">
-              <span className="text-xs font-bold text-ink-soft">Solde restant</span>
+              <span className="text-xs font-bold text-ink-soft">{t('solde_restant')}</span>
               <span className="text-sm font-black" style={{ color: state.balance > 0 ? '#DC2626' : '#22A05E' }}>
                 {formatMoney(state.balance)}
               </span>
@@ -134,7 +135,7 @@ export function PaymentFormPage() {
           )}
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Tranche">
+            <Field label={t('tranche')}>
               <select value={trancheId} onChange={(e) => onTrancheChange(e.target.value)} className="field-input">
                 {(tuition?.tranches ?? []).map((t) => (
                   <option key={t.id} value={t.id}>
@@ -143,7 +144,7 @@ export function PaymentFormPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Mode de paiement">
+            <Field label={t('mode_de_paiement')}>
               <select value={modeId} onChange={(e) => setModeId(e.target.value)} className="field-input">
                 {activeModes.map((m) => (
                   <option key={m.id} value={m.id}>
@@ -152,7 +153,7 @@ export function PaymentFormPage() {
                 ))}
               </select>
             </Field>
-            <Field label="Montant (FCFA)">
+            <Field label={t('montant_fcfa')}>
               <input
                 type="number"
                 min={0}
@@ -162,22 +163,20 @@ export function PaymentFormPage() {
                 className="field-input"
               />
             </Field>
-            <Field label="Date">
+            <Field label={t('date')}>
               <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="field-input" />
             </Field>
           </div>
 
-          <Field label="Justificatif" hint="Optionnel - recu scan ou capture, 10 Mo maximum">
-            <UploadField value={proof} onChange={setProof} accept=".pdf,.jpg,.jpeg,.png" hint="PDF ou image - 10 Mo maximum" />
+          <Field label={t('justificatif')} hint={t('optionnel_recu_scan_ou_capture')}>
+            <UploadField value={proof} onChange={setProof} accept=".pdf,.jpg,.jpeg,.png" hint={t('pdf_ou_image_10_mo_maximum')} />
           </Field>
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => navigate('/scolarite/payments')}>
-              Annuler
-            </Button>
+              {t('annuler')}</Button>
             <Button type="submit" loading={saving}>
-              <Save size={15} /> Encaisser et generer le recu
-            </Button>
+              <Save size={15} /> {t('encaisser_et_generer_le_recu')}</Button>
           </div>
         </form>
       </Card>

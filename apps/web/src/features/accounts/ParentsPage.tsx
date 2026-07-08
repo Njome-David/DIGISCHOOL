@@ -5,8 +5,10 @@ import { RootSubNav } from '@/app/components/RootSubNav';
 import { SearchInput, Badge, EmptyState, Avatar } from '@/shared/components/ui';
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { allParents } from '@/features/students/mockData';
+import { useTranslation } from "react-i18next";
 
 export function ParentsPage() {
+    const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const parents = allParents();
 
@@ -16,17 +18,16 @@ export function ParentsPage() {
   );
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div>
-        <h2 className="text-base font-black text-ink">Comptes parents</h2>
+        <h2 className="text-base font-black text-ink">{t('comptes_parents')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {parents.length} parents - lies a {parents.reduce((s, p) => s + p.children.length, 0)} eleves
-        </p>
+          {parents.length} {t('parents_lies_a')}{parents.reduce((s, p) => s + p.children.length, 0)} {t('eleves')}</p>
       </div>
 
-      <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un parent ou un enfant" />
+      <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_un_parent_ou_un_enf')} />
 
       {filtered.length === 0 ? (
         <div className="surface">
@@ -41,7 +42,7 @@ export function ParentsPage() {
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-black text-ink">{p.name}</p>
                   <p className="text-xs font-semibold text-ink-soft">
-                    {p.children.length} enfant{p.children.length > 1 ? 's' : ''}
+                    {p.children.length} {t('enfant')}{p.children.length > 1 ? 's' : ''}
                   </p>
                 </div>
               </div>

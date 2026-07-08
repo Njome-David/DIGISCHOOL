@@ -5,8 +5,10 @@ import { SearchInput, Badge, EmptyState, Button, Avatar, FilterTabs, type Filter
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { formatMoney, dateShort } from '@/shared/lib/format';
 import { MOCK_PAYMENTS, MOCK_MODES } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function PaymentsPage() {
+    const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [mode, setMode] = useState('all');
 
@@ -29,30 +31,28 @@ export function PaymentsPage() {
   ];
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Paiements</h2>
+          <h2 className="text-base font-black text-ink">{t('paiements')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {payments.length} encaissements - {formatMoney(total)}
+            {payments.length} {t('encaissements')}{formatMoney(total)}
           </p>
         </div>
         <div className="flex gap-2">
           <Link to="/scolarite/overdue">
             <Button variant="outline">
-              <AlertTriangle size={15} /> Retards
-            </Button>
+              <AlertTriangle size={15} /> {t('retards')}</Button>
           </Link>
           <Link to="/scolarite/payments/new">
             <Button>
-              <Plus size={15} /> Enregistrer
-            </Button>
+              <Plus size={15} /> {t('enregistrer')}</Button>
           </Link>
         </div>
       </div>
 
       <div className="space-y-3">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un eleve, un matricule, un recu..." />
+        <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_un_eleve_un_matricu')} />
         <FilterTabs value={mode} onChange={setMode} options={modeFilters} />
       </div>
 

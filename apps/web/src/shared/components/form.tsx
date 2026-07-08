@@ -1,8 +1,8 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { Eye, EyeOff, UploadCloud, FileText, X } from 'lucide-react';
 import { cn } from '@/shared/components/ui';
+import { useTranslation } from "react-i18next";
 
-/* Labelled field wrapper */
 export function Field({
   label,
   hint,
@@ -26,7 +26,6 @@ export function Field({
   );
 }
 
-/* Password input with show/hide toggle */
 export function PasswordInput({
   value,
   onChange,
@@ -40,6 +39,7 @@ export function PasswordInput({
   autoComplete?: string;
   invalid?: boolean;
 }) {
+    const { t } = useTranslation();
   const [show, setShow] = useState(false);
   return (
     <div className="relative">
@@ -55,7 +55,7 @@ export function PasswordInput({
         type="button"
         onClick={() => setShow((s) => !s)}
         className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-ink-faint transition-colors hover:text-ink-soft"
-        aria-label={show ? 'Masquer' : 'Afficher'}
+        aria-label={show ? t('masquer') : t('afficher')}
       >
         {show ? <EyeOff size={16} /> : <Eye size={16} />}
       </button>
@@ -63,7 +63,6 @@ export function PasswordInput({
   );
 }
 
-/* Inline alert / callout */
 type AlertTone = 'danger' | 'success' | 'info' | 'brand';
 
 const ALERT_TONES: Record<AlertTone, string> = {
@@ -90,7 +89,6 @@ export function Alert({
   );
 }
 
-/* File upload (mock - ne televerse rien, garde juste le nom du fichier) */
 export function UploadField({
   value,
   onChange,
@@ -102,6 +100,7 @@ export function UploadField({
   accept?: string;
   hint?: string;
 }) {
+    const { t } = useTranslation();
   const ref = useRef<HTMLInputElement>(null);
 
   if (value) {
@@ -115,7 +114,7 @@ export function UploadField({
           type="button"
           onClick={() => onChange(null)}
           className="shrink-0 rounded-lg p-1 text-ink-faint transition-colors hover:bg-white hover:text-danger"
-          aria-label="Retirer le fichier"
+          aria-label={t('retirer_le_fichier')}
         >
           <X size={15} />
         </button>
@@ -130,7 +129,7 @@ export function UploadField({
       className="flex w-full flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-line bg-field py-6 transition-colors hover:border-brand-300 hover:bg-brand-50"
     >
       <UploadCloud size={22} className="text-brand-400" />
-      <span className="text-sm font-bold text-ink-soft">Cliquer pour televerser un fichier</span>
+      <span className="text-sm font-bold text-ink-soft">{t('cliquer_pour_televerser_un_fic')}</span>
       <span className="text-xs font-semibold text-ink-faint">{hint}</span>
       <input
         ref={ref}

@@ -5,11 +5,13 @@ import { Field, Alert } from '@/shared/components/form';
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { formatMoney, mockLatency } from '@/shared/lib/format';
 import { overdueStudents } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const DEFAULT_MESSAGE =
   'Cher parent, nous vous rappelons que le solde de la scolarite de votre enfant reste a regler. Merci de bien vouloir vous rapprocher de l administration.';
 
 export function RemindersPage() {
+    const { t } = useTranslation();
   const list = overdueStudents();
   const [selected, setSelected] = useState<Set<string>>(new Set(list.map((s) => s.matricule)));
   const [message, setMessage] = useState(DEFAULT_MESSAGE);
@@ -35,8 +37,8 @@ export function RemindersPage() {
 
   if (list.length === 0) {
     return (
-      <div className="max-w-2xl space-y-4">
-        <h2 className="text-base font-black text-ink">Envoi de relances</h2>
+      <div className="w-full space-y-4">
+        <h2 className="text-base font-black text-ink">{t('envoi_de_relances')}</h2>
         <div className="surface">
           <EmptyState icon={MessageCircle} message="Aucun eleve en retard. Aucune relance necessaire." />
         </div>
@@ -45,22 +47,21 @@ export function RemindersPage() {
   }
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Envoi de relances</h2>
+        <h2 className="text-base font-black text-ink">{t('envoi_de_relances')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {selected.size} destinataire{selected.size > 1 ? 's' : ''} selectionne{selected.size > 1 ? 's' : ''}
+          {selected.size} {t('destinataire')}{selected.size > 1 ? 's' : ''} {t('selectionne')}{selected.size > 1 ? 's' : ''}
         </p>
       </div>
 
       {sentCount > 0 && (
         <Alert tone="success" icon={Check}>
-          {sentCount} relance{sentCount > 1 ? 's' : ''} envoyee{sentCount > 1 ? 's' : ''} avec succes.
-        </Alert>
+          {sentCount} {t('relance')}{sentCount > 1 ? 's' : ''} {t('envoyee')}{sentCount > 1 ? 's' : ''} {t('avec_succes')}</Alert>
       )}
 
       <Card>
-        <Field label="Message de relance">
+        <Field label={t('message_de_relance')}>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -93,7 +94,7 @@ export function RemindersPage() {
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold text-ink">{st.studentName}</p>
                 <p className="flex items-center gap-1 text-xs font-semibold text-danger">
-                  <AlertTriangle size={11} /> {st.classCode} - solde {formatMoney(st.balance)}
+                  <AlertTriangle size={11} /> {st.classCode} {t('solde')}{formatMoney(st.balance)}
                 </p>
               </div>
               <Badge tone="neutral" className="hidden sm:inline-flex">
@@ -106,7 +107,7 @@ export function RemindersPage() {
 
       <div className="flex justify-end">
         <Button onClick={send} loading={sending} disabled={selected.size === 0}>
-          <Send size={15} /> Envoyer {selected.size} relance{selected.size > 1 ? 's' : ''}
+          <Send size={15} /> {t('envoyer')}{selected.size} {t('relance')}{selected.size > 1 ? 's' : ''}
         </Button>
       </div>
     </div>

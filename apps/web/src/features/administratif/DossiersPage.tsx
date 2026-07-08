@@ -4,6 +4,7 @@ import { FolderOpen, ChevronRight, FolderPlus } from 'lucide-react';
 import { Card, Avatar, Badge, Button, SearchInput, FilterTabs, EmptyState, type FilterOption } from '@/shared/components/ui';
 import { avatarColor } from '@/shared/lib/roleMeta';
 import { MOCK_DOSSIERS, completeness, isComplete } from './mockData';
+import { useTranslation } from "react-i18next";
 
 type Filter = 'all' | 'incomplete' | 'complete';
 
@@ -14,6 +15,7 @@ const OPTIONS: FilterOption<Filter>[] = [
 ];
 
 export function DossiersPage() {
+    const { t } = useTranslation();
   const [filter, setFilter] = useState<Filter>('all');
   const [search, setSearch] = useState('');
 
@@ -26,21 +28,20 @@ export function DossiersPage() {
   });
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Dossiers administratifs</h2>
-          <p className="mt-0.5 text-xs font-semibold text-ink-soft">{MOCK_DOSSIERS.length} dossiers eleves</p>
+          <h2 className="text-base font-black text-ink">{t('dossiers_administratifs')}</h2>
+          <p className="mt-0.5 text-xs font-semibold text-ink-soft">{MOCK_DOSSIERS.length} {t('dossiers_eleves')}</p>
         </div>
         <Link to="/staff/files/new">
           <Button>
-            <FolderPlus size={15} /> Nouveau dossier
-          </Button>
+            <FolderPlus size={15} /> {t('nouveau_dossier')}</Button>
         </Link>
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un eleve" />
+        <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_un_eleve')} />
         <FilterTabs value={filter} onChange={setFilter} options={OPTIONS} />
       </div>
 

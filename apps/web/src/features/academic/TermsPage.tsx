@@ -3,6 +3,7 @@ import { Clock, CheckCircle, CalendarRange } from 'lucide-react';
 import { RootSubNav } from '@/app/components/RootSubNav';
 import { dateShort } from '@/shared/lib/format';
 import { MOCK_TERMS, MOCK_YEARS } from './mockData';
+import { useTranslation } from "react-i18next";
 
 type TermState = 'current' | 'past' | 'future';
 
@@ -13,17 +14,18 @@ const STATE_CONFIG: Record<TermState, { label: string; bg: string; color: string
 };
 
 export function TermsPage() {
+    const { t } = useTranslation();
   const [yearFilter, setYearFilter] = useState('y2');
   const filtered = MOCK_TERMS.filter((t) => t.yearId === yearFilter);
   const currentTerm = MOCK_TERMS.find((t) => t.current);
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Trimestres</h2>
+          <h2 className="text-base font-black text-ink">{t('trimestres')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
             {currentTerm ? `${currentTerm.label} (${currentTerm.yearLabel}) en cours` : 'Aucun trimestre en cours'}
           </p>

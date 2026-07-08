@@ -5,8 +5,10 @@ import { Card } from '@/shared/components/ui';
 import { ScheduleGrid, type ScheduleCell } from './components/ScheduleGrid';
 import { MOCK_CLASSES } from '@/features/academic/mockData';
 import { scheduleForClass, findCourse } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function SchedulePage() {
+    const { t } = useTranslation();
   const [classId, setClassId] = useState(MOCK_CLASSES[0]?.id ?? '');
 
   const cells: ScheduleCell[] = scheduleForClass(classId).map((s) => {
@@ -23,12 +25,12 @@ export function SchedulePage() {
   const selected = MOCK_CLASSES.find((c) => c.id === classId);
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <PedagogySubNav />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Emploi du temps</h2>
+          <h2 className="text-base font-black text-ink">{t('emploi_du_temps')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
             {selected ? `Classe ${selected.code} - ${cells.length} creneaux` : 'Selectionnez une classe'}
           </p>
@@ -50,7 +52,7 @@ export function SchedulePage() {
         {cells.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 text-center">
             <CalendarClock size={28} className="mb-3 text-brand-200" />
-            <p className="text-sm font-semibold text-ink-soft">Aucun creneau defini pour cette classe.</p>
+            <p className="text-sm font-semibold text-ink-soft">{t('aucun_creneau_defini_pour_cett')}</p>
           </div>
         ) : (
           <ScheduleGrid cells={cells} />

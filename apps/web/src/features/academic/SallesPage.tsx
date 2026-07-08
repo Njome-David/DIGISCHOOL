@@ -4,8 +4,10 @@ import { RootSubNav } from '@/app/components/RootSubNav';
 import { Card, Button, Badge, EmptyState } from '@/shared/components/ui';
 import { Field } from '@/shared/components/form';
 import { MOCK_SALLES, MOCK_CLASSES, addSalle, type Salle } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function SallesPage() {
+    const { t } = useTranslation();
   const [, force] = useState(0);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
@@ -33,32 +35,31 @@ export function SallesPage() {
   }
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       <RootSubNav />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Gestion des salles</h2>
-          <p className="mt-0.5 text-xs font-semibold text-ink-soft">{MOCK_SALLES.length} salles rattachees a une classe</p>
+          <h2 className="text-base font-black text-ink">{t('gestion_des_salles')}</h2>
+          <p className="mt-0.5 text-xs font-semibold text-ink-soft">{MOCK_SALLES.length} {t('salles_rattachees_a_une_classe')}</p>
         </div>
         <Button onClick={() => setOpen((o) => !o)}>
-          <Plus size={15} /> Nouvelle salle
-        </Button>
+          <Plus size={15} /> {t('nouvelle_salle')}</Button>
       </div>
 
       {open && (
         <Card>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Libelle">
-              <input value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} className="field-input" placeholder="Salle 7" />
+            <Field label={t('libelle')}>
+              <input value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} className="field-input" placeholder={t('salle_7')} />
             </Field>
-            <Field label="Surface (m2)">
+            <Field label={t('surface_m2')}>
               <input type="number" value={form.surface} onChange={(e) => setForm({ ...form, surface: e.target.value })} className="field-input" />
             </Field>
-            <Field label="Position">
-              <input value={form.position} onChange={(e) => setForm({ ...form, position: e.target.value })} className="field-input" placeholder="Batiment B - 1er etage" />
+            <Field label={t('position')}>
+              <input value={form.position} onChange={(e) => setForm({ ...form, position: e.target.value })} className="field-input" placeholder={t('batiment_b_1er_etage')} />
             </Field>
-            <Field label="Classe rattachee">
+            <Field label={t('classe_rattachee')}>
               <select value={form.classId} onChange={(e) => setForm({ ...form, classId: e.target.value })} className="field-input">
                 {MOCK_CLASSES.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -70,9 +71,8 @@ export function SallesPage() {
           </div>
           <div className="mt-4 flex justify-end gap-2">
             <Button variant="outline" onClick={() => setOpen(false)}>
-              Annuler
-            </Button>
-            <Button onClick={add}>Ajouter la salle</Button>
+              {t('annuler')}</Button>
+            <Button onClick={add}>{t('ajouter_la_salle')}</Button>
           </div>
         </Card>
       )}
@@ -99,8 +99,7 @@ export function SallesPage() {
               </div>
               <div className="mt-3 flex items-center gap-4 border-t border-line-soft pt-2 text-xs font-semibold text-ink-soft">
                 <span className="flex items-center gap-1">
-                  <Ruler size={12} className="text-ink-faint" /> {s.surface} m2
-                </span>
+                  <Ruler size={12} className="text-ink-faint" /> {s.surface} {t('m2')}</span>
                 <span className="flex items-center gap-1">
                   <MapPin size={12} className="text-ink-faint" /> {s.position || '-'}
                 </span>

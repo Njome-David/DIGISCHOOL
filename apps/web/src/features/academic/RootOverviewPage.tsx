@@ -17,6 +17,7 @@ import { dateTime } from '@/shared/lib/format';
 import { MOCK_CLASSES, MOCK_YEARS, MOCK_AUDIT, type AuditType } from './mockData';
 import { MOCK_ADMINS } from '@/features/accounts/mockData';
 import { MOCK_STUDENTS } from '@/features/students/mockData';
+import { useTranslation } from "react-i18next";
 
 const AUDIT_DOT: Record<AuditType, string> = {
   create: '#22A05E',
@@ -38,6 +39,7 @@ const SHORTCUTS: { label: string; desc: string; to: string; icon: LucideIcon; co
 ];
 
 export function RootOverviewPage() {
+    const { t } = useTranslation();
   const activeYear = MOCK_YEARS.find((y) => y.active);
   const activeAdmins = MOCK_ADMINS.filter((a) => a.status === 'active').length;
   const enrolled = MOCK_STUDENTS.filter((s) => s.status === 'enrolled').length;
@@ -51,7 +53,7 @@ export function RootOverviewPage() {
   ];
 
   return (
-    <div className="max-w-5xl space-y-5">
+    <div className="w-full space-y-5">
       <RootSubNav />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -62,7 +64,7 @@ export function RootOverviewPage() {
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <Card>
-          <SectionTitle className="mb-4">Acces rapide</SectionTitle>
+          <SectionTitle className="mb-4">{t('acces_rapide')}</SectionTitle>
           <div className="grid grid-cols-2 gap-2">
             {SHORTCUTS.map((s) => (
               <Link
@@ -87,9 +89,9 @@ export function RootOverviewPage() {
 
         <Card>
           <div className="mb-4 flex items-center justify-between">
-            <SectionTitle>Journal d'audit (recent)</SectionTitle>
+            <SectionTitle>{t('journal_d_audit_recent')}</SectionTitle>
             <Link to="/root/audit" className="flex items-center gap-1 text-xs font-bold text-brand-500 hover:underline">
-              Voir tout <ArrowRight size={11} />
+              {t('voir_tout')}<ArrowRight size={11} />
             </Link>
           </div>
           <div className="space-y-3">

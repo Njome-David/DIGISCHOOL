@@ -8,7 +8,7 @@ import App from './App';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
-      <Suspense fallback={<div className="flex min-h-screen items-center justify-center text-slate-500">Chargement...</div>}>
+      <Suspense fallback={<div className="flex min-h-screen items-center justify-center text-slate-500">{/* i18n loaded after suspense */}Chargement...</div>}>
         <App />
       </Suspense>
     </ErrorBoundary>

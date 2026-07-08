@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Bell, CheckCheck, Trash2, Info, AlertTriangle, CheckCircle, AlertCircle, type LucideIcon } from 'lucide-react';
 import { FilterTabs, EmptyState } from '@/shared/components/ui';
 import { relativeTime } from '@/shared/lib/format';
+import { useTranslation } from "react-i18next";
 
 type NotifType = 'info' | 'success' | 'warning' | 'error';
 
@@ -32,6 +33,7 @@ const CONFIG: Record<NotifType, { icon: LucideIcon; color: string; bg: string }>
 };
 
 export function NotificationsPage() {
+    const { t } = useTranslation();
   const [notifs, setNotifs] = useState(INITIAL);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
   const unread = notifs.filter((n) => !n.read).length;
@@ -43,11 +45,11 @@ export function NotificationsPage() {
   const list = filter === 'unread' ? notifs.filter((n) => !n.read) : notifs;
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-base font-black text-ink">Notifications</h2>
+            <h2 className="text-base font-black text-ink">{t('notifications')}</h2>
             {unread > 0 && (
               <span className="rounded-full bg-danger px-2 py-0.5 text-xs font-black text-white">{unread}</span>
             )}
@@ -61,8 +63,7 @@ export function NotificationsPage() {
             onClick={markAll}
             className="flex items-center gap-1.5 text-xs font-bold text-brand-500 hover:underline"
           >
-            <CheckCheck size={13} /> Tout marquer comme lu
-          </button>
+            <CheckCheck size={13} /> {t('tout_marquer_comme_lu')}</button>
         )}
       </div>
 

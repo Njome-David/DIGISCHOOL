@@ -5,6 +5,7 @@ import { avatarColor } from '@/shared/lib/roleMeta';
 import { ageFrom } from '@/shared/lib/format';
 import { useAuthStore } from '@/features/auth/store';
 import { childrenForParent } from '@/features/students/mockData';
+import { useTranslation } from "react-i18next";
 
 const LINKS = [
   { label: 'Notes', to: 'grades', icon: FileText },
@@ -16,16 +17,16 @@ const LINKS = [
 ];
 
 export function ParentChildrenPage() {
+    const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const children = childrenForParent(user?.nom);
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <div>
-        <h2 className="text-base font-black text-ink">Mes enfants</h2>
+        <h2 className="text-base font-black text-ink">{t('mes_enfants')}</h2>
         <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-          {children.length} enfant{children.length > 1 ? 's' : ''} rattache{children.length > 1 ? 's' : ''} a votre compte
-        </p>
+          {children.length} {t('enfant')}{children.length > 1 ? 's' : ''} {t('rattache')}{children.length > 1 ? 's' : ''} {t('a_votre_compte')}</p>
       </div>
 
       {children.length === 0 ? (
@@ -48,7 +49,7 @@ export function ParentChildrenPage() {
                     {child.firstName} {child.lastName}
                   </h3>
                   <p className="text-xs font-semibold text-ink-soft">
-                    {ageFrom(child.dateOfBirth)} ans - Matricule {child.matricule}
+                    {ageFrom(child.dateOfBirth)} {t('ans_matricule')}{child.matricule}
                   </p>
                 </div>
                 <Badge tone="brand">{child.classCode}</Badge>

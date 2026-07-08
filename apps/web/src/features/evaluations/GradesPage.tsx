@@ -5,8 +5,10 @@ import { Card, Button, Badge, EmptyState } from '@/shared/components/ui';
 import { dateShort, mockLatency } from '@/shared/lib/format';
 import { GradeTable } from './components/GradeTable';
 import { findExam, gradesForExam, saveGrades, EXAM_STATUS_META, type GradeRow } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function GradesPage() {
+    const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const exam = id ? findExam(id) : undefined;
@@ -17,10 +19,9 @@ export function GradesPage() {
 
   if (!exam) {
     return (
-      <div className="max-w-2xl space-y-4">
+      <div className="w-full space-y-4">
         <button onClick={() => navigate('/teacher/exams')} className="flex items-center gap-1.5 text-sm font-bold text-ink-soft hover:text-ink">
-          <ArrowLeft size={15} /> Retour
-        </button>
+          <ArrowLeft size={15} /> {t('retour')}</button>
         <div className="surface">
           <EmptyState icon={FileText} message="Epreuve introuvable." />
         </div>
@@ -47,13 +48,12 @@ export function GradesPage() {
     (rows.filter((r) => r.note !== null).length || 1);
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/teacher/exams')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour a mes epreuves
-      </button>
+        <ArrowLeft size={15} /> {t('retour_a_mes_epreuves')}</button>
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -64,12 +64,12 @@ export function GradesPage() {
               <Badge tone={meta.tone}>{meta.label}</Badge>
             </div>
             <p className="mt-1 text-xs font-semibold text-ink-soft">
-              {exam.courseLabel} - {exam.classCode} - {dateShort(exam.date)} - Note /{exam.maxNote}
+              {exam.courseLabel} - {exam.classCode} - {dateShort(exam.date)} {t('note')}{exam.maxNote}
             </p>
           </div>
           <div className="rounded-xl bg-canvas px-4 py-2 text-center">
             <p className="text-lg font-black text-ink">{avg.toFixed(1)}</p>
-            <p className="text-xs font-semibold text-ink-soft">Moyenne classe</p>
+            <p className="text-xs font-semibold text-ink-soft">{t('moyenne_classe')}</p>
           </div>
         </div>
       </Card>
@@ -81,12 +81,10 @@ export function GradesPage() {
       <div className="flex items-center justify-end gap-3">
         {saved && (
           <span className="flex items-center gap-1 text-sm font-bold text-success">
-            <Check size={15} /> Notes enregistrees
-          </span>
+            <Check size={15} /> {t('notes_enregistrees')}</span>
         )}
         <Button onClick={save} loading={saving}>
-          <Save size={15} /> Enregistrer les notes
-        </Button>
+          <Save size={15} /> {t('enregistrer_les_notes')}</Button>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { Card, SectionTitle, KpiCard, Avatar } from '@/shared/components/ui';
 import { ROLE_META } from '@/shared/lib/roleMeta';
 import { dashboardFor } from './dashboardData';
+import { useTranslation } from "react-i18next";
 
 const QUICK_LINKS: { label: string; desc: string; to: string; icon: LucideIcon; ok: boolean }[] = [
   { label: 'Mon profil', desc: 'Mettre a jour mes informations', to: '/profile', icon: User, ok: true },
@@ -13,15 +14,16 @@ const QUICK_LINKS: { label: string; desc: string; to: string; icon: LucideIcon; 
 ];
 
 export function DashboardPage() {
+    const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   if (!user) return null;
   const { welcome, kpis, activities } = dashboardFor(user.role);
 
   return (
-    <div className="max-w-5xl space-y-5">
+    <div className="w-full space-y-5">
       <div className="flex items-center justify-between gap-4 rounded-2xl bg-brand-gradient p-5">
         <div className="text-white">
-          <p className="text-sm font-semibold opacity-70">Bonjour,</p>
+          <p className="text-sm font-semibold opacity-70">{t('bonjour')}</p>
           <h2 className="text-xl font-black">{user.nom}</h2>
           <p className="mt-0.5 text-sm font-semibold opacity-60">{welcome}</p>
         </div>
@@ -45,12 +47,12 @@ export function DashboardPage() {
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <Card>
           <div className="mb-4 flex items-center justify-between">
-            <SectionTitle>Activite recente</SectionTitle>
+            <SectionTitle>{t('activite_recente')}</SectionTitle>
             <Link
               to="/notifications"
               className="flex items-center gap-1 text-xs font-bold text-brand-500 hover:underline"
             >
-              Voir tout <ArrowRight size={11} />
+              {t('voir_tout')}<ArrowRight size={11} />
             </Link>
           </div>
           <div className="space-y-3">
@@ -67,7 +69,7 @@ export function DashboardPage() {
         </Card>
 
         <Card>
-          <SectionTitle className="mb-4">Acces rapide</SectionTitle>
+          <SectionTitle className="mb-4">{t('acces_rapide')}</SectionTitle>
           <div className="space-y-1">
             {QUICK_LINKS.map((item) =>
               item.ok ? (

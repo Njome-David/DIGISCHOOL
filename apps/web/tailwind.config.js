@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -18,19 +19,20 @@ export default {
           900: '#431854',
           950: '#2C0F38',
         },
-        canvas: '#F8F4FD',
+        canvas: 'rgb(var(--color-canvas) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
         ink: {
-          DEFAULT: '#1C1230',
-          soft: '#7D6B90',
-          faint: '#9B8AAE',
+          DEFAULT: 'rgb(var(--color-ink) / <alpha-value>)',
+          soft: 'rgb(var(--color-ink-soft) / <alpha-value>)',
+          faint: 'rgb(var(--color-ink-faint) / <alpha-value>)',
         },
         line: {
-          DEFAULT: '#DDD0F0',
-          soft: '#EDE5F8',
+          DEFAULT: 'rgb(var(--color-line) / <alpha-value>)',
+          soft: 'rgb(var(--color-line-soft) / <alpha-value>)',
         },
-        field: '#F3ECF9',
-        muted: '#EDE5F8',
-        accent: '#F0DCFA',
+        field: 'rgb(var(--color-field) / <alpha-value>)',
+        muted: 'rgb(var(--color-muted) / <alpha-value>)',
+        accent: 'rgb(var(--color-accent) / <alpha-value>)',
         success: { DEFAULT: '#22A05E', bg: '#D1FAE5' },
         info: { DEFAULT: '#1081F3', bg: '#EFF4FF' },
         warning: { DEFAULT: '#D97706', bg: '#FEF3C7' },

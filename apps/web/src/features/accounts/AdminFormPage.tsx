@@ -7,6 +7,7 @@ import { Field, Alert } from '@/shared/components/form';
 import { ROLE_META } from '@/shared/lib/roleMeta';
 import { mockLatency } from '@/shared/lib/format';
 import { ASSIGNABLE_ROLES, findAdmin, upsertAdmin, type AdminAccount } from './mockData';
+import { useTranslation } from "react-i18next";
 
 const EMPTY: AdminAccount = {
   id: '',
@@ -21,6 +22,7 @@ const EMPTY: AdminAccount = {
 };
 
 export function AdminFormPage() {
+    const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const editing = Boolean(id);
@@ -50,13 +52,12 @@ export function AdminFormPage() {
   const meta = ROLE_META[form.role];
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/root/admins')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour aux comptes
-      </button>
+        <ArrowLeft size={15} /> {t('retour_aux_comptes')}</button>
 
       <Card>
         <div className="mb-5 flex items-center gap-3">
@@ -85,26 +86,26 @@ export function AdminFormPage() {
 
         <form onSubmit={submit} className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Nom complet">
+            <Field label={t('nom_complet')}>
               <input
                 value={form.nom}
                 onChange={(e) => set('nom', e.target.value)}
                 className="field-input"
-                placeholder="Ex. Marie Dupont"
+                placeholder={t('ex_marie_dupont')}
               />
             </Field>
-            <Field label="Identifiant">
+            <Field label={t('identifiant')}>
               <input
                 value={form.username}
                 onChange={(e) => set('username', e.target.value)}
                 className="field-input"
-                placeholder="m.dupont"
+                placeholder={t('m_dupont')}
                 disabled={editing}
               />
             </Field>
           </div>
 
-          <Field label="Role">
+          <Field label={t('role')}>
             <select
               value={form.role}
               onChange={(e) => set('role', e.target.value as AdminAccount['role'])}
@@ -119,35 +120,33 @@ export function AdminFormPage() {
           </Field>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Email" hint="Optionnel">
+            <Field label={t('email')} hint={t('optionnel')}>
               <input
                 type="email"
                 value={form.email}
                 onChange={(e) => set('email', e.target.value)}
                 className="field-input"
-                placeholder="email@ecoleapp.com"
+                placeholder={t('email_ecoleapp_com')}
               />
             </Field>
-            <Field label="Telephone" hint="Optionnel">
+            <Field label={t('telephone')} hint={t('optionnel')}>
               <input
                 value={form.phone}
                 onChange={(e) => set('phone', e.target.value)}
                 className="field-input"
-                placeholder="+237 6XX XXX XXX"
+                placeholder={t('237_6xx_xxx_xxx')}
               />
             </Field>
           </div>
 
           {!editing && (
             <Alert tone="info" icon={KeyRound}>
-              Un mot de passe temporaire sera genere. L'utilisateur devra le changer a la premiere connexion.
-            </Alert>
+              {t('un_mot_de_passe_temporaire_ser')}</Alert>
           )}
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => navigate('/root/admins')}>
-              Annuler
-            </Button>
+              {t('annuler')}</Button>
             <Button type="submit" loading={saving}>
               <Save size={15} /> {editing ? 'Enregistrer' : 'Creer le compte'}
             </Button>

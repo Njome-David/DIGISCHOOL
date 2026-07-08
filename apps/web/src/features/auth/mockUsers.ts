@@ -31,6 +31,7 @@ export const MOCK_ACCOUNTS: MockAccount[] = [
 /** Raccourcis affiches sur la page de connexion. */
 export const DEMO_HINTS: { username: string; password: string }[] = [
   { username: 'root', password: 'root123' },
+  { username: 'fondateur', password: 'fond123' },
   { username: 'directeur', password: 'dir123' },
   { username: 'teacher', password: 'ens123' },
   { username: 'parent', password: 'par123' },

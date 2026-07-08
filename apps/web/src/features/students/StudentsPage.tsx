@@ -6,6 +6,7 @@ import { avatarColor } from '@/shared/lib/roleMeta';
 import { ageFrom } from '@/shared/lib/format';
 import { MOCK_CLASSES } from '@/features/academic/mockData';
 import { MOCK_STUDENTS, STATUS_META, type Student, type StudentStatus } from './mockData';
+import { useTranslation } from "react-i18next";
 
 type StatusFilter = 'all' | StudentStatus;
 
@@ -17,6 +18,7 @@ const FILTERS: FilterOption<StatusFilter>[] = [
 ];
 
 export function StudentsPage() {
+    const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<StatusFilter>('all');
   const [classFilter, setClassFilter] = useState('all');
@@ -33,29 +35,27 @@ export function StudentsPage() {
   const enrolled = MOCK_STUDENTS.filter((s) => s.status === 'enrolled').length;
 
   return (
-    <div className="max-w-6xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-black text-ink">Dossiers lves</h2>
+          <h2 className="text-base font-black text-ink">{t('dossiers_lves')}</h2>
           <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-            {enrolled} lves inscrits  {MOCK_STUDENTS.length} dossiers au total
-          </p>
+            {enrolled} {t('lves_inscrits')}{MOCK_STUDENTS.length} {t('dossiers_au_total')}</p>
         </div>
         <Link to="/admin/students/new">
           <Button>
-            <Plus size={15} /> Inscrire un lve
-          </Button>
+            <Plus size={15} /> {t('inscrire_un_lve')}</Button>
         </Link>
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher par nom ou matricule" />
+        <SearchInput value={search} onChange={setSearch} placeholder={t('rechercher_par_nom_ou_matricul')} />
         <select
           value={classFilter}
           onChange={(e) => setClassFilter(e.target.value)}
           className="rounded-xl border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none"
         >
-          <option value="all">Toutes les classes</option>
+          <option value="all">{t('toutes_les_classes')}</option>
           {MOCK_CLASSES.map((c) => (
             <option key={c.id} value={c.id}>
               {c.code}
@@ -99,7 +99,7 @@ export function StudentsPage() {
                     <td className="px-4 py-3">
                       <Badge tone="brand">{s.classCode}</Badge>
                     </td>
-                    <td className="px-4 py-3 text-xs font-semibold text-ink-soft">{ageFrom(s.dateOfBirth)} ans</td>
+                    <td className="px-4 py-3 text-xs font-semibold text-ink-soft">{ageFrom(s.dateOfBirth)} {t('ans')}</td>
                     <td className="px-4 py-3">
                       <p className="text-xs font-semibold text-ink">{s.parentName}</p>
                       <p className="text-xs font-semibold text-ink-faint">{s.parentPhone}</p>

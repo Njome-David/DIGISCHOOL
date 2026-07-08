@@ -1,112 +1,109 @@
-/** Titre de page affiche dans la Topbar, derive du chemin courant. */
-const STATIC_TITLES: Record<string, string> = {
-  '/profile': 'Mon profil',
-  '/notifications': 'Notifications',
-  '/messages': 'Messages',
-  // Module 2  Root
-  '/root/dashboard': 'Gestion academique',
-  '/root/admins': 'Comptes administrateurs',
-  '/root/admins/new': 'Nouvel administrateur',
-  '/root/personnel': 'Personnel',
-  '/root/personnel/new': 'Nouveau personnel',
-  '/root/parents': 'Comptes parents',
-  '/root/credentials': 'Envoi des codes',
-  '/root/cycles': 'Cycles scolaires',
-  '/root/classes': 'Classes',
-  '/root/salles': 'Gestion des salles',
-  '/root/years': 'Annees scolaires',
-  '/root/terms': 'Trimestres',
-  '/root/refs': 'Referentiels',
-  '/root/audit': "Journal d'audit",
-  // Module 2  Admin inscriptions
-  '/admin/students': 'Dossiers eleves',
-  '/admin/students/new': 'Inscrire un eleve',
-  // Module 3  Pedagogie
-  '/root/courses': 'Cours',
-  '/root/courses/new': 'Nouveau cours',
-  '/root/schedule': 'Emploi du temps',
-  '/teacher/classes': 'Mes classes',
-  '/teacher/schedule': 'Mon emploi du temps',
-  '/teacher/students': 'Mes eleves',
-  // Module 4  Evaluations & bulletins
-  '/teacher/exams': 'Mes epreuves',
-  '/teacher/exams/new': 'Televerser une epreuve',
-  '/teacher/homework/new': 'Devoir / corrige',
-  '/directeur/bulletins': 'Validation des bulletins',
-  '/parent/children': 'Mes enfants',
-  // Module 5  Scolarite & paiements
-  '/fondateur/tuitions': 'Gestion des scolarites',
-  '/fondateur/tuitions/new': 'Nouvelle scolarite',
-  '/fondateur/tranches': 'Gestion des tranches',
-  '/fondateur/modes': 'Modes de paiement',
-  '/scolarite/payments': 'Paiements',
-  '/scolarite/payments/new': 'Enregistrer un paiement',
-  '/scolarite/overdue': 'Eleves en retard',
-  '/scolarite/reminders': 'Envoi de relances',
-  '/scolarite/modes': 'Modes de paiement',
-  // Module 6  Communication
-  '/messages/new': 'Composer un message',
-  '/parent/messages/new': 'Composer un message',
-  '/directeur/messages': 'Validation des messages',
-  '/parent/announcements': "Annonces de l'ecole",
-  // Module 7  Discipline
-  '/teacher/discipline': 'Mes rapports disciplinaires',
-  '/teacher/discipline/new': 'Nouveau rapport',
-  '/directeur/discipline': 'Approbation des rapports',
-  // Module 8  Documents & medias
-  '/library': 'Manuels scolaires',
-  '/parent/library': 'Manuels scolaires',
-  '/root/library': 'Bibliotheque - gestion',
-  // Module 9  Reporting & tableaux de bord
-  '/fondateur/balance': 'Bilans annuels',
-  '/fondateur/compare': 'Comparaison inter-annees',
-  '/fondateur/explore': 'Exploration des donnees',
-  '/directeur/perf/classes': 'Performance par classe',
-  '/directeur/perf/courses': 'Performance par cours',
-  '/directeur/perf/students': 'Performance par eleve',
-  '/directeur/teachers': "Vue d'ensemble enseignants",
-  '/directeur/students': "Vue d'ensemble eleves",
-  '/directeur/demographics': 'Statistiques demographiques',
-  '/directeur/reports': 'Rapports synthetiques',
-  '/scolarite/reports': 'Recapitulatif financier',
-  '/scolarite/by-mode': 'Stats par mode de paiement',
-  '/scolarite/export': 'Export comptable',
-  '/auditeur/finance': 'Statistiques financieres',
-  '/auditeur/pedagogy': 'Statistiques pedagogiques',
-  '/auditeur/exports': 'Exports',
-  // Module 10  Audit & pages techniques
-  '/auditeur/dashboard': "Tableau de bord auditeur",
-  '/auditeur/listings': 'Toutes les listes',
-  '/auditeur/audit-logs': "Journal d'audit",
-  '/staff/dashboard': 'Tableau de bord',
-  '/staff/files': 'Dossiers administratifs',
-  '/staff/files/new': "Saisie d'un dossier",
+import i18n from '@/shared/lib/i18n';
+
+const TITLE_KEYS: Record<string, string> = {
+  '/profile': 'mon_profil',
+  '/notifications': 'notifications',
+  '/messages': 'messages',
+  '/root/dashboard': 'annees_scolaires',
+  '/root/admins': 'comptes_administrateurs',
+  '/root/admins/new': 'nouveau_compte',
+  '/root/personnel': 'personnel',
+  '/root/personnel/new': 'nouveau_personnel',
+  '/root/parents': 'comptes_parents',
+  '/root/credentials': 'envoi_des_codes_de_connexion',
+  '/root/cycles': 'cycles_scolaires',
+  '/root/classes': 'classes',
+  '/root/salles': 'gestion_des_salles',
+  '/root/years': 'annees_scolaires',
+  '/root/terms': 'trimestres',
+  '/root/refs': 'referentiels',
+  '/root/audit': 'journal_d_audit',
+  '/admin/students': 'dossiers_lves',
+  '/admin/students/new': 'inscrire_un_lve',
+  '/root/courses': 'cours',
+  '/root/courses/new': 'nouveau_cours',
+  '/root/schedule': 'emploi_du_temps',
+  '/teacher/classes': 'mes_classes',
+  '/teacher/schedule': 'mon_emploi_du_temps',
+  '/teacher/students': 'mes_eleves',
+  '/teacher/exams': 'mes_epreuves',
+  '/teacher/exams/new': 'televerser_une_epreuve',
+  '/teacher/homework/new': 'devoir_corrige',
+  '/directeur/bulletins': 'validation_des_bulletins',
+  '/parent/children': 'mes_enfants',
+  '/fondateur/tuitions': 'gestion_des_scolarites',
+  '/fondateur/tuitions/new': 'nouvelle_scolarite',
+  '/fondateur/tranches': 'gestion_des_tranches',
+  '/fondateur/modes': 'mode_de_paiement',
+  '/scolarite/payments': 'paiements',
+  '/scolarite/payments/new': 'enregistrer_un_paiement',
+  '/scolarite/overdue': 'eleves_en_retard',
+  '/scolarite/reminders': 'envoi_de_relances',
+  '/scolarite/modes': 'mode_de_paiement',
+  '/messages/new': 'composer_un_message',
+  '/parent/messages/new': 'composer_un_message',
+  '/directeur/messages': 'validation_des_messages_collec',
+  '/parent/announcements': 'annonces_de_l_ecole',
+  '/teacher/discipline': 'mes_rapports_disciplinaires',
+  '/teacher/discipline/new': 'nouveau_rapport',
+  '/directeur/discipline': 'approbation_des_rapports_disci',
+  '/library': 'manuels_scolaires',
+  '/parent/library': 'manuels_scolaires',
+  '/root/library': 'bibliotheque_gestion',
+  '/fondateur/balance': 'bilans_annuels',
+  '/fondateur/compare': 'comparaison_inter_annees',
+  '/fondateur/explore': 'exploration_des_donnees',
+  '/directeur/perf/classes': 'moyenne_par_classe',
+  '/directeur/perf/courses': 'moyenne_par_matiere',
+  '/directeur/perf/students': 'vue_d_ensemble_des_eleves',
+  '/directeur/teachers': 'vue_d_ensemble_des_enseignants',
+  '/directeur/students': 'vue_d_ensemble_des_eleves',
+  '/directeur/demographics': 'statistiques_demographiques',
+  '/directeur/reports': 'rapports_synthetiques',
+  '/scolarite/reports': 'recapitulatif_financier',
+  '/scolarite/by-mode': 'statistiques_par_mode_de_paiem',
+  '/scolarite/export': 'exports',
+  '/auditeur/finance': 'statistiques_financieres',
+  '/auditeur/pedagogy': 'statistiques_pedagogiques',
+  '/auditeur/exports': 'exports',
+  '/auditeur/dashboard': 'tableau_de_bord_auditeur',
+  '/auditeur/listings': 'toutes_les_listes',
+  '/auditeur/audit-logs': 'journal_d_audit',
+  '/staff/dashboard': 'tableau_de_bord_administratif',
+  '/staff/files': 'dossiers_administratifs',
+  '/staff/files/new': 'saisie_d_un_dossier_d_inscript',
 };
 
+const DYNAMIC_KEYS: Array<{ test: (p: string) => boolean; key: string }> = [
+  { test: (p) => p.endsWith('/dashboard'), key: 'tableau_de_bord' },
+  { test: (p) => p.startsWith('/messages/'), key: 'message' },
+  { test: (p) => p.startsWith('/root/admins/'), key: 'modifier' },
+  { test: (p) => p.startsWith('/root/personnel/'), key: 'modifier' },
+  { test: (p) => p.endsWith('/edit') && p.startsWith('/admin/students/'), key: 'modifier' },
+  { test: (p) => p.endsWith('/assign') && p.startsWith('/admin/students/'), key: 'affectation_classe_salle' },
+  { test: (p) => p.endsWith('/parents') && p.startsWith('/admin/students/'), key: 'liaison_parent_eleve' },
+  { test: (p) => p.startsWith('/admin/students/'), key: 'dossier_eleve' },
+  { test: (p) => p.startsWith('/teacher/students/'), key: 'fiche_eleve' },
+  { test: (p) => p.startsWith('/root/courses/'), key: 'cours' },
+  { test: (p) => p.endsWith('/grades') && p.startsWith('/teacher/exams/'), key: 'saisir_les_notes' },
+  { test: (p) => p.endsWith('/grades'), key: 'notes' },
+  { test: (p) => p.endsWith('/bulletins'), key: 'bulletins' },
+  { test: (p) => p.endsWith('/schedule'), key: 'emploi_du_temps' },
+  { test: (p) => p.endsWith('/exams'), key: 'epreuves_devoirs' },
+  { test: (p) => p.endsWith('/payments'), key: 'scolarite' },
+  { test: (p) => p.endsWith('/receipts'), key: 'recus_de_paiement' },
+  { test: (p) => p.endsWith('/discipline'), key: 'dossier_disciplinaire' },
+  { test: (p) => p.startsWith('/fondateur/tuitions/'), key: 'editer' },
+  { test: (p) => p.startsWith('/scolarite/payments/'), key: 'paiements' },
+  { test: (p) => p.startsWith('/scolarite/students/'), key: 'etat_de_l_eleve' },
+  { test: (p) => p.startsWith('/staff/students/'), key: 'dossiers_administratifs' },
+  { test: (p) => /^\/parent\/children\/[^/]+$/.test(p), key: 'fiche_enfant' },
+];
+
 export function pageTitle(path: string): string {
-  if (STATIC_TITLES[path]) return STATIC_TITLES[path];
-  if (path.endsWith('/dashboard')) return 'Tableau de bord';
-  if (path.startsWith('/messages/')) return 'Detail du message';
-  if (path.startsWith('/root/admins/')) return 'Modifier le compte';
-  if (path.startsWith('/root/personnel/')) return 'Modifier le personnel';
-  if (path.endsWith('/edit') && path.startsWith('/admin/students/')) return "Modifier l'eleve";
-  if (path.endsWith('/assign') && path.startsWith('/admin/students/')) return 'Affectation classe / salle';
-  if (path.endsWith('/parents') && path.startsWith('/admin/students/')) return 'Liaison parent - eleve';
-  if (path.startsWith('/admin/students/')) return 'Dossier eleve';
-  if (path.startsWith('/teacher/students/')) return 'Fiche eleve';
-  if (path.startsWith('/root/courses/')) return 'Cours';
-  if (path.endsWith('/grades') && path.startsWith('/teacher/exams/')) return 'Saisie des notes';
-  if (path.endsWith('/grades')) return 'Notes de l\'enfant';
-  if (path.endsWith('/bulletins')) return 'Bulletins';
-  if (path.endsWith('/schedule')) return 'Emploi du temps';
-  if (path.endsWith('/exams')) return 'Epreuves & devoirs';
-  if (path.endsWith('/payments')) return 'Scolarite & paiements';
-  if (path.endsWith('/receipts')) return 'Recus de paiement';
-  if (path.endsWith('/discipline')) return 'Dossier disciplinaire';
-  if (path.startsWith('/fondateur/tuitions/')) return 'Editer la scolarite';
-  if (path.startsWith('/scolarite/payments/')) return 'Detail du paiement';
-  if (path.startsWith('/scolarite/students/')) return "Etat de l'eleve";
-  if (path.startsWith('/staff/students/')) return 'Dossier administratif';
-  if (/^\/parent\/children\/[^/]+$/.test(path)) return 'Fiche enfant';
+  if (TITLE_KEYS[path]) return i18n.t(TITLE_KEYS[path]);
+  for (const { test, key } of DYNAMIC_KEYS) {
+    if (test(path)) return i18n.t(key);
+  }
   return 'EcoleApp 2026';
 }

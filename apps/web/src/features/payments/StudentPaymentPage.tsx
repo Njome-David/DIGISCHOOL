@@ -5,8 +5,10 @@ import { avatarColor } from '@/shared/lib/roleMeta';
 import { formatMoney, dateShort } from '@/shared/lib/format';
 import { PaymentStateView } from './components/PaymentStateView';
 import { getStudentState, paymentsForStudent } from './mockData';
+import { useTranslation } from "react-i18next";
 
 export function StudentPaymentPage() {
+    const { t } = useTranslation();
   const { matricule } = useParams();
   const navigate = useNavigate();
   const state = matricule ? getStudentState(matricule) : undefined;
@@ -14,10 +16,9 @@ export function StudentPaymentPage() {
 
   if (!state) {
     return (
-      <div className="max-w-2xl space-y-4">
+      <div className="w-full space-y-4">
         <button onClick={() => navigate('/scolarite/payments')} className="flex items-center gap-1.5 text-sm font-bold text-ink-soft hover:text-ink">
-          <ArrowLeft size={15} /> Retour
-        </button>
+          <ArrowLeft size={15} /> {t('retour')}</button>
         <div className="surface">
           <EmptyState icon={UserRound} message="Eleve introuvable." />
         </div>
@@ -26,13 +27,12 @@ export function StudentPaymentPage() {
   }
 
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full space-y-4">
       <button
         onClick={() => navigate('/scolarite/payments')}
         className="flex items-center gap-1.5 text-sm font-bold text-ink-soft transition-colors hover:text-ink"
       >
-        <ArrowLeft size={15} /> Retour aux paiements
-      </button>
+        <ArrowLeft size={15} /> {t('retour_aux_paiements')}</button>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
@@ -43,21 +43,20 @@ export function StudentPaymentPage() {
               <Badge tone={state.overdue ? 'danger' : 'success'}>{state.overdue ? 'En retard' : 'A jour'}</Badge>
             </div>
             <p className="text-xs font-semibold text-ink-soft">
-              {state.classCode} - Matricule {state.matricule}
+              {state.classCode} {t('matricule')}{state.matricule}
             </p>
           </div>
         </div>
         <Link to={`/scolarite/payments/new?matricule=${state.matricule}`}>
           <Button>
-            <Plus size={15} /> Enregistrer un paiement
-          </Button>
+            <Plus size={15} /> {t('enregistrer_un_paiement')}</Button>
         </Link>
       </div>
 
       <PaymentStateView state={state} />
 
       <Card>
-        <h3 className="mb-3 text-sm font-black text-ink">Historique des paiements</h3>
+        <h3 className="mb-3 text-sm font-black text-ink">{t('historique_des_paiements')}</h3>
         {history.length === 0 ? (
           <EmptyState icon={Receipt} message="Aucun paiement enregistre." />
         ) : (
